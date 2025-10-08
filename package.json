@@ -2,12 +2,7 @@
   "name": "pragmatical-ai",
   "version": "1.0.0",
   "description": "Pragmatical AI Beyond the Hype",
-  "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "ejs": "^3.1.6"
+    "serve": "npx serve public"
   }
 }

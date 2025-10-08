@@ -4,5 +4,8 @@
   "description": "Pragmatical AI Beyond the Hype",
   "scripts": {
     "serve": "npx serve public"
+  },
+  "devDependencies": {
+    "wrangler": "^4.42.1"
   }
 }

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fleet Intelligence — Routing that respects how the city actually works | Pragmatical AI</title>
+  <meta name="description" content="Fleet Intelligence by Pragmatical AI: routing that respects how the city actually works — one-way streets that change at school-run hour, weight restrictions, no-loading zones, driver knowledge encoded into a structured model.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="shell">
+      <a href="/" class="wordmark"><span class="mark"></span>Pragmatical AI <sup>est. London</sup></a>
+      <nav class="primary" aria-label="Primary">
+        <ul>
+          <li><a href="code-doctor.html">CodeDoctor</a></li>
+          <li><a href="contract.html">Contract</a></li>
+          <li><a href="fleet.html" class="current">Fleet</a></li>
+          <li><a href="data.html">Data</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" class="cta">Engage</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="shell">
+        <div class="hero-eyebrow">Product line / in development</div>
+        <h1>Routing that respects how the city <em>actually</em> works.</h1>
+        <p class="lead">
+          Route optimisation that works on the map fails in the city. Real urban terrain is one-way streets that change at school-run hour, weight restrictions in council bye-laws, no-loading zones the council updated last Tuesday, and the institutional knowledge of drivers who have been running the route for fifteen years.
+        </p>
+
+        <div class="hero-meta">
+          <div class="item">
+            <span class="overline">Approach</span>
+            <div class="value">Terrain-aware</div>
+          </div>
+          <div class="item">
+            <span class="overline">Input</span>
+            <div class="value">Driver knowledge</div>
+          </div>
+          <div class="item">
+            <span class="overline">Output</span>
+            <div class="value">Constraint model</div>
+          </div>
+          <div class="item">
+            <span class="overline">Status</span>
+            <div class="value">Design partners</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-elevated">
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">01 — The problem we are built for</span>
+          <h2>Google Maps doesn't know your fleet. Your drivers do.</h2>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <p class="lead">
+              Generic routing engines compute the shortest path against a map. They do not know that the bridge has a 7.5-tonne weight limit enforced at the camera. They do not know that the school-run window turns the high street into a one-way trap between 8:20 and 9:15. They do not know that the warehouse loading bay only accepts deliveries on the eastbound approach because of how the kerb is cut.
+            </p>
+          </div>
+          <div>
+            <p>
+              Your drivers know all of this. The dispatcher who has been doing the patch for a decade knows all of this. None of it is in any system. When the dispatcher retires, the knowledge goes with them — and the new routing engine, computed against a clean map, makes the same mistakes the previous one did until the drivers manually re-learn the patch.
+            </p>
+            <p>
+              This is the same problem CodeDoctor solves for code. The intent — in this case, the operational reality of running vehicles in a real city — was never in the system. It was in the people. We extract it, validate it, encode it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">02 — How we approach it</span>
+          <h2>Real-world constraints encoded into a structured model.</h2>
+          <p class="lead">Extract the constraints. Validate them with the drivers and dispatchers who hold them. Encode the result as a portable model the optimisation engine respects.</p>
+        </div>
+
+        <ul class="thesis-list">
+          <li>
+            <span class="num">i.</span>
+            <div>
+              <strong>Surface what is already known.</strong>
+              <p>Ingest telematics history, route logs, manual override records, dispatcher notes. Surface the patterns — the routes that drivers consistently deviate from the optimiser's recommendation, the times of day when the standard route breaks, the streets nobody uses despite the engine recommending them.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">ii.</span>
+            <div>
+              <strong>Layer the public constraints.</strong>
+              <p>Council bye-laws, weight restrictions, loading-zone windows, ULEZ and clean-air-zone boundaries, road-works feeds, school zones. The constraints that exist on paper but no routing engine reads — until ours does.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">iii.</span>
+            <div>
+              <strong>Validate with drivers.</strong>
+              <p>For every surfaced pattern, a structured prompt to the driver or dispatcher who runs that route. <em>Why do you always take Brick Lane northbound here? Why does this depot always dispatch in this order on Tuesdays?</em> The institutional answer becomes a structured constraint.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">iv.</span>
+            <div>
+              <strong>Constraint rulebook.</strong>
+              <p>The output is a machine-readable rulebook of routing constraints — time-of-day rules, vehicle-class rules, kerb-side rules, driver-knowledge rules — that any optimisation engine can ingest. The asset stays with the fleet, not with the routing vendor.</p>
+            </div>
+          </li>
+        </ul>
+
+        <blockquote class="pullquote">
+          AI surfaces the deviations.<br>Drivers confirm the reasons.<br>The rulebook stays with the fleet.
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="section-elevated">
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">03 — Where it fits</span>
+          <h2>For fleets where the route isn't the optimisation problem — the <em>terrain</em> is.</h2>
+        </div>
+
+        <ul class="thesis-list">
+          <li>
+            <span class="num">01.</span>
+            <div>
+              <strong>Urban last-mile and council fleets.</strong>
+              <p>Where the bye-laws, restrictions, and access rules are written into the municipality, not the map provider. Council waste collection. Last-mile delivery in central London, Manchester, Birmingham, Edinburgh.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">02.</span>
+            <div>
+              <strong>Specialist transport.</strong>
+              <p>Heavy goods, hazardous materials, abnormal loads — where vehicle-class constraints intersect with municipal restrictions in ways no consumer routing engine models correctly.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">03.</span>
+            <div>
+              <strong>Service-fleet operations.</strong>
+              <p>Engineers, technicians, healthcare home visits — where the optimum route depends on appointment windows, kerb access, parking realities, and dispatcher local knowledge that no generic routing model captures.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="engage">
+      <div class="shell">
+        <span class="section-number" style="color: var(--accent-bright);">04 — Engage</span>
+        <h2>Fleet Intelligence is in <em>design-partner</em> phase.</h2>
+        <p class="lead">
+          We are working with a small number of urban fleets to build the first version of the platform against real terrain and real driver knowledge. The engagement begins with a Discovery assessment — we map a representative depot and route and produce a picture of where your operators are routinely overriding the routing engine, and why.
+        </p>
+
+        <div style="display: flex; gap: var(--s-3); flex-wrap: wrap;">
+          <a href="contact.html" class="engage-cta">Engage as a design partner</a>
+          <a href="code-doctor.html" class="engage-cta outline">See CodeDoctor (flagship)</a>
+        </div>
+
+        <div class="engage-meta">
+          We are particularly interested in urban delivery, council, and specialist-transport fleets. We respond within two working days.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="brand-block">
+        <a href="/" class="wordmark"><span class="mark"></span>Pragmatical AI</a>
+        <p class="tagline">Applied AI for the systems your business depends on.</p>
+      </div>
+      <div>
+        <h5>Products</h5>
+        <ul>
+          <li><a href="code-doctor.html">CodeDoctor</a></li>
+          <li><a href="contract.html">Contract Intelligence</a></li>
+          <li><a href="fleet.html">Fleet Intelligence</a></li>
+          <li><a href="data.html">Data Intelligence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="contact.html">Engage</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>External</h5>
+        <ul>
+          <li><a href="https://codedoctor.ai">codedoctor.ai →</a></li>
+          <li><a href="#">AI Engineer Talk</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        <span>© 2026 Pragmatical AI Ltd. London.</span>
+        <span>Index: 04 / 06</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

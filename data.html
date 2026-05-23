@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Intelligence — Making sense of the warehouse | Pragmatical AI</title>
+  <meta name="description" content="Data Intelligence by Pragmatical AI: extract structure from the data archive, recover the intent behind the fields, validate meaning with the humans who built the pipeline.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="shell">
+      <a href="/" class="wordmark"><span class="mark"></span>Pragmatical AI <sup>est. London</sup></a>
+      <nav class="primary" aria-label="Primary">
+        <ul>
+          <li><a href="code-doctor.html">CodeDoctor</a></li>
+          <li><a href="contract.html">Contract</a></li>
+          <li><a href="fleet.html">Fleet</a></li>
+          <li><a href="data.html" class="current">Data</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" class="cta">Engage</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="shell">
+        <div class="hero-eyebrow">Product line / in development</div>
+        <h1>The warehouse is full. <em>Nobody</em> knows what most of it means.</h1>
+        <p class="lead">
+          Most enterprises sit on data they cannot fully use. Warehouses populated by ETL jobs nobody fully understands. Fields whose meaning shifted three migrations ago. Compliance reports compiled by people who left the company two years before the regulator asked the next question.
+        </p>
+
+        <div class="hero-meta">
+          <div class="item">
+            <span class="overline">Approach</span>
+            <div class="value">Archive-aware</div>
+          </div>
+          <div class="item">
+            <span class="overline">Output</span>
+            <div class="value">Field rulebook</div>
+          </div>
+          <div class="item">
+            <span class="overline">Surface</span>
+            <div class="value">Drift + meaning</div>
+          </div>
+          <div class="item">
+            <span class="overline">Status</span>
+            <div class="value">Design partners</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-elevated">
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">01 — The problem we are built for</span>
+          <h2>The schema is documented. The <em>meaning</em> is not.</h2>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <p class="lead">
+              The data dictionary says the column is called <code>customer_status</code>. It does not say that <code>4</code> means "dormant since 2018", that <code>4</code> was previously <code>X</code> until the migration in 2021, that the field is now ignored by the new platform but still populated by the legacy ETL job that runs nightly.
+            </p>
+          </div>
+          <div>
+            <p>
+              Every modern data team inherits this. The schema survives. The intent doesn't. The analyst who built the pipeline left. The regulator changes the reporting standard. A migration silently changes how a field is populated and nobody flags it. The compliance report still runs. The numbers still come out. Nobody knows whether they still mean what they used to mean.
+            </p>
+            <p>
+              This is the same problem CodeDoctor solves for code. The institutional knowledge of <em>what the data is supposed to represent</em> was never in any system. It was in the people who built the pipeline. We extract it, validate it, encode it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">02 — How we approach it</span>
+          <h2>Field-level intent, recovered from the people who still know.</h2>
+          <p class="lead">Extract structure from the archive. Surface drift across migrations. Validate field-level meaning with the humans who built the pipeline. Encode the result as a queryable rulebook.</p>
+        </div>
+
+        <ul class="thesis-list">
+          <li>
+            <span class="num">i.</span>
+            <div>
+              <strong>Archive ingestion.</strong>
+              <p>The data warehouse, the ETL job history, the schema migrations, the lineage logs. Everything that describes <em>where data came from</em> and <em>how it has changed</em>. The first deliverable is a coherent picture of how the warehouse actually got to its current shape.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">ii.</span>
+            <div>
+              <strong>Field-level pattern surfacing.</strong>
+              <p>Cardinality shifts that don't match documented changes. Fields whose distribution changed silently after a migration. Compliance fields whose population pattern doesn't match the regulatory definition. LLMs read across the schema and the data simultaneously.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">iii.</span>
+            <div>
+              <strong>Pipeline-author validation.</strong>
+              <p>For every surfaced pattern, a structured prompt to the data engineer, analyst, or business operator who knows what the field is <em>supposed</em> to represent. The institutional answer — <em>"that flag was added in 2019 for the FCA Stage-2 reporting; we stopped using it but the ETL kept populating it"</em> — becomes a structured constraint.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">iv.</span>
+            <div>
+              <strong>Field rulebook.</strong>
+              <p>A structured, machine-readable representation of every field's intended meaning, its valid populations, its compliance lineage, and the constraints that should hold on it. The warehouse becomes queryable — by your AI tools, by your compliance team, by the regulator — against the meaning that actually applies.</p>
+            </div>
+          </li>
+        </ul>
+
+        <blockquote class="pullquote">
+          AI surfaces the drift.<br>Pipeline authors confirm what fields are meant to be.<br>The rulebook stays with the data team.
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="section-elevated">
+      <div class="shell">
+        <div class="section-header">
+          <span class="section-number">03 — Where it fits</span>
+          <h2>For data functions where the question is no longer <em>can we query it</em> — it is <em>can we trust what comes back</em>.</h2>
+        </div>
+
+        <ul class="thesis-list">
+          <li>
+            <span class="num">01.</span>
+            <div>
+              <strong>Regulated reporting.</strong>
+              <p>FCA, PRA, EBA, DORA, NYDFS — every regime where the reporting definition has changed faster than the warehouse has. Where compliance reports run, but nobody is certain the underlying fields still mean what they used to.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">02.</span>
+            <div>
+              <strong>Post-migration warehouses.</strong>
+              <p>The warehouse survived the migration. Did the field-level meaning? Nobody knows, and the new data team can't reconstruct it from documentation that doesn't exist.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">03.</span>
+            <div>
+              <strong>AI-readiness.</strong>
+              <p>Before your analytics copilot can give the business honest answers, the warehouse needs a meaning layer the copilot can read against. Generic LLMs cannot infer what your fields are supposed to represent. Ours doesn't try — it asks the humans who know.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="engage">
+      <div class="shell">
+        <span class="section-number" style="color: var(--accent-bright);">04 — Engage</span>
+        <h2>Data Intelligence is in <em>design-partner</em> phase.</h2>
+        <p class="lead">
+          We are working with a small number of regulated data teams to build the first version of the platform against real warehouses. The engagement begins with a Discovery assessment — we map a representative slice of the warehouse and produce a picture of the field-level drift inside it. That picture is the first deliverable.
+        </p>
+
+        <div style="display: flex; gap: var(--s-3); flex-wrap: wrap;">
+          <a href="contact.html" class="engage-cta">Engage as a design partner</a>
+          <a href="code-doctor.html" class="engage-cta outline">See CodeDoctor (flagship)</a>
+        </div>
+
+        <div class="engage-meta">
+          We are particularly interested in regulated reporting functions in financial services, healthcare, and government. We respond within two working days.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="brand-block">
+        <a href="/" class="wordmark"><span class="mark"></span>Pragmatical AI</a>
+        <p class="tagline">Applied AI for the systems your business depends on.</p>
+      </div>
+      <div>
+        <h5>Products</h5>
+        <ul>
+          <li><a href="code-doctor.html">CodeDoctor</a></li>
+          <li><a href="contract.html">Contract Intelligence</a></li>
+          <li><a href="fleet.html">Fleet Intelligence</a></li>
+          <li><a href="data.html">Data Intelligence</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="contact.html">Engage</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>External</h5>
+        <ul>
+          <li><a href="https://codedoctor.ai">codedoctor.ai →</a></li>
+          <li><a href="#">AI Engineer Talk</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        <span>© 2026 Pragmatical AI Ltd. London.</span>
+        <span>Index: 05 / 06</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

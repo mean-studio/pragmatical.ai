@@ -18,6 +18,10 @@ import { defs as contactDefs } from '@swc-js/composites/marketing/contact.js';
 import { defs as auroraDefs } from '@swc-js/composites/fx/aurora.js';
 import { defs as rotateDefs } from '@swc-js/composites/fx/text-rotate.js';
 import { defs as glowDefs } from '@swc-js/composites/fx/glow.js';
+import { defs as beamDefs } from '@swc-js/composites/fx/beams.js';
+// The blocks tier: a bento grid whose cells carry different weights, which is
+// what stops six problems reading as six identical cards.
+import { defs as bentoDefs } from '@swc-js/composites/blocks/bento.js';
 
 import { contentState } from './data/content.js';
 import { chrome } from './data/chrome.js';
@@ -39,7 +43,7 @@ export const appConfig = {
 
   defineComponents: [
     ...shellDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs, ...contactDefs,
-    ...auroraDefs, ...rotateDefs, ...glowDefs,
+    ...auroraDefs, ...rotateDefs, ...glowDefs, ...beamDefs, ...bentoDefs,
     ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs, ...internalAiDefs,
     ...productsDefs, ...productDefs, ...aboutDefs, ...contactPageDefs, ...notFoundDefs,
   ],

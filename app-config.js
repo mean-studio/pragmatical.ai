@@ -68,7 +68,7 @@ export const appConfig = {
     'database', 'user-check', 'brain', 'shopping-bag', 'settings-2',
     'shield', 'globe-lock', 'key', 'git-compare', 'boxes', 'check-check',
     'file-question-mark', 'users', 'server', 'plug', 'search-check',
-    'shield-check', 'split', 'clipboard-check', 'eye-off',
+    'shield-check', 'split', 'clipboard-check', 'eye-off', 'scale', 'gavel', 'file-diff',
     'chart-no-axes-column', 'ruler', 'file-check', 'ban',
     'arrow-right', 'arrow-up-right', 'languages', 'mail', 'external-link', 'circle',
   ],

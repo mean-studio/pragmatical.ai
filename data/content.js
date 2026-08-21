@@ -42,7 +42,7 @@ export const CONTENT = {
       // company; the one before that led with interfaces, which was worse.
       headline: 'AI, put to work on the problem you actually have.',
       lead: 'Today that means',
-      words: ['a migration.', 'a process.', 'a storefront.', 'a service.'],
+      words: ['a migration.', 'a contract.', 'a process.', 'a storefront.', 'a service.'],
       sub: 'We integrate AI into real operations — the migration nobody wants to start, the process that runs on people copying between systems, the catalogue no assistant can read. We built our own tools to make that possible, and we have done it inside banks and government, across the markets they are regulated in.',
       cta: 'Start an assessment',
       cta2: 'See the tools',
@@ -52,7 +52,7 @@ export const CONTENT = {
     // capability. Each one names the tool that does it, and every tool has its
     // own site — the links open there.
     pains: {
-      title: 'Five problems we are hired for.',
+      title: 'Six problems we are hired for.',
       sub: 'Different problems, one method: find what is really happening, agree it with the people who know, then build the part that changes it. The tool under each is ours, which is why the estimate is a build rather than a discovery phase.',
       items: [
         {
@@ -60,6 +60,12 @@ export const CONTENT = {
           title: 'A system we cannot migrate off',
           body: 'Twenty years of behaviour, no documentation, and a vendor quote priced for the risk. Code Doctor reads the estate — source and database — recovers the intent from the people who still hold it, and produces a rulebook you own.',
           tool: 'Code Doctor', href: 'https://codedoctor.ai',
+        },
+        {
+          icon: 'scale',
+          title: 'A contract that comes back different every round',
+          body: 'Clause creep: you strike a clause in round nineteen and it is quietly back by round twenty-two, reworded. Contract Vetting reads every returned draft against the last one, against case law and official guidance, and against your own commercial rules — what a late payment costs you, what it does to margin, whether the engagement is inside IR35.',
+          tool: 'Contract Vetting', href: 'https://contractvetting.com',
         },
         {
           icon: 'workflow',
@@ -115,7 +121,7 @@ export const CONTENT = {
 
     products: {
       title: 'The tools we built to do it.',
-      sub: 'Five products, each one the answer to a wall we hit doing this work. You can hire us to use them on your estate, or use them yourself.',
+      sub: 'Six tools, each one the answer to a wall we hit doing this work. You can hire us to point them at your problem, or use them yourself.',
       cta: 'All products',
     },
 
@@ -300,19 +306,21 @@ export const CONTENT = {
   products: {
     meta: {
       title: 'Products — Pragmatical AI',
-      description: 'Five products: Code Doctor, SWC, shop2gpt, agent-stack and GDS Playground. The layers we built to implement AI end to end.',
+      description: 'Six tools: Code Doctor, Contract Vetting, agent-stack, shop2gpt, SWC and GDS Playground — built to put AI to work on real operations.',
     },
     hero: {
       eyebrow: 'Products',
-      headline: 'Five products. One conviction.',
-      sub: 'The bottleneck is not generating more software. It is understanding the software you already run — and having somewhere solid to put what you learn. Each product below is one answer to that.',
+      headline: 'Six tools. One job.',
+      sub: 'Each one started as a wall we hit doing the work: a system nobody could describe, a contract that changed every round, a process running on copy-and-paste. You can hire us to use them on your problem, or use them yourself.',
     },
-    statusLabels: { live: 'Live', partners: 'Design partners', preview: 'Internal preview' },
+    statusLabels: { live: 'Live', partners: 'Design partners', preview: 'Internal preview', building: 'In build' },
     // href is the page on this site; site is the product's own site, opened in
     // a new tab so a reader comparing tools does not lose their place here.
     items: [
       { id: 'code-doctor', name: 'Code Doctor', status: 'partners', href: '/products/code-doctor', site: 'https://codedoctor.ai',
         body: 'Migrate off the system you cannot describe. Estate discovery, extraction from source and database, intent confirmed by your engineers, and a rulebook you own.' },
+      { id: 'contract-vetting', name: 'Contract Vetting', status: 'building', href: '/products/contract-vetting', site: 'https://contractvetting.com',
+        body: 'Review a contract against case law, official guidance and your own commercial rules — then track every round, including the clauses that quietly come back.' },
       { id: 'agent-stack', name: 'agent-stack', status: 'preview', href: '/products/agent-stack', site: '',
         body: 'Streamline a process and keep a human in it. Define the events, let agents do the work between them, and hold delivery behind a gate a person opens.' },
       { id: 'shop2gpt', name: 'shop2gpt', status: 'live', href: '/products/shop2gpt', site: 'https://shop2gpt.com',
@@ -400,6 +408,29 @@ export const CONTENT = {
       status: 'live',
       access: 'Connect a store and the MCP surface is generated from your catalogue.',
       site: { label: 'shop2gpt.com', href: 'https://shop2gpt.com' },
+    },
+    'contract-vetting': {
+      eyebrow: 'Product · contract and document review',
+      headline: 'Read it against everything that should govern it.',
+      sub: 'A contract is checked against four things at once: the law and guidance that bind it, the facts it asserts, the commercial rules you actually run on, and the version of itself you agreed last round. Doing three of those by hand is why review is slow, and why the fourth gets skipped.',
+      why: {
+        title: 'Why it exists.',
+        body: 'One negotiation ran to twenty-six rounds. In each one the counterparty reworded something we had already struck — never the same way twice, never flagged in the summary. A person reading a fresh redline at eleven at night is being asked to remember nineteen previous drafts. Nobody can, and everybody is expected to.',
+      },
+      does: {
+        title: 'What it does.',
+        items: [
+          { icon: 'file-diff', title: 'Every round, against the last', body: 'What you asked for and got. What you asked for and did not get. And what appeared that nobody asked for — the clause creep that survives because it arrives reworded rather than restored.' },
+          { icon: 'gavel', title: 'Against case law and guidance', body: 'Clauses read against the authorities that decide them and the official guidance that applies, with the citation attached rather than a confidence score.' },
+          { icon: 'file-check', title: 'Against the facts', body: 'The same reading applied to any document, not only contracts: the claims it makes, checked against sources you can open.' },
+          { icon: 'settings-2', title: 'Against your commercial rules', body: 'Your rules, written once and applied to every draft: what a payment term delay costs you, what a liability cap does to margin, whether the engagement sits inside IR35.' },
+          { icon: 'workflow', title: 'The round trip, tracked', body: 'Upload, review, send the amendments, and receive the reply into the same thread — so the record of what was agreed lives with the document rather than in an inbox.' },
+        ],
+      },
+      who: 'Anyone negotiating commercial contracts in rounds — procurement, in-house counsel, and the finance people who find out later what the terms actually cost.',
+      status: 'building',
+      access: 'In build. Design partners with a live negotiation to point it at are the ones shaping it.',
+      site: { label: 'contractvetting.com', href: 'https://contractvetting.com' },
     },
     'agent-stack': {
       eyebrow: 'Product · the workflow layer',

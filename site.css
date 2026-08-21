@@ -223,3 +223,4 @@ s-cn[rg=pill] {
 s-cn[rg=pill]::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
 s-cn[rg=pill][state=live] { border-color: rgb(74 222 128 / .5); color: #4ade80; }
 s-cn[rg=pill][state=partners] { border-color: rgb(129 140 248 / .55); color: var(--c-primary-hover); }
+s-cn[rg=pill][state=building] { border-color: rgb(56 189 248 / .5); color: #38bdf8; }

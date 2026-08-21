@@ -94,6 +94,27 @@ export const CONTENT = {
       ],
     },
 
+    // The two engagements that do not come in a box. They were missing
+    // entirely: the site listed six tools and never said that setting an
+    // organisation up to USE AI internally is work we do.
+    services: {
+      title: 'And two things that do not come in a box.',
+      items: [
+        {
+          icon: 'boxes',
+          title: 'End-to-end implementation',
+          body: 'Discovery, extraction, the replacement, and equivalence proved before cutover — with our own tools doing the expensive parts.',
+          cta: 'How an engagement runs', href: '/implementation',
+        },
+        {
+          icon: 'brain',
+          title: 'Internal AI enablement',
+          body: 'The plumbing and the screens that let your own people use AI on your own data: the dataflow, the gateway that governs it, and the interfaces the humans in the loop work in.',
+          cta: 'Setting up internal AI', href: '/internal-ai',
+        },
+      ],
+    },
+
     // The experience claim, stated as sectors rather than client names — the
     // house rule is no logos and no named institutions.
     regulated: {
@@ -125,13 +146,6 @@ export const CONTENT = {
       cta: 'All products',
     },
 
-    services: {
-      title: 'Two places it lands first.',
-      items: [
-        { icon: 'shopping-bag', title: 'Agentic commerce', body: 'Your catalogue, answerable by any assistant. shop2gpt converts a Shopify or WooCommerce store into MCP so a model can browse it, choose from it and buy.' },
-        { icon: 'settings-2', title: 'Process automation', body: 'The documented process and the real one are different. We find the real one the same way we read a legacy estate, then automate what is safe to automate.' },
-      ],
-    },
 
     airtight: {
       title: 'Built for estates that cannot take risks.',
@@ -244,6 +258,50 @@ export const CONTENT = {
       ],
     },
     close: { headline: 'Start with one system and one week of somebody’s memory.', cta: 'Talk to us' },
+  },
+
+  // ── /internal-ai ─────────────────────────────────────────────────────────
+  internalAi: {
+    meta: {
+      title: 'Internal AI enablement — Pragmatical AI',
+      description: 'The dataflow, the governance and the interfaces that let your own people use AI on your own data — with a gateway in front of every model call.',
+    },
+    hero: {
+      eyebrow: 'Work with us',
+      headline: 'Everyone has a chatbot. Nobody has the plumbing.',
+      sub: 'Using AI internally is not a licence decision. It is a question of what the model may see, who may ask it, what each answer costs, what happens to the corrections, and where the humans in the loop actually do their work. We build that.',
+      cta: 'Start an assessment',
+    },
+    flow: {
+      title: 'The dataflow, end to end.',
+      items: [
+        { icon: 'database', title: 'Where the knowledge is', body: 'Systems, documents, databases and the process knowledge that was never written down. The same extraction we use on a legacy estate, pointed at your operations.' },
+        { icon: 'file-check', title: 'What the model may see', body: 'A corpus scoped by permission rather than a folder somebody shared. Retrieval that answers from your material and cites which document it came from.' },
+        { icon: 'user-check', title: 'Who is in the loop', body: 'Corrections, confirmations and refusals captured as data rather than lost in a chat window — the raw material for the next improvement.' },
+        { icon: 'brain', title: 'What comes back', body: 'A model tuned to your domain on the corpus you own, deployed in your jurisdiction, answering in your terms rather than in general ones.' },
+      ],
+    },
+    control: {
+      title: 'A gateway in front of every model call.',
+      sub: 'The control point most internal rollouts discover they needed after the first invoice or the first incident. It is built, it runs on Node or at the edge unchanged, and it is the single place cost and permission are known.',
+      items: [
+        { q: 'Who may use which model', a: 'Per-team allow-lists, evaluated at the gateway rather than trusted to each application. A team gets the models it is approved for and nothing else.' },
+        { q: 'What it costs, as it happens', a: 'A usage ledger in tokens and computed cost, a monthly spend cap, and a request rate limit. The cap is enforced where prices are known, so an application cannot spend around it.' },
+        { q: 'A kill switch', a: 'One switch stops model traffic for a tenant. Not a support ticket to a vendor — a control you hold.' },
+        { q: 'Whose keys', a: 'Bring your own provider credentials; they are stored encrypted and handed to the runtime at call time. Changing provider is a configuration change rather than a migration.' },
+        { q: 'What happened, and who started it', a: 'RBAC is evaluated before every tool and connector call, and write or destructive actions are denied unless something explicitly grants them. Every action is recorded with its initiator — a person, a scheduled job, a webhook, or another tool.' },
+      ],
+    },
+    interfaces: {
+      title: 'The people in the loop need somewhere to work.',
+      sub: 'This is the part most AI programmes leave until last and then improvise: the screens where a person reviews, confirms, corrects, labels or rejects what the model produced. They are the difference between a pilot and a process.',
+      items: [
+        { icon: 'layout-dashboard', title: 'Review and confirmation', body: 'Queues that put one decision in front of one person with the evidence beside it, and record the answer against the thing it explains. Code Doctor’s intent validation is this, shipped.' },
+        { icon: 'clipboard-check', title: 'Labelling and evaluation', body: 'The screens that turn expert judgement into training data, and the ones that tell you whether the last change made the model better or only different.' },
+        { icon: 'globe-lock', title: 'Built to the same standard as the rest', body: 'On SWC, so they are server-rendered, quick, localised where they need to be, and accessible because the build refuses to ship them otherwise.' },
+      ],
+    },
+    close: { headline: 'Start with one team and one question they ask all day.', cta: 'Talk to us' },
   },
 
   // ── /agentic-commerce ────────────────────────────────────────────────────

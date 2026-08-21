@@ -27,6 +27,7 @@ import { implementationDefs } from './pages/implementation.js';
 import { legacyDefs } from './pages/legacy-to-model.js';
 import { commerceDefs } from './pages/commerce.js';
 import { automationDefs } from './pages/automation.js';
+import { internalAiDefs } from './pages/internal-ai.js';
 import { productsDefs } from './pages/products.js';
 import { productDefs } from './pages/product.js';
 import { aboutDefs } from './pages/about.js';
@@ -39,7 +40,7 @@ export const appConfig = {
   defineComponents: [
     ...shellDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs, ...contactDefs,
     ...auroraDefs, ...rotateDefs, ...glowDefs,
-    ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs,
+    ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs, ...internalAiDefs,
     ...productsDefs, ...productDefs, ...aboutDefs, ...contactPageDefs, ...notFoundDefs,
   ],
 
@@ -82,6 +83,7 @@ export const appConfig = {
     { path: '/legacy-to-model', component: 'page-legacy' },
     { path: '/agentic-commerce', component: 'page-commerce' },
     { path: '/process-automation', component: 'page-automation' },
+    { path: '/internal-ai', component: 'page-internal-ai' },
 
     // Products. The index and one detail route — five products, one component,
     // because they differ in content rather than in shape.

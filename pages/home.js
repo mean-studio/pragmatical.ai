@@ -63,6 +63,20 @@ const page = {
       ]],
     ]),
 
+    // Two engagements that are not a product: implementation, and setting the
+    // organisation up to use AI internally.
+    band('services', [
+      sectionHead(H.services.title),
+      ['s-fx-glow', [['s-cn', '@rg=svc-grid', H.services.items.map((it) => (
+        ['s-cn', '@rg=fx-glow-card', [['s-c', '@rg=pain', [
+          ['s-ic', `@n=${it.icon}`],
+          ['h3', '@rg=pain-title', `=${it.title}`],
+          ['s-l', '@rg=pain-body', `=${it.body}`],
+          ['s-b', '@v=tx', '@rg=pain-in', `~cl:nav:${it.href}`, [['span', `=${it.cta}`], ['s-ic', '@n=arrow-right']]],
+        ]]]]
+      ))]]],
+    ], { tint: true }),
+
     band('regulated', [
       featuresBind({ title: H.regulated.title, sub: H.regulated.sub, items: H.regulated.items }),
     ], { alt: true }),
@@ -109,6 +123,9 @@ page-home s-sc[band=hero] s-cn[rg=band-action] { margin-top: 38px; }
 page-home s-cn[rg=pain-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }
 @media (min-width: 720px) { page-home s-cn[rg=pain-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1080px) { page-home s-cn[rg=pain-grid] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+page-home s-cn[rg=svc-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 720px) { page-home s-cn[rg=svc-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+page-home s-cn[rg=svc-grid] s-cn[rg=fx-glow-card],
 page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
 page-home s-c[rg=pain] { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px; }
 /* One spacer before the link so every card's link sits on the bottom edge,

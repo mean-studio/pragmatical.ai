@@ -19,6 +19,7 @@ export const FOOTER = {
       title: CONTENT.nav.work,
       links: [
         { label: 'End-to-end implementation', route: '/implementation' },
+        { label: 'Internal AI enablement', route: '/internal-ai' },
         { label: 'Legacy knowledge to a model', route: '/legacy-to-model' },
         { label: 'Agentic commerce', route: '/agentic-commerce' },
         { label: 'Process automation', route: '/process-automation' },

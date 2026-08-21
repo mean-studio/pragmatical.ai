@@ -12,6 +12,7 @@ const PAGE_META = {
   '/legacy-to-model': CONTENT.legacyToModel.meta,
   '/agentic-commerce': CONTENT.commerce.meta,
   '/process-automation': CONTENT.automation.meta,
+  '/internal-ai': CONTENT.internalAi.meta,
   '/products': CONTENT.products.meta,
   '/about': CONTENT.about.meta,
   '/contact': CONTENT.contact.meta,

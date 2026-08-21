@@ -48,6 +48,12 @@ const page = {
           ['s-ic', `@n=${it.icon}`],
           ['h3', '@rg=pain-title', `=${it.title}`],
           ['s-l', '@rg=pain-body', `=${it.body}`],
+          // A card twice as wide fills with structure rather than with a longer
+          // paragraph: the same detail as a short list reads faster and takes
+          // the height the wider box needs.
+          ...(it.points ? [['s-cn', '@rg=pain-points', it.points.map((pt) => (
+            ['s-cn', '@rg=pain-point', [['s-ic', '@n=check-check'], ['s-l', `=${pt}`]]]
+          ))]] : []),
           // Five of the six leave for the product's own site; agent-stack has no
           // site yet and goes to its page here. Same treatment either way — a
           // pill among five text links reads as a different KIND of thing.
@@ -118,27 +124,22 @@ page-home s-cn[rg=pain-grid] { display: grid; grid-template-columns: 1fr; gap: 1
 @media (min-width: 1080px) {
   page-home s-cn[rg=pain-grid] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card][wide] { grid-column: span 2; }
-  /* A double-width card with a single column of text is a column of text with
-     a lot of nothing beside it. The wide ones read across instead: heading and
-     link down the left, body up the right, so the extra width is used rather
-     than left over. */
-  page-home s-cn[rg=fx-glow-card][wide] s-c[rg=pain] {
-    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    grid-template-rows: auto auto 1fr; column-gap: 34px; row-gap: 10px;
-  }
-  page-home s-cn[rg=fx-glow-card][wide] s-c[rg=pain] > s-ic { grid-column: 1; grid-row: 1; }
-  page-home s-cn[rg=fx-glow-card][wide] s-c[rg=pain] > h3[rg=pain-title] { grid-column: 1; grid-row: 2; font-size: 1.1875rem; }
-  page-home s-cn[rg=fx-glow-card][wide] s-c[rg=pain] > label[is=s-l][rg=pain-body] { grid-column: 2; grid-row: 1 / span 3; }
-  page-home s-cn[rg=fx-glow-card][wide] s-c[rg=pain] > :last-child { grid-column: 1; grid-row: 3; align-self: end; }
 }
 page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
 page-home s-c[rg=pain] { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px; }
+/* One spacer before the link so every card's link sits on the bottom edge,
+   whatever the copy above it does. */
+page-home s-c[rg=pain] > :nth-last-child(2) { margin-bottom: auto; }
 page-home s-c[rg=pain] > s-ic { width: 22px; height: 22px; color: var(--c-primary); }
 page-home h3[rg=pain-title] { margin: 0; font-family: var(--font-display); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
-page-home label[is=s-l][rg=pain-body] { flex: 1; font-size: 0.9375rem; line-height: 1.62; color: var(--c-text-muted); }
+page-home label[is=s-l][rg=pain-body] { flex: 0 0 auto; font-size: 0.9375rem; line-height: 1.62; color: var(--c-text-muted); }
 page-home button[rg=pain-in] { padding: 0; background: transparent; border: 0; box-shadow: none; color: var(--c-primary-hover); font-weight: 600; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 6px; }
 page-home button[rg=pain-in]:hover { text-decoration: underline; background: transparent; }
 page-home button[rg=pain-in] s-ic { width: 13px; height: 13px; }
+page-home s-cn[rg=pain-points] { display: grid; gap: 9px; margin-top: 4px; }
+page-home s-cn[rg=pain-point] { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+page-home s-cn[rg=pain-point] s-ic { width: 14px; height: 14px; margin-top: 3px; color: var(--c-primary); }
+page-home s-cn[rg=pain-point] label[is=s-l] { font-size: 0.875rem; line-height: 1.55; color: var(--c-text-secondary); }
 `,
 };
 

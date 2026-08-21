@@ -44,19 +44,10 @@ const page = {
     band('pains', [
       sectionHead(H.pains.title, H.pains.sub),
       ['s-fx-glow', [['s-cn', '@rg=pain-grid', H.pains.items.map((it) => (
-        ['s-cn', '@rg=fx-glow-card', ...(it.wide ? ['@wide='] : []), [['s-c', '@rg=pain', [
+        ['s-cn', '@rg=fx-glow-card', [['s-c', '@rg=pain', [
           ['s-ic', `@n=${it.icon}`],
           ['h3', '@rg=pain-title', `=${it.title}`],
           ['s-l', '@rg=pain-body', `=${it.body}`],
-          // A card twice as wide fills with structure rather than with a longer
-          // paragraph: the same detail as a short list reads faster and takes
-          // the height the wider box needs.
-          ...(it.points ? [['s-cn', '@rg=pain-points', it.points.map((pt) => (
-            ['s-cn', '@rg=pain-point', [['s-ic', '@n=check-check'], ['s-l', `=${pt}`]]]
-          ))]] : []),
-          // Five of the six leave for the product's own site; agent-stack has no
-          // site yet and goes to its page here. Same treatment either way — a
-          // pill among five text links reads as a different KIND of thing.
           it.href.startsWith('http')
             ? outbound(it.tool, it.href)
             : ['s-b', '@v=tx', '@rg=pain-in', `~cl:nav:${it.href}`, [['span', `=${it.tool}`], ['s-ic', '@n=arrow-right']]],
@@ -112,21 +103,18 @@ page-home label[is=s-l][rg=hero-sub] { display: block; margin-top: 26px; max-wid
 page-home s-sc[band=hero] s-cn[rg=band-action] { margin-top: 38px; }
 /* The problem cards: a taller card than a feature tile, because each one has a
    problem, an answer and a way out to the tool that does it. */
-/* Six cards on an auto-fit grid gave four columns and a ragged pair below,
-   and the two longest bodies were in the narrowest boxes. Explicit tracks
-   instead: at four columns the two long ones span two, so 1+2+1 fills each
-   row exactly. Spanning is only enabled at four columns — in a two-column
-   grid a spanning card leaves a hole beside the one before it. */
-page-home s-cn[rg=pain-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }
-@media (min-width: 720px) {
-  page-home s-cn[rg=pain-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1080px) {
-  page-home s-cn[rg=pain-grid] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card][wide] { grid-column: span 2; }
-}
-page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
-page-home s-c[rg=pain] { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px; }
+/* Masonry, not a grid: six cards whose copy is honestly different lengths
+   should be different heights. CSS columns pack them by height with no
+   stretching, so there is no dead space under the short ones — the price is
+   that reading order runs down each column rather than across, which for a
+   set of peers is no price at all. */
+/* display: block matters — s-cn is a grid by default, and the columns
+   property does nothing to a grid container. */
+page-home s-cn[rg=pain-grid] { display: block; columns: 1; column-gap: 18px; }
+@media (min-width: 720px) { page-home s-cn[rg=pain-grid] { columns: 2; } }
+@media (min-width: 1100px) { page-home s-cn[rg=pain-grid] { columns: 3; } }
+page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card] { display: block; break-inside: avoid; margin-bottom: 18px; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
+page-home s-c[rg=pain] { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px; }
 /* One spacer before the link so every card's link sits on the bottom edge,
    whatever the copy above it does. */
 page-home s-c[rg=pain] > :nth-last-child(2) { margin-bottom: auto; }

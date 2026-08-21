@@ -64,8 +64,8 @@ export const CONTENT = {
         {
           icon: 'scale',
           title: 'A contract that comes back different every round',
-          body: 'Clause creep: you strike a clause in round nineteen and it is quietly back by round twenty-two, reworded. Contract Vetting reads every returned draft against the last one, against case law and official guidance, and against your own commercial rules — what a late payment costs you, what it does to margin, whether the engagement is inside IR35.',
-          tool: 'Contract Vetting', href: 'https://contractvetting.com',
+          body: 'Clause creep: you strike a clause in round nineteen and it is quietly back by round twenty-two, reworded so no summary flags it. Contract Vetting reads every returned draft four ways at once — against the round you agreed, against the case law and official guidance that govern it, against the facts it asserts, and against the commercial rules you actually run on: what a late payment costs you, what a liability cap does to margin, whether the engagement sits inside IR35. It works on any document, not only contracts.',
+          tool: 'Contract Vetting', href: 'https://contractvetting.com', wide: true,
         },
         {
           icon: 'workflow',
@@ -82,8 +82,8 @@ export const CONTENT = {
         {
           icon: 'globe-lock',
           title: 'An app that has to run in every market we are regulated in',
-          body: 'Each market wants its own language, its own content and often its own answer about where the data was processed. SWC is the foundation we build on: locale is part of the URL and the render, right-to-left included, and the app runs at the edge in the regions you allow.',
-          tool: 'SWC', href: 'https://smartwebcomponents.com',
+          body: 'Each market wants its own language, its own content, and often its own answer about where the data was processed. SWC is the foundation we build on: the locale rides the URL and the server renders in it, right-to-left is a direction the whole component library already handles rather than a retrofit, and the app runs at the edge — so which regions execute it is a deployment decision rather than a rewrite. Six languages ship on our own site, Arabic among them.',
+          tool: 'SWC', href: 'https://smartwebcomponents.com', wide: true,
         },
         {
           icon: 'landmark',

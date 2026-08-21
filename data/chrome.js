@@ -10,7 +10,6 @@ import { CONTENT } from './content.js';
 export const NAV = [
   { label: CONTENT.nav.work, route: '/implementation' },
   { label: CONTENT.nav.products, route: '/products' },
-  { label: CONTENT.nav.approach, route: '/approach' },
   { label: CONTENT.nav.about, route: '/about' },
 ];
 
@@ -32,7 +31,6 @@ export const FOOTER = {
     {
       title: 'Company',
       links: [
-        { label: CONTENT.nav.approach, route: '/approach' },
         { label: CONTENT.nav.about, route: '/about' },
         { label: CONTENT.nav.contact, route: '/contact' },
       ],

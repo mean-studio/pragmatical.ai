@@ -478,47 +478,6 @@ export const CONTENT = {
     },
   },
 
-  // ── /approach ────────────────────────────────────────────────────────────
-  approach: {
-    meta: {
-      title: 'Approach — Pragmatical AI',
-      description: 'Extract first, reason second. Five stages from estate to running system, and the principles that decide what a machine may assume.',
-    },
-    hero: {
-      eyebrow: 'Approach',
-      headline: 'Extract first. Reason second.',
-      sub: 'A model asked to explain a system it has only read prose about will produce confident prose back. Everything here exists to make sure the reasoning starts from facts that were lifted, not guessed.',
-    },
-    principles: {
-      title: 'Four principles, applied to every engagement.',
-      items: [
-        { icon: 'scan-search', title: 'Estate-first', body: 'Nothing starts from a sample. The unit of work is the estate, because the failure mode is always the system nobody remembered.' },
-        { icon: 'user-check', title: 'Humans confirm intent', body: 'AI surfaces patterns at a scale people cannot. Only a person can say what a pattern meant. We never collapse those two jobs into one.' },
-        { icon: 'globe-lock', title: 'Model-agnostic, jurisdiction-first', body: 'No engagement depends on one vendor’s model or one country’s cloud. Air-gapped is a supported configuration, not an exception.' },
-        { icon: 'key', title: 'You own the output', body: 'The corpus and the rulebook are yours, in a documented format, from the first week. Lock-in is a business model we decided not to have.' },
-      ],
-    },
-    failures: {
-      title: 'Three failures, the same shape every time.',
-      items: [
-        { icon: 'eye-off', title: 'Estate blindness', body: 'The plan covers the systems people remembered. The programme is then re-planned around the ones they did not.' },
-        { icon: 'file-question-mark', title: 'Intent loss', body: 'The rebuild reproduces the code and loses the reason. The exception that protected a customer relationship disappears in a refactor nobody questioned.' },
-        { icon: 'chart-no-axes-column', title: 'Measurement distortion', body: 'Progress is measured in output — files moved, screens shipped — because nobody agreed what "equivalent" means. Equivalence has to be defined before it can be proved.' },
-      ],
-    },
-    corpus: {
-      title: 'We did the reading first.',
-      sub: 'The corpora below were built and analysed before any client engagement, with licence provenance recorded per repository. They are why the extraction has already met the shapes your estate will show us.',
-      stats: [
-        { value: '6,254', label: 'Legacy repositories with provenance' },
-        { value: '18,227', label: 'Public-sector repositories catalogued' },
-        { value: '7,053', label: 'Cloned with full history' },
-        { value: '4,515', label: 'Projects analysed' },
-      ],
-    },
-    close: { headline: 'The method is the product. The engagement is where you meet it.', cta: 'Talk to us' },
-  },
-
   // ── /about ───────────────────────────────────────────────────────────────
   about: {
     meta: {
@@ -550,6 +509,19 @@ export const CONTENT = {
         { icon: 'ban', title: 'What we will not do', body: 'No black-box transformation. No cosmetic modernisation that leaves the behaviour untouched. No architecture whose exit path runs through us.' },
       ],
     },
+    // The reading we did before selling anything — a company credential rather
+    // than a methodology essay standing on its own page.
+    corpus: {
+      title: 'We did the reading first.',
+      sub: 'Before talking to a customer we built and analysed corpora at estate scale, because a method that has only seen one codebase is an anecdote.',
+      stats: [
+        { value: '6,254', label: 'Legacy repositories, licence-checked, with provenance' },
+        { value: '18,227', label: 'UK public-sector repositories catalogued' },
+        { value: '7,053', label: 'Cloned with full history' },
+        { value: '4,515', label: 'Projects analysed' },
+      ],
+    },
+
     close: { headline: 'Tell us about what you already have.', cta: 'Talk to us' },
   },
 

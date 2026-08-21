@@ -30,7 +30,11 @@ export function productGridDSL(items, labels) {
 }
 
 export const PRODUCT_GRID_CSS = `
-s-cn[rg=prod-grid] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 18px; }
+/* Three columns, not auto-fit: six products in four columns strands two on a
+   second row, which reads as an afterthought rather than a set. */
+s-cn[rg=prod-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 720px) { s-cn[rg=prod-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { s-cn[rg=prod-grid] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 s-cn[rg=prod-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
 s-cn[rg=prod-grid] s-cn[rg=fx-glow-card] > s-c { flex: 1; }
 s-c[rg=prod] { display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-box); cursor: pointer; transition: border-color 150ms ease, transform 150ms ease; }

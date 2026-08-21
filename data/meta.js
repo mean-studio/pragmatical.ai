@@ -13,7 +13,6 @@ const PAGE_META = {
   '/agentic-commerce': CONTENT.commerce.meta,
   '/process-automation': CONTENT.automation.meta,
   '/products': CONTENT.products.meta,
-  '/approach': CONTENT.approach.meta,
   '/about': CONTENT.about.meta,
   '/contact': CONTENT.contact.meta,
 };

@@ -29,7 +29,6 @@ import { commerceDefs } from './pages/commerce.js';
 import { automationDefs } from './pages/automation.js';
 import { productsDefs } from './pages/products.js';
 import { productDefs } from './pages/product.js';
-import { approachDefs } from './pages/approach.js';
 import { aboutDefs } from './pages/about.js';
 import { contactPageDefs } from './pages/contact.js';
 import { notFoundDefs } from './pages/not-found.js';
@@ -41,7 +40,7 @@ export const appConfig = {
     ...shellDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs, ...contactDefs,
     ...auroraDefs, ...rotateDefs, ...glowDefs,
     ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs,
-    ...productsDefs, ...productDefs, ...approachDefs, ...aboutDefs, ...contactPageDefs, ...notFoundDefs,
+    ...productsDefs, ...productDefs, ...aboutDefs, ...contactPageDefs, ...notFoundDefs,
   ],
 
   // Copy is seeded as flat t.* keys; the contact form's own keys start empty so
@@ -89,7 +88,6 @@ export const appConfig = {
     { path: '/products', component: 'page-products' },
     { path: '/products/:pid', component: 'page-product' },
 
-    { path: '/approach', component: 'page-approach' },
     { path: '/about', component: 'page-about' },
     { path: '/contact', component: 'page-contact' },
 

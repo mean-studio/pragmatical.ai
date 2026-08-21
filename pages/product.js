@@ -29,6 +29,15 @@ function productSections(id, p) {
         ]]] : []),
       ]],
     ]),
+    // A real view of the thing, where one exists. Nothing is mocked up: a
+    // product with no interface yet shows no interface.
+    ...(p.shot ? [band('shot', [
+      ['s-cn', '@rg=shot', [
+        ['img', `@src=${p.shot.src}`, `@alt=${p.shot.alt}`, '@loading=lazy', '@decoding=async', '@width=2160', '@height=1350'],
+      ]],
+      ['s-l', '@rg=shot-cap', `=${p.shot.caption}`],
+    ], { tight: true })] : []),
+
     band('why', [
       sectionHead(p.why.title),
       ['p', '@rg=prose', `=${p.why.body}`],
@@ -62,6 +71,11 @@ page-product p[rg=prose] { margin: 0 0 20px; max-width: var(--site-text); font-s
 page-product s-ln[rg=prod-site] { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--c-primary); }
 page-product s-ln[rg=prod-site] s-ic { width: 14px; height: 14px; }
 page-product s-sc[band=hero] { padding-bottom: 40px; }
+/* The screenshot sits in a frame that reads as a window onto the product, not
+   as a card: one hairline, a slight lift, and the caption outside it. */
+page-product s-cn[rg=shot] { display: block; border: 1px solid var(--c-border); border-radius: var(--radius-box); overflow: hidden; background: var(--c-surface); box-shadow: 0 24px 60px rgb(2 6 23 / .5); }
+page-product s-cn[rg=shot] img { display: block; width: 100%; height: auto; }
+page-product label[is=s-l][rg=shot-cap] { display: block; margin-top: 14px; font-size: 0.8125rem; color: var(--c-text-muted); }
 `,
 };
 

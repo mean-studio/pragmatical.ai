@@ -37,7 +37,7 @@ export const SECTION_CSS = `
 /* Two columns, not a stack: the heading and its standfirst sit side by side
    over a hairline, which reclaims the empty right gutter and stops five bands
    opening with the identical left-aligned block. */
-s-cn[rg=head] { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: none; margin: 0 0 40px; padding-bottom: 22px; border-bottom: 1px solid var(--c-border); }
+s-cn[rg=head] { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: none; margin: 0 0 28px; padding-bottom: 18px; border-bottom: 1px solid var(--c-border); }
 @media (min-width: 900px) { s-cn[rg=head] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: baseline; } }
 h2[rg=head-title] { margin: 0; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; font-size: clamp(1.9rem, 1.3rem + 2vw, 3rem); line-height: 1.06; text-wrap: balance; }
 label[is=s-l][rg=head-sub] { display: block; max-width: var(--site-text); margin-top: 0; font-size: 1rem; line-height: 1.62; color: var(--c-text-secondary); }

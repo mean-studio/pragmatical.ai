@@ -435,6 +435,7 @@ export const CONTENT = {
       status: 'partners',
       access: 'Onboarding a small number of design partners. An assessment is the first step and the output is yours regardless of what follows.',
       site: { label: 'codedoctor.ai', href: 'https://codedoctor.ai' },
+      shot: { src: '/shots/code-doctor.jpg', alt: 'The Code Doctor pipeline: topology discovery, pattern extraction, intent validation, rulebook, parallel-run verification.', caption: 'codedoctor.ai — the pipeline, from estate to proven cutover.' },
     },
     swc: {
       eyebrow: 'Product · the UI layer',
@@ -460,6 +461,7 @@ export const CONTENT = {
       status: 'live',
       access: 'Free to use, with a commercial licence for code-generation products. The full component catalogue and documentation are on the product site.',
       site: { label: 'smartwebcomponents.com', href: 'https://smartwebcomponents.com' },
+      shot: { src: '/shots/swc-templates.jpg', alt: 'The SWC template gallery: seventeen full-page application templates.', caption: 'Seventeen full-page templates, each one payload-driven and server-rendered.' },
     },
     shop2gpt: {
       eyebrow: 'Product · agentic commerce',
@@ -549,6 +551,7 @@ export const CONTENT = {
       status: 'preview',
       access: 'In use internally on real journeys, with pilots by arrangement.',
       site: { label: 'gdsplayground.com', href: 'https://gdsplayground.com' },
+      shot: { src: '/shots/gds-playground.jpg', alt: 'GDS Playground: sovereign AI for government modernisation.', caption: 'gdsplayground.com — built for the service standard, deployable inside your boundary.' },
     },
   },
 

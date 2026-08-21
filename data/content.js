@@ -36,38 +36,56 @@ export const CONTENT = {
       description: 'We implement AI end to end, because we built the layers ourselves: the interface a model writes into, the workflow agents run in, and the modernisation platform that reads the system you already have.',
     },
     hero: {
-      eyebrow: 'London · applied AI',
-      // The headline is in two parts so the second can rotate: the fixed claim
-      // first, then the thing it applies to. The words are the four layers we
-      // built, which is the argument the rest of the page then makes.
-      headline: 'End-to-end AI implementation.',
-      lead: 'We build the',
-      // Single words: the rotating box is always as wide as the LONGEST option
-      // (that is what keeps the line from jumping), so a four-word option sets
-      // the width of a phone's entire headline.
-      words: ['interfaces.', 'workflows.', 'modernisation.', 'services.'],
-      sub: 'Most AI work stops at a slide or a chatbot. We start at the estate you already have and finish at a system that runs — because we built the layers in between ourselves rather than renting them.',
+      eyebrow: 'London · end-to-end AI implementation',
+      // ONE promise, before any mention of a layer or a product. The earlier
+      // version led with the four things we built, and the first word a skimmer
+      // read was "interfaces" — which told a director with a twenty-year-old
+      // estate that we are a front-end shop. What we sell is the whole job.
+      headline: 'We rebuild the systems nobody can fully describe.',
+      // The rotating half now names the STAGES we deliver, not our internal
+      // layers: scope of work, not scope of components. Single words, because
+      // the rotating box is always as wide as its longest option.
+      lead: 'End to end:',
+      words: ['the estate map.', 'the rebuild.', 'the cutover.', 'the model.'],
+      sub: 'Database logic, services, data, interfaces, deployment — and a model trained on the knowledge we recover on the way through. For estates that cannot be switched off while the work happens.',
       cta: 'Start an assessment',
       cta2: 'See the products',
+    },
+
+    // The band that has to arrive before anything else: what end to end covers.
+    // Without it the products below read as a catalogue of parts, and a reader
+    // decides for themselves which one part we do.
+    scope: {
+      title: 'The whole system. Not the front of it.',
+      sub: 'A modernisation stalls where the estate stops being legible: the stored procedure nobody owns, the nightly job with no runbook, the rule that exists because of one customer in 2011. That is where we start, and we do not stop until the replacement is running.',
+      items: [
+        { icon: 'database', title: 'The data and the logic in it', body: 'Stored procedures, triggers, scheduled jobs and view DDL, lifted into the same model as the application code. Most of your business rules live here, and source-only tools never see them.' },
+        { icon: 'server', title: 'The services behind the screen', body: 'Routes, integrations, batch, queues and the undocumented paths between them, mapped across the estate rather than sampled from the repository somebody remembered.' },
+        { icon: 'layout-dashboard', title: 'The interface, once the rest is true', body: 'Screens generated from the confirmed model, so what the user sees and what the system does cannot drift apart. It is the last layer we build, and the one most often mistaken for the whole job.' },
+        { icon: 'globe-lock', title: 'The deployment and the model', body: 'Running in your cloud, your region, your rules — with a model trained on the corpus we extracted, answering questions about your business in your terms.' },
+      ],
     },
 
     // The ground-up claim, made concrete. Four layers, four products, one
     // sentence each — a reader should be able to tell what we built and why we
     // built it without leaving the page.
+    // Why we can claim the whole job: we own the machinery for each part of it.
+    // Ordered the way the WORK runs, not the way we happened to build them, and
+    // every card ends in what it changes for the reader's system.
     layers: {
-      title: 'We built the layers, not the slides.',
-      sub: 'Every layer below exists because a client engagement hit a wall where a product should have been. Each one is real software you can look at.',
+      title: 'We own the machinery for every stage.',
+      sub: 'Each of these exists because an engagement hit a wall where a product should have been. They are why a fixed-scope rebuild is possible at all: the expensive parts are already built, so the work is your domain rather than our scaffolding.',
       items: [
-        { icon: 'layout-dashboard', title: 'The interface layer', body: 'SWC — components a model can author into and a server can render without a build step. AI that cannot produce a working screen produces a demo.' },
-        { icon: 'workflow', title: 'The workflow layer', body: 'agent-stack — durable agent runs, connectors, and delivery into your repositories behind a human confirm gate. Agents that cannot finish a job are a chat window.' },
-        { icon: 'scan-search', title: 'The modernisation layer', body: 'Code Doctor — estate discovery, deterministic extraction from source and database, and intent recovered from the people who still hold it.' },
-        { icon: 'landmark', title: 'The service layer', body: 'GDS Playground — GOV.UK services designed by conversation and rendered with the real design system, every project version-controlled.' },
+        { icon: 'scan-search', title: 'Reading the estate', body: 'Code Doctor maps the topology, lifts deterministic facts from four languages and two database engines, and records where every one came from. You get an inventory you can argue with in week one.' },
+        { icon: 'workflow', title: 'Doing the work', body: 'agent-stack runs the long jobs and delivers changes into your repositories behind a gate a person opens. Nothing lands in your code because a model was confident.' },
+        { icon: 'layout-dashboard', title: 'Shipping the system', body: 'SWC turns the confirmed model into working screens with no build step and no dependency tree to maintain. The interface stops being the part of the programme that slips.' },
+        { icon: 'landmark', title: 'Meeting the standard', body: 'GDS Playground builds to the GOV.UK service standard with the real design system, so a public service passes assessment rather than being rebuilt for it.' },
       ],
     },
 
     offer: {
-      title: 'Your processes are documented in the heads of people who are leaving.',
-      sub: 'The flagship engagement: we extract what your systems actually do, turn it into a corpus you own, and train a model on it that answers questions about your business the way your best-informed engineer would.',
+      title: 'The knowledge leaves with the people. Unless it is extracted first.',
+      sub: 'The engagement that pays for itself twice: the extraction that makes the rebuild possible also produces a corpus you own — and a model trained on it that answers questions about your business the way your longest-serving engineer would.',
       steps: [
         { icon: 'database', title: 'Extract', body: 'Deterministic facts from source and from the database — stored procedures, triggers, scheduled jobs. The logic source-only tools never see.' },
         { icon: 'user-check', title: 'Confirm', body: 'Structured intent capture with the engineers who remember why. AI surfaces the pattern; a human confirms the meaning. Nothing is assumed.' },
@@ -77,8 +95,8 @@ export const CONTENT = {
     },
 
     products: {
-      title: 'Five products. One conviction.',
-      sub: 'The conviction: the bottleneck is not generating more software, it is understanding the software you already run.',
+      title: 'The tools we built to do it.',
+      sub: 'Five products, each one the answer to a wall we hit doing this work. You can hire us to use them on your estate, or use them yourself.',
       cta: 'All products',
     },
 
@@ -92,7 +110,7 @@ export const CONTENT = {
 
     airtight: {
       title: 'Built for estates that cannot take risks.',
-      sub: 'Regulated, sovereign and safety-critical systems are the normal case here, not the exception. Four commitments, each one a technical property rather than a promise.',
+      sub: 'Regulated, sovereign and safety-critical systems are the normal case here. Four commitments, each one a technical property rather than a promise.',
       items: [
         { icon: 'shield', title: 'Your source stays yours', body: 'Source is read statically and never executed. Artefacts never leave your environment; our infrastructure receives audit metadata only.' },
         { icon: 'globe-lock', title: 'Your jurisdiction, your cloud', body: 'The model runs where your data is allowed to be — AWS including GovCloud, Azure including Government, Google Vertex, or self-hosted and air-gapped.' },
@@ -121,13 +139,13 @@ export const CONTENT = {
       cta: 'Start an assessment',
     },
     stages: {
-      title: 'What end to end actually means.',
+      title: 'What end to end covers.',
       items: [
         { icon: 'scan-search', title: 'Discovery', body: 'Estate-wide mapping. Repositories, services, databases, schedules and the integrations nobody documented. The output is an inventory you can argue with.' },
         { icon: 'git-compare', title: 'Extraction', body: 'Deterministic facts, lifted at machine scale from source and database alike. Facts first, reasoning second — a model that guesses about a payment path is worse than no model.' },
         { icon: 'user-check', title: 'Intent', body: 'The half that is not in the code: why the exception exists, which customer it was for, what breaks if it goes. Captured from people, in a structured flow, on the record.' },
         { icon: 'boxes', title: 'Build', body: 'A target stack generated from the confirmed model, using our own component and workflow layers where they fit — which is most of the interface and most of the plumbing.' },
-        { icon: 'check-check', title: 'Proof', body: 'The new system runs beside the old one and is measured against it. Equivalence is demonstrated before cutover, not asserted after it.' },
+        { icon: 'check-check', title: 'Proof', body: 'The new system runs beside the old one and is measured against it. Equivalence is demonstrated under real load before anything is switched over.' },
       ],
     },
     bring: {
@@ -155,7 +173,7 @@ export const CONTENT = {
   legacyToModel: {
     meta: {
       title: 'Legacy process extraction to a custom model — Pragmatical AI',
-      description: 'We extract what your systems actually do into a machine-readable corpus you own, then train a model on it that runs inside your jurisdiction.',
+      description: 'We extract what your systems do into a machine-readable corpus you own, then train a model on it that runs inside your jurisdiction.',
     },
     hero: {
       eyebrow: 'Flagship engagement',
@@ -174,9 +192,9 @@ export const CONTENT = {
     pipeline: {
       title: 'Extract first. Reason second.',
       items: [
-        { q: 'What gets extracted', a: 'Deterministic facts at machine scale: routes, services, data flows, jobs, integration points, and database-resident logic including stored procedures and triggers. Facts are lifted, not inferred — every one carries a source location.' },
+        { q: 'What gets extracted', a: 'Deterministic facts at machine scale: routes, services, data flows, jobs, integration points, and database-resident logic including stored procedures and triggers. Every fact carries the source location it was lifted from.' },
         { q: 'How intent is captured', a: 'The extraction surfaces patterns and open questions; a structured flow puts them in front of the engineers who know, one confirmation at a time. Every answer is recorded against the fact it explains. A machine never assumes.' },
-        { q: 'What the corpus is', a: 'A structured, machine-readable description of how your business actually operates, versioned like code, queryable, and owned outright by you. It is the durable asset — it survives this engagement, the next migration, and us.' },
+        { q: 'What the corpus is', a: 'A structured, machine-readable description of how your business operates, versioned like code, queryable, and owned outright by you. It is the durable asset — it survives this engagement, the next migration, and us.' },
         { q: 'What the model is', a: 'A model trained on that corpus, so it answers in your domain rather than in general. It runs on your infrastructure: AWS Bedrock including GovCloud, Azure OpenAI including Government, Google Vertex with Assured Workloads, or self-hosted and air-gapped.' },
         { q: 'What it is used for', a: 'Onboarding an engineer in days rather than quarters. Impact analysis before a change. Answering "what breaks if we turn this off". Planning a migration against what the system does rather than what the wiki claims.' },
       ],
@@ -193,7 +211,7 @@ export const CONTENT = {
     },
     boundaries: {
       title: 'What never leaves.',
-      sub: 'This section is the offer, not the small print. If any of it were untrue the engagement would be impossible in a regulated estate.',
+      sub: 'This section is the offer itself. If any of it were untrue the engagement would be impossible in a regulated estate.',
       items: [
         { icon: 'shield', title: 'Source is read, never run', body: 'Static analysis only. Nothing executes your code, and nothing needs production access to do the extraction.' },
         { icon: 'server', title: 'Artefacts stay inside', body: 'The corpus, the model and everything generated from them live in your environment. Our infrastructure receives audit metadata — what ran, when, against which source reference.' },
@@ -221,7 +239,7 @@ export const CONTENT = {
       items: [
         { icon: 'plug', title: 'It can read the catalogue', body: 'Products, variants, stock and price exposed as a protocol a model speaks — MCP — rather than a page it has to guess at.' },
         { icon: 'search-check', title: 'It can answer honestly', body: 'Availability and price come from your store at the moment of asking. An assistant that recommends a sold-out product costs you the customer twice.' },
-        { icon: 'shield-check', title: 'You keep control', body: 'Pricing, stock, promotions and fulfilment stay in your systems. The assistant gets a read model and a checkout hand-off, not the keys.' },
+        { icon: 'shield-check', title: 'You keep control', body: 'Pricing, stock, promotions and fulfilment stay in your systems. The assistant gets a read model and a checkout hand-off. Your systems keep the keys.' },
       ],
     },
     how: {
@@ -284,7 +302,7 @@ export const CONTENT = {
   // One page shape per product: what it is, why it exists, what it does in
   // specifics, who it is for, and how to get it. Every capability line here is
   // one I can point at a file for — see the claims note at the top of this
-  // file. Status labels are the truth on the day, not aspiration.
+  // file. Status labels are the truth on the day.
   productPages: {
     'code-doctor': {
       eyebrow: 'Product · legacy modernisation',
@@ -324,7 +342,7 @@ export const CONTENT = {
           { icon: 'boxes', title: '103 primitives', body: 'The whole vocabulary of an application interface, each one carrying its own accessibility contract rather than leaving it to the page.' },
           { icon: 'layout-dashboard', title: '91 composite screens', body: 'Whole sections and 20 full-page templates — a mailbox, a dashboard, a storefront — as one component fed one payload.' },
           { icon: 'server', title: 'Server-rendered, no build step', body: 'Pages arrive as HTML with their content in them. The runtime has no dependencies and deploys to the edge.' },
-          { icon: 'shield-check', title: 'Accessibility enforced by lint', body: 'An icon-only button without a name is a build error, not a review comment. Zero WCAG 2.1 A/AA violations across 62 automated scans.' },
+          { icon: 'shield-check', title: 'Accessibility enforced by lint', body: 'An icon-only button with no accessible name fails the build. Zero WCAG 2.1 A/AA violations across 62 automated scans.' },
           { icon: 'git-compare', title: 'Migration converters', body: 'Deterministic conversion from Next.js, WordPress and Shopify catalogues, with every finding classed as mapped, approximate or unmapped.' },
         ],
       },
@@ -339,7 +357,7 @@ export const CONTENT = {
       sub: 'Customers ask a model what to buy before they open a shop. shop2gpt turns your catalogue into MCP — the protocol assistants speak — so your products are in the answer rather than behind a page a model has to guess at.',
       why: {
         title: 'Why it exists.',
-        body: 'Every commerce client asked the same question in the same month: how do we appear when a customer asks an assistant instead of a search engine. The honest answer needed a live, queryable view of a catalogue, not another feed export.',
+        body: 'Every commerce client asked the same question in the same month: how do we appear when a customer asks an assistant instead of a search engine. The honest answer needed a live, queryable view of the catalogue. A feed export cannot answer a question.',
       },
       does: {
         title: 'What it does.',
@@ -357,8 +375,8 @@ export const CONTENT = {
     },
     'agent-stack': {
       eyebrow: 'Product · the workflow layer',
-      headline: 'Where an agent’s reasoning actually lands.',
-      sub: 'A chat window that recommends a change and cannot make it has moved the work, not done it. agent-stack gives agent runs somewhere to finish: connectors, durable state, and delivery into your repositories behind a gate a human opens.',
+      headline: 'Where an agent’s reasoning lands.',
+      sub: 'A chat window that recommends a change and cannot make it has moved the work onto you. agent-stack gives agent runs somewhere to finish: connectors, durable state, and delivery into your repositories behind a gate a human opens.',
       why: {
         title: 'Why it exists.',
         body: 'The gap between an agent that can explain a migration and an agent that can perform one is all plumbing — auth, state, retries, and the question of who is accountable when it writes. We built the plumbing rather than demoing around it.',
@@ -455,13 +473,16 @@ export const CONTENT = {
     },
     story: {
       title: 'Four walls, four products.',
+      // Ordered by what a reader needs to know we do, not by the order we hit
+      // them. Leading with the screens told everyone we were a front-end shop.
       items: [
-        { q: 'The screens took longer than the thinking', a: 'Generated interfaces looked plausible and did not work, and every fix cost another model call. So we built SWC: components that encode what to show and how, server-rendered, with a runtime that has no dependencies. A model authors the shape once; after that the data is just data.' },
-        { q: 'The agent could reason but not deliver', a: 'A chat window that recommends a change and cannot make it puts the work back on you. agent-stack gave the reasoning somewhere to land: durable runs, connectors, and a GitHub App that opens the change behind a confirm gate. Nothing touches a repository without a person saying yes.' },
         { q: 'The legacy estate would not be read', a: 'Every modernisation stalled in the same place — nobody could describe the system being replaced. Code Doctor makes that describable: topology across the estate, deterministic extraction from source and database, and the intent recovered from the people who still hold it.' },
+        { q: 'The agent could reason but not deliver', a: 'A chat window that recommends a change and cannot make it puts the work back on you. agent-stack gave the reasoning somewhere to land: durable runs, connectors, and a GitHub App that opens the change behind a confirm gate. Nothing touches a repository without a person saying yes.' },
+        { q: 'The screens took longer than the thinking', a: 'Generated interfaces looked plausible and did not work, and every fix cost another model call. So we built SWC: components that encode what to show and how, server-rendered, with a runtime that has no dependencies. A model authors the shape once; after that the data is just data.' },
         { q: 'Government work has its own physics', a: 'Public services have a design system, a service standard, and rules about where data may live. GDS Playground is that context made buildable: design a service by conversation, see it rendered with the real components, keep every version in git.' },
       ],
     },
+
     principles: {
       title: 'How we work.',
       items: [

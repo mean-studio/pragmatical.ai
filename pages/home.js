@@ -37,9 +37,14 @@ const page = {
       ]],
     ]],
 
+    // Scope first. Everything below is proof; this is the claim.
+    band('scope', [
+      featuresBind({ title: H.scope.title, sub: H.scope.sub, items: H.scope.items }),
+    ], { alt: true }),
+
     band('layers', [
       featuresBind({ title: H.layers.title, sub: H.layers.sub, items: H.layers.items }),
-    ], { alt: true }),
+    ]),
 
     band('offer', [
       sectionHead(H.offer.title, H.offer.sub),

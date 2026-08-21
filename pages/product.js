@@ -24,8 +24,8 @@ function productSections(id, p) {
       ['s-l', '@rg=prod-sub', `=${p.sub}`],
       ['s-cn', '@rg=band-action', [
         ['s-b', '@c=pr', '~cl:nav:/contact', [['span', '=Talk to us about it'], ['s-ic', '@n=arrow-right']]],
-        ...(p.site ? [['s-ln', `@href=${p.site.href}`, '@rg=prod-site', [
-          ['span', `=${p.site.label}`], ['s-ic', '@n=external-link'],
+        ...(p.site ? [['s-ln', `@href=${p.site.href}`, '@target=_blank', '@rel=noopener noreferrer', '@rg=prod-site', [
+          ['span', `=${p.site.label}`], ['s-ic', '@n=arrow-up-right'],
         ]]] : []),
       ]],
     ]),

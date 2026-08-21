@@ -9,7 +9,7 @@ import { bind as featuresBind } from '@swc-js/composites/marketing/features.js';
 import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
 import { productGridDSL, PRODUCT_GRID_CSS } from '../components/product-grid.js';
-import { band, eyebrow, sectionHead, SECTION_CSS } from '../components/section.js';
+import { band, eyebrow, sectionHead, outbound, SECTION_CSS } from '../components/section.js';
 
 const H = CONTENT.home;
 
@@ -37,22 +37,23 @@ const page = {
       ]],
     ]],
 
-    // Scope first. Everything below is proof; this is the claim.
-    band('scope', [
-      featuresBind({ title: H.scope.title, sub: H.scope.sub, items: H.scope.items }),
+    // The five problems, each naming the tool that solves it and linking to
+    // that tool's own site. Written out rather than bound to s-fea because the
+    // features composite has no slot for a per-card link, and the link is the
+    // point: every one of these is a product a reader can go and look at.
+    band('pains', [
+      sectionHead(H.pains.title, H.pains.sub),
+      ['s-fx-glow', [['s-cn', '@rg=pain-grid', H.pains.items.map((it) => (
+        ['s-cn', '@rg=fx-glow-card', [['s-c', '@rg=pain', [
+          ['s-ic', `@n=${it.icon}`],
+          ['h3', '@rg=pain-title', `=${it.title}`],
+          ['s-l', '@rg=pain-body', `=${it.body}`],
+          it.href.startsWith('http')
+            ? outbound(it.tool, it.href)
+            : ['s-b', '@v=ol', '@sz=xs', `~cl:nav:${it.href}`, [['span', `=${it.tool}`]]],
+        ]]]]
+      ))]]],
     ], { alt: true }),
-
-    band('layers', [
-      featuresBind({ title: H.layers.title, sub: H.layers.sub, items: H.layers.items }),
-    ]),
-
-    band('offer', [
-      sectionHead(H.offer.title, H.offer.sub),
-      featuresBind({ items: H.offer.steps }),
-      ['s-cn', '@rg=band-action', [
-        ['s-b', '@c=pr', '~cl:nav:/legacy-to-model', [['span', `=${H.offer.cta}`], ['s-ic', '@n=arrow-right']]],
-      ]],
-    ], { tint: true }),
 
     band('products', [
       sectionHead(H.products.title, H.products.sub),
@@ -62,18 +63,17 @@ const page = {
       ]],
     ]),
 
-    band('services', [
-      sectionHead(H.services.title),
-      featuresBind({ items: H.services.items }),
-      ['s-cn', '@rg=band-action', [
-        ['s-b', '@v=ol', '~cl:nav:/agentic-commerce', [['span', '=Agentic commerce'], ['s-ic', '@n=arrow-right']]],
-        ['s-b', '@v=ol', '~cl:nav:/process-automation', [['span', '=Process automation'], ['s-ic', '@n=arrow-right']]],
-      ]],
+    band('regulated', [
+      featuresBind({ title: H.regulated.title, sub: H.regulated.sub, items: H.regulated.items }),
     ], { alt: true }),
 
-    band('airtight', [
-      featuresBind({ title: H.airtight.title, sub: H.airtight.sub, items: H.airtight.items }),
-    ]),
+    band('offer', [
+      sectionHead(H.offer.title, H.offer.sub),
+      featuresBind({ items: H.offer.steps }),
+      ['s-cn', '@rg=band-action', [
+        ['s-b', '@c=pr', '~cl:nav:/legacy-to-model', [['span', `=${H.offer.cta}`], ['s-ic', '@n=arrow-right']]],
+      ]],
+    ], { tint: true }),
 
     ctaBind({ headline: H.close.headline, sub: H.close.sub, action: { label: H.close.cta, route: '/contact' } }),
   ],
@@ -101,6 +101,14 @@ page-home s-fx-rot [rg=fx-rot-box] { justify-items: start; max-width: 100%; }
 page-home s-fx-rot [rg=fx-rot-w] { max-width: 100%; }
 page-home label[is=s-l][rg=hero-sub] { display: block; margin-top: 26px; max-width: var(--site-text); font-size: 1.1875rem; line-height: 1.6; color: var(--c-text-secondary); }
 page-home s-sc[band=hero] s-cn[rg=band-action] { margin-top: 38px; }
+/* The problem cards: a taller card than a feature tile, because each one has a
+   problem, an answer and a way out to the tool that does it. */
+page-home s-cn[rg=pain-grid] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 18px; }
+page-home s-cn[rg=pain-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
+page-home s-c[rg=pain] { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px; }
+page-home s-c[rg=pain] > s-ic { width: 22px; height: 22px; color: var(--c-primary); }
+page-home h3[rg=pain-title] { margin: 0; font-family: var(--font-display); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+page-home label[is=s-l][rg=pain-body] { flex: 1; font-size: 0.9375rem; line-height: 1.62; color: var(--c-text-muted); }
 `,
 };
 

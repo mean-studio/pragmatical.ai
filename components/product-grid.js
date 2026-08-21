@@ -19,7 +19,12 @@ export function productGridDSL(items, labels) {
         ]],
       ]],
       ['s-l', '@rg=prod-body', `=${p.body}`],
-      ['s-cn', '@rg=prod-more', [['s-l', '=Read more'], ['s-ic', '@n=arrow-right']]],
+      ['s-cn', '@rg=prod-foot', [
+        ['s-cn', '@rg=prod-more', [['s-l', '=Read more'], ['s-ic', '@n=arrow-right']]],
+        ...(p.site ? [['s-ln', `@href=${p.site}`, '@target=_blank', '@rel=noopener noreferrer', '@rg=prod-site', [
+          ['span', `=${p.site.replace('https://', '')}`], ['s-ic', '@n=arrow-up-right'],
+        ]]] : []),
+      ]],
     ]]]]
   ))]]];
 }
@@ -38,4 +43,10 @@ h3[rg=prod-name] { margin: 0; font-family: var(--font-display); font-size: 1.25r
 label[is=s-l][rg=prod-body] { font-size: 0.9375rem; line-height: 1.6; color: var(--c-text-secondary); flex: 1; }
 s-cn[rg=prod-more] { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; font-weight: 600; color: var(--c-primary); }
 s-cn[rg=prod-more] s-ic { width: 14px; height: 14px; }
+/* The card links two ways: in to our page on it, out to the product's own site
+   in a new tab. The outbound one is quieter — it leaves. */
+s-cn[rg=prod-foot] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+s-ln[rg=prod-site] a { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--c-text-muted); text-decoration: none; }
+s-ln[rg=prod-site] a:hover { color: var(--c-primary-hover); }
+s-ln[rg=prod-site] s-ic { width: 12px; height: 12px; }
 `;

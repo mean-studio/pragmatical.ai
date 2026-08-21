@@ -36,50 +36,68 @@ export const CONTENT = {
       description: 'We implement AI end to end, because we built the layers ourselves: the interface a model writes into, the workflow agents run in, and the modernisation platform that reads the system you already have.',
     },
     hero: {
-      eyebrow: 'London · end-to-end AI implementation',
-      // ONE promise, before any mention of a layer or a product. The earlier
-      // version led with the four things we built, and the first word a skimmer
-      // read was "interfaces" — which told a director with a twenty-year-old
-      // estate that we are a front-end shop. What we sell is the whole job.
-      headline: 'We rebuild the systems nobody can fully describe.',
-      // The rotating half now names the STAGES we deliver, not our internal
-      // layers: scope of work, not scope of components. Single words, because
-      // the rotating box is always as wide as its longest option.
-      lead: 'End to end:',
-      words: ['the estate map.', 'the rebuild.', 'the cutover.', 'the model.'],
-      sub: 'Database logic, services, data, interfaces, deployment — and a model trained on the knowledge we recover on the way through. For estates that cannot be switched off while the work happens.',
+      eyebrow: 'London · applied AI',
+      // The company first, the tools second. An earlier draft led with legacy
+      // rebuilds, which is one product's job described as if it were the whole
+      // company; the one before that led with interfaces, which was worse.
+      headline: 'AI, put to work on the problem you actually have.',
+      lead: 'Today that means',
+      words: ['a migration.', 'a process.', 'a storefront.', 'a service.'],
+      sub: 'We integrate AI into real operations — the migration nobody wants to start, the process that runs on people copying between systems, the catalogue no assistant can read. We built our own tools to make that possible, and we have done it inside banks and government.',
       cta: 'Start an assessment',
-      cta2: 'See the products',
+      cta2: 'See the tools',
     },
 
-    // The band that has to arrive before anything else: what end to end covers.
-    // Without it the products below read as a catalogue of parts, and a reader
-    // decides for themselves which one part we do.
-    scope: {
-      title: 'The whole system. Not the front of it.',
-      sub: 'A modernisation stalls where the estate stops being legible: the stored procedure nobody owns, the nightly job with no runbook, the rule that exists because of one customer in 2011. That is where we start, and we do not stop until the replacement is running.',
+    // What we are actually hired for, said as the problem rather than as the
+    // capability. Each one names the tool that does it, and every tool has its
+    // own site — the links open there.
+    pains: {
+      title: 'Five problems we are hired for.',
+      sub: 'Different problems, one method: find what is really happening, agree it with the people who know, then build the part that changes it. The tool under each is ours, which is why the estimate is a build rather than a discovery phase.',
       items: [
-        { icon: 'database', title: 'The data and the logic in it', body: 'Stored procedures, triggers, scheduled jobs and view DDL, lifted into the same model as the application code. Most of your business rules live here, and source-only tools never see them.' },
-        { icon: 'server', title: 'The services behind the screen', body: 'Routes, integrations, batch, queues and the undocumented paths between them, mapped across the estate rather than sampled from the repository somebody remembered.' },
-        { icon: 'layout-dashboard', title: 'The interface, once the rest is true', body: 'Screens generated from the confirmed model, so what the user sees and what the system does cannot drift apart. It is the last layer we build, and the one most often mistaken for the whole job.' },
-        { icon: 'globe-lock', title: 'The deployment and the model', body: 'Running in your cloud, your region, your rules — with a model trained on the corpus we extracted, answering questions about your business in your terms.' },
+        {
+          icon: 'scan-search',
+          title: 'A system we cannot migrate off',
+          body: 'Twenty years of behaviour, no documentation, and a vendor quote priced for the risk. Code Doctor reads the estate — source and database — recovers the intent from the people who still hold it, and produces a rulebook you own.',
+          tool: 'Code Doctor', href: 'https://codedoctor.ai',
+        },
+        {
+          icon: 'workflow',
+          title: 'A process that runs on people copying between systems',
+          body: 'agent-stack streamlines it: you define the events, the agents do the work between them, and a person stays in the loop wherever judgement belongs. Nothing is delivered into your systems without someone opening the gate.',
+          tool: 'agent-stack', href: '/products/agent-stack',
+        },
+        {
+          icon: 'shopping-bag',
+          title: 'A shop no assistant can read',
+          body: 'Customers ask ChatGPT and Claude what to buy before they open a browser tab. shop2gpt exposes your catalogue to agentic shopping through MCP, so your products are in the answer.',
+          tool: 'shop2gpt', href: 'https://shop2gpt.com',
+        },
+        {
+          icon: 'boxes',
+          title: 'An app that has to be fast everywhere and AI-native',
+          body: 'SWC is the foundation we build on: server-rendered components, no build step, no dependency tree, deployed to the edge — for AI-powered apps that stay quick wherever the user is.',
+          tool: 'SWC', href: 'https://smartwebcomponents.com',
+        },
+        {
+          icon: 'landmark',
+          title: 'A public service that has to pass assessment',
+          body: 'GDS Playground is the Lovable or Cursor of government delivery: describe the journey, watch it build with the real GOV.UK design system, and keep every version in git.',
+          tool: 'GDS Playground', href: 'https://gdsplayground.com',
+        },
       ],
     },
 
-    // The ground-up claim, made concrete. Four layers, four products, one
-    // sentence each — a reader should be able to tell what we built and why we
-    // built it without leaving the page.
-    // Why we can claim the whole job: we own the machinery for each part of it.
-    // Ordered the way the WORK runs, not the way we happened to build them, and
-    // every card ends in what it changes for the reader's system.
-    layers: {
-      title: 'We own the machinery for every stage.',
-      sub: 'Each of these exists because an engagement hit a wall where a product should have been. They are why a fixed-scope rebuild is possible at all: the expensive parts are already built, so the work is your domain rather than our scaffolding.',
+    // The experience claim, stated as sectors rather than client names — the
+    // house rule is no logos and no named institutions.
+    regulated: {
+      title: 'We have done this where it is hard.',
+      sub: 'Banks and government organisations: environments where the system cannot be switched off, the auditor will ask how you knew, and "we let the model decide" is not an answer. Everything below is a working property, not a promise.',
       items: [
-        { icon: 'scan-search', title: 'Reading the estate', body: 'Code Doctor maps the topology, lifts deterministic facts from four languages and two database engines, and records where every one came from. You get an inventory you can argue with in week one.' },
-        { icon: 'workflow', title: 'Doing the work', body: 'agent-stack runs the long jobs and delivers changes into your repositories behind a gate a person opens. Nothing lands in your code because a model was confident.' },
-        { icon: 'layout-dashboard', title: 'Shipping the system', body: 'SWC turns the confirmed model into working screens with no build step and no dependency tree to maintain. The interface stops being the part of the programme that slips.' },
-        { icon: 'landmark', title: 'Meeting the standard', body: 'GDS Playground builds to the GOV.UK service standard with the real design system, so a public service passes assessment rather than being rebuilt for it.' },
+        { icon: 'shield', title: 'Your source stays yours', body: 'Read statically, never executed. Artefacts stay in your environment; our infrastructure receives audit metadata only.' },
+        { icon: 'globe-lock', title: 'Your jurisdiction, your cloud', body: 'AWS including GovCloud, Azure including Government, Google Vertex with Assured Workloads, or self-hosted and air-gapped.' },
+        { icon: 'user-check', title: 'A human holds the pen', body: 'AI surfaces the pattern; a person confirms what it meant, and the confirmation is recorded. Delivery waits for someone to open the gate.' },
+        { icon: 'key', title: 'You own what comes out', body: 'The corpus, the rulebook, the model and the code. Leaving us costs you the engagement and nothing else.' },
       ],
     },
 
@@ -289,12 +307,19 @@ export const CONTENT = {
       sub: 'The bottleneck is not generating more software. It is understanding the software you already run — and having somewhere solid to put what you learn. Each product below is one answer to that.',
     },
     statusLabels: { live: 'Live', partners: 'Design partners', preview: 'Internal preview' },
+    // href is the page on this site; site is the product's own site, opened in
+    // a new tab so a reader comparing tools does not lose their place here.
     items: [
-      { id: 'code-doctor', name: 'Code Doctor', status: 'partners', body: 'Legacy modernisation that rebuilds rather than patches. Estate discovery, deterministic extraction from source and database, human-confirmed intent, and a rulebook you own.', href: '/products/code-doctor' },
-      { id: 'swc', name: 'SWC', status: 'live', body: 'The UI layer for AI-powered apps: server-rendered components with no build step and a runtime with no dependencies, authored from a compact DSL a model can write.', href: '/products/swc' },
-      { id: 'shop2gpt', name: 'shop2gpt', status: 'live', body: 'Any store, converted to MCP, so an assistant can browse your catalogue and buy from it. Shopify and WooCommerce.', href: '/products/shop2gpt' },
-      { id: 'agent-stack', name: 'agent-stack', status: 'preview', body: 'The workflow layer: durable agent runs, connectors, and delivery into your repositories behind a human confirm gate.', href: '/products/agent-stack' },
-      { id: 'gds-playground', name: 'GDS Playground', status: 'preview', body: 'Design a GOV.UK service by conversation and see it rendered with the real design system, with every project version-controlled.', href: '/products/gds-playground' },
+      { id: 'code-doctor', name: 'Code Doctor', status: 'partners', href: '/products/code-doctor', site: 'https://codedoctor.ai',
+        body: 'Migrate off the system you cannot describe. Estate discovery, extraction from source and database, intent confirmed by your engineers, and a rulebook you own.' },
+      { id: 'agent-stack', name: 'agent-stack', status: 'preview', href: '/products/agent-stack', site: '',
+        body: 'Streamline a process and keep a human in it. Define the events, let agents do the work between them, and hold delivery behind a gate a person opens.' },
+      { id: 'shop2gpt', name: 'shop2gpt', status: 'live', href: '/products/shop2gpt', site: 'https://shop2gpt.com',
+        body: 'Expose your shop to agentic shopping. Your catalogue as MCP, so ChatGPT, Claude and the assistants after them can browse it and buy from it.' },
+      { id: 'swc', name: 'SWC', status: 'live', href: '/products/swc', site: 'https://smartwebcomponents.com',
+        body: 'The foundation for AI-powered apps: server-rendered, no build step, no dependencies, distributed globally on the edge.' },
+      { id: 'gds-playground', name: 'GDS Playground', status: 'preview', href: '/products/gds-playground', site: 'https://gdsplayground.com',
+        body: 'Lovable and Cursor, specialised for the GDS cohort. Describe a government service, build it with the real design system, keep every version in git.' },
     ],
   },
 
@@ -306,7 +331,7 @@ export const CONTENT = {
   productPages: {
     'code-doctor': {
       eyebrow: 'Product · legacy modernisation',
-      headline: 'Legacy modernisation that rebuilds, not patches.',
+      headline: 'Migrate off the system nobody can describe.',
       sub: 'Most enterprise transformation is cosmetic: a new interface wrapped around forty-year-old behaviour. Code Doctor is for the other kind — it maps the estate, recovers the intent nobody wrote down, and hands you a rulebook the next migration starts from.',
       why: {
         title: 'Why it exists.',
@@ -330,8 +355,8 @@ export const CONTENT = {
     },
     swc: {
       eyebrow: 'Product · the UI layer',
-      headline: 'The interface layer for software a model helps write.',
-      sub: 'Generated interfaces look plausible and then do not work, and every fix costs another model call. SWC encodes what to show and how, so a model authors the shape once and the data is afterwards just data.',
+      headline: 'The foundation for AI-powered apps that are fast everywhere.',
+      sub: 'Server-rendered components with no build step and a runtime with no dependencies, deployed to the edge and authored from a DSL a model can write. It is what our own apps are built on, including this site.',
       why: {
         title: 'Why it exists.',
         body: 'We were spending more of every engagement on screens than on the thinking behind them. A component library that a model can target — and a server that renders it without a build step — turned the interface from the slowest part of a delivery into the fastest.',
@@ -353,7 +378,7 @@ export const CONTENT = {
     },
     shop2gpt: {
       eyebrow: 'Product · agentic commerce',
-      headline: 'Any store, readable by any assistant.',
+      headline: 'Put your shop where the shopping is happening.',
       sub: 'Customers ask a model what to buy before they open a shop. shop2gpt turns your catalogue into MCP — the protocol assistants speak — so your products are in the answer rather than behind a page a model has to guess at.',
       why: {
         title: 'Why it exists.',
@@ -375,8 +400,8 @@ export const CONTENT = {
     },
     'agent-stack': {
       eyebrow: 'Product · the workflow layer',
-      headline: 'Where an agent’s reasoning lands.',
-      sub: 'A chat window that recommends a change and cannot make it has moved the work onto you. agent-stack gives agent runs somewhere to finish: connectors, durable state, and delivery into your repositories behind a gate a human opens.',
+      headline: 'Streamline the process. Keep a human in it.',
+      sub: 'Define the events in a process; agents do the work between them; a person stays in the loop wherever judgement belongs. Connectors, durable runs, and delivery into your systems behind a gate somebody opens.',
       why: {
         title: 'Why it exists.',
         body: 'The gap between an agent that can explain a migration and an agent that can perform one is all plumbing — auth, state, retries, and the question of who is accountable when it writes. We built the plumbing rather than demoing around it.',
@@ -397,8 +422,8 @@ export const CONTENT = {
     },
     'gds-playground': {
       eyebrow: 'Product · government service delivery',
-      headline: 'Design a GOV.UK service by describing it.',
-      sub: 'Public services have a design system, a service standard and rules about where data may live. GDS Playground makes that context buildable: describe the journey, watch it render with the real components, and keep every version in git.',
+      headline: 'Lovable for government delivery.',
+      sub: 'The prompt-to-app experience of Lovable or Cursor, specialised for the GDS cohort: describe the journey, watch it build with the real GOV.UK design system, and keep every version in git. A prototype that survives assessment rather than being thrown away at it.',
       why: {
         title: 'Why it exists.',
         body: 'Government delivery has its own physics, and generic tooling ignores all of it. A prototype that is not built from the actual design system teaches a team the wrong thing and has to be thrown away at assessment.',

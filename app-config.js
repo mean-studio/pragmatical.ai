@@ -70,7 +70,7 @@ export const appConfig = {
     'file-question-mark', 'users', 'server', 'plug', 'search-check',
     'shield-check', 'split', 'clipboard-check', 'eye-off',
     'chart-no-axes-column', 'ruler', 'file-check', 'ban',
-    'arrow-right', 'arrow-up-right', 'mail', 'external-link', 'circle',
+    'arrow-right', 'arrow-up-right', 'languages', 'mail', 'external-link', 'circle',
   ],
 
   inlineCss: true,

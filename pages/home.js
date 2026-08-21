@@ -9,30 +9,26 @@ import { bind as featuresBind } from '@swc-js/composites/marketing/features.js';
 import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
 import { band, eyebrow, sectionHead, outbound, SECTION_CSS } from '../components/section.js';
+import { ledgerDSL, LEDGER_CSS } from '../components/ledger.js';
 
 const H = CONTENT.home;
 
 const page = {
   tag: 'page-home',
   children: [
-    // Written by hand rather than bound to s-hro, because the hero does two
-    // things the section composite has no contract for: an atmosphere layer
-    // behind it, and a headline whose second line rotates through the four
-    // layers the page is about. Both are framework composites — the fx tier —
-    // so this is still assembly, not bespoke UI.
+    // The hero is the thesis: a claim, and directly under it the object the
+    // work produces. No atmosphere layer, no rotating word — both were the
+    // AI-startup default, and this page is selling severity to banks.
     ['s-sc', '@band=hero', [
-      ['s-fx-aur', '@aria-hidden=true'],
       ['s-cn', [
         eyebrow(H.hero.eyebrow),
-        ['h1', '@rg=hero-title', [
-          ['span', '@rg=hero-line', `=${H.hero.headline}`],
-          ['s-fx-rot', { ':lead': H.hero.lead, ':words': H.hero.words, ':interval': 2600 }],
-        ]],
+        ['h1', '@rg=hero-title', `=${H.hero.headline}`],
         ['s-l', '@rg=hero-sub', `=${H.hero.sub}`],
         ['s-cn', '@rg=band-action', [
           ['s-b', '@c=pr', '@sz=lg', '~cl:nav:/contact', [['span', `=${H.hero.cta}`], ['s-ic', '@n=arrow-right']]],
           ['s-b', '@v=ol', '@sz=lg', '~cl:nav:/products', [['span', `=${H.hero.cta2}`]]],
         ]],
+        ledgerDSL(H.ledger),
       ]],
     ]],
 
@@ -63,25 +59,26 @@ const page = {
       ]],
     ], { alt: true }),
 
-    // Two engagements that are not a product: implementation, and setting the
-    // organisation up to use AI internally.
+    // Two ruled rows rather than two more cards: this is the same object the
+    // hero opens with, which is what gives the page a second device.
     band('services', [
       sectionHead(H.services.title),
-      ['s-fx-glow', [['s-cn', '@rg=svc-grid', H.services.items.map((it) => (
-        ['s-cn', '@rg=fx-glow-card', [['s-c', '@rg=pain', [
+      ['s-cn', '@rg=svc', H.services.items.map((it) => (
+        ['s-cn', '@rg=svc-row', [
           ['s-ic', `@n=${it.icon}`],
-          ['h3', '@rg=pain-title', `=${it.title}`],
-          ['s-l', '@rg=pain-body', `=${it.body}`],
-          ['s-b', '@v=tx', '@rg=pain-in', `~cl:nav:${it.href}`, [['span', `=${it.cta}`], ['s-ic', '@n=arrow-right']]],
-        ]]]]
-      ))]]],
-    ], { tint: true }),
+          ['s-cn', '@rg=svc-b', [
+            ['h3', '@rg=svc-t', `=${it.title}`],
+            ['s-l', '@rg=svc-d', `=${it.body}`],
+          ]],
+          ['s-b', '@v=tx', '@rg=inv-in', `~cl:nav:${it.href}`, [['span', `=${it.cta}`], ['s-ic', '@n=arrow-right']]],
+        ]]
+      ))],
+    ]),
 
     // The four guarantees as a ruled strip: they are one statement in four
     // parts, and four separate cards had been presenting them as four separate
     // ideas. Beams behind it, because this is the band that has to feel solid.
     band('regulated', [
-      ['s-fx-beam', '@aria-hidden=true'],
       sectionHead(H.regulated.title, H.regulated.sub),
       ['s-cn', '@rg=guarantees', H.regulated.items.map((it) => (
         ['s-cn', '@rg=guarantee', [
@@ -117,9 +114,10 @@ const page = {
   css: `
 page-home { display: block; }
 ${SECTION_CSS}
+${LEDGER_CSS}
 
 /* ── hero ─────────────────────────────────────────────────────────────── */
-page-home s-sc[band=hero] { overflow: hidden; padding-top: 116px; padding-bottom: 108px; }
+page-home s-sc[band=hero] { padding-top: clamp(40px, 6vw, 88px); padding-bottom: var(--band-pad-b); }
 page-home h1[rg=hero-title] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
 page-home span[rg=hero-line] { display: block; min-width: 0; }
 page-home s-fx-rot { --fx-rot-color: #38bdf8; flex-wrap: wrap; max-width: 100%; }
@@ -143,7 +141,21 @@ page-home s-blk-bento [rg=bento-title] { font-family: var(--font-display); font-
 page-home s-blk-bento [rg=bento-desc] { font-size: 0.9375rem; line-height: 1.62; color: var(--c-text-muted); }
 page-home s-blk-bento [rg=bento-tags] { padding-top: 8px; }
 
-/* ── the two engagements: wide panels, not cards ──────────────────────── */
+/* ── the two engagements: ruled rows, the ledger's shape again ────────── */
+page-home s-cn[rg=svc] { display: grid; border-top: 1px solid var(--c-border-strong); }
+page-home s-cn[rg=svc-row] { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 26px 4px; border-bottom: 1px solid var(--c-border); }
+page-home s-cn[rg=svc-row] > s-ic { width: 22px; height: 22px; color: var(--c-primary); }
+page-home h3[rg=svc-t] { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.015em; }
+page-home label[is=s-l][rg=svc-d] { font-size: 0.9375rem; line-height: 1.6; color: var(--c-text-muted); max-width: var(--site-text); }
+page-home button[rg=inv-in] { padding: 0; background: transparent; border: 0; box-shadow: none; color: var(--c-primary-hover); font-weight: 600; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+page-home button[rg=inv-in]:hover { text-decoration: underline; background: transparent; }
+page-home button[rg=inv-in] s-ic { width: 13px; height: 13px; }
+@media (max-width: 780px) {
+  page-home s-cn[rg=svc-row] { grid-template-columns: auto minmax(0, 1fr); row-gap: 12px; }
+  page-home button[rg=inv-in] { grid-column: 2; justify-self: start; }
+}
+
+/* ── (unused card shell kept for the bento's link row) ─────────────────── */
 page-home s-cn[rg=svc-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }
 @media (min-width: 860px) { page-home s-cn[rg=svc-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 page-home s-cn[rg=svc-grid] s-cn[rg=fx-glow-card] { display: flex; --fx-glow-r: var(--radius-box); --fx-glow-c1: #818cf8; --fx-glow-c2: #38bdf8; --fx-glow-c3: #c4b5fd; --fx-glow-c4: #22d3ee; }
@@ -178,7 +190,9 @@ page-home s-cn[rg=step] { display: grid; grid-template-columns: auto minmax(0, 1
 page-home s-cn[rg=step-n] { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 999px; border: 1px solid var(--c-primary); color: var(--c-primary-hover); font-family: var(--font-mono); font-size: 0.9375rem; }
 /* The rule that turns three steps into a path. */
 @media (min-width: 860px) {
-  page-home s-cn[rg=step]::after { content: ''; position: absolute; left: 42px; right: -28px; top: 43px; height: 1px; background: linear-gradient(90deg, var(--c-border-strong), transparent); }
+  /* Behind the number circles only — at top:43px it ran straight through
+     the words Extract, Confirm and Train. */
+  page-home s-cn[rg=step]::after { content: ''; position: absolute; left: 52px; right: -28px; top: 43px; height: 1px; background: linear-gradient(90deg, var(--c-border-strong), transparent); z-index: -1; }
   page-home s-cn[rg=step]:last-child::after { display: none; }
 }
 page-home h3[rg=step-t] { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; }

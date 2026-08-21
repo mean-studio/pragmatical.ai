@@ -23,8 +23,12 @@ export function productListDSL(items, labels) {
 }
 
 export const PRODUCT_LIST_CSS = `
-s-cn[rg=inv] { display: block; border-top: 1px solid var(--c-border); }
-s-cn[rg=inv-row] { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr) auto; align-items: center; gap: 28px; padding: 22px 4px; border-bottom: 1px solid var(--c-border); transition: background 160ms ease; }
+/* One grid for the whole ledger, rows on subgrid — each row was its own grid
+   container, so every row computed its own column widths and the description
+   column wandered by 60px down the list. A ledger whose columns wander is not
+   a ledger. */
+s-cn[rg=inv] { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr) auto; border-top: 1px solid var(--c-border-strong); }
+s-cn[rg=inv-row] { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; gap: 28px; padding: 22px 4px; border-bottom: 1px solid var(--c-border); transition: background 160ms ease; }
 s-cn[rg=inv-row]:hover { background: rgb(148 163 253 / .05); }
 s-cn[rg=inv-name] { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 s-cn[rg=inv-name] h3 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
@@ -34,6 +38,7 @@ button[rg=inv-in] { padding: 0; background: transparent; border: 0; box-shadow: 
 button[rg=inv-in]:hover { text-decoration: underline; background: transparent; }
 button[rg=inv-in] s-ic { width: 13px; height: 13px; }
 @media (max-width: 900px) {
+  s-cn[rg=inv] { grid-template-columns: 1fr; }
   s-cn[rg=inv-row] { grid-template-columns: 1fr; gap: 10px; padding: 20px 4px; }
   s-cn[rg=inv-links] { justify-content: flex-start; }
 }

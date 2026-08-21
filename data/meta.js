@@ -41,10 +41,16 @@ export function docMetaFor(url = '/', params = {}) {
     // The shell highlights the current nav item from this, so the first paint
     // is already on the right one.
     route: path,
-    // Path params are `router.<name>` store keys on the client (the router
-    // publishes them on every navigation); SSR has to seed the same keys or a
-    // `?router.pid=` conditional renders nothing at all server-side — which for
-    // a product page means the page is blank until hydration.
-    ...Object.fromEntries(Object.entries(params || {}).map(([k, v]) => [`router.${k}`, v])),
+    // Path params are published by the client router as `router.<name>` — but
+    // the SSR serializer deliberately DROPS `route` and every `router.*` key
+    // from the embedded state, on the assumption the client republishes them.
+    // It does, and too late: hydration evaluates the page's conditionals first,
+    // finds no key, and removes the branch the server had correctly rendered.
+    // Every product page was blank on a direct load, a hard refresh, and to a
+    // crawler, while working fine when reached by a click.
+    //
+    // So the param travels under its own name, which IS serialized, and
+    // main.js mirrors router.pid onto it for client-side navigation.
+    ...Object.fromEntries(Object.entries(params || {}).map(([k, v]) => [k, v])),
   };
 }

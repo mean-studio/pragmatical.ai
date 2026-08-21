@@ -8,4 +8,12 @@ import { A11Y_DEFAULT_STRINGS } from '@swc-js/core/core/a11y-strings.js';
 import { appConfig } from './app-config.js';
 
 store.setValues(A11Y_DEFAULT_STRINGS);
+
+// The router publishes path params as `router.<name>`, and those keys are
+// stripped from the SSR state by design — so pages bind the plain name and the
+// server seeds it (data/meta.js). This mirrors the router's value onto it, so a
+// client-side navigation between two product pages updates the same key the
+// server-rendered one is bound to.
+store.subscribe('router.pid', (value) => store.setValue('pid', value || ''));
+
 CreateApp(appConfig);

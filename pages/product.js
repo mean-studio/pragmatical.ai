@@ -14,7 +14,7 @@ import { band, eyebrow, sectionHead, SECTION_CSS } from '../components/section.j
 const STATUS = CONTENT.products.statusLabels;
 
 function productSections(id, p) {
-  return ['s-cn', `?router.pid=${id}`, '@rg=product', [
+  return ['s-cn', `?pid=${id}`, '@rg=product', [
     band('hero', [
       eyebrow(p.eyebrow),
       ['s-cn', '@rg=prod-head', [

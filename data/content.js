@@ -37,15 +37,31 @@ export const CONTENT = {
     },
     hero: {
       eyebrow: 'London · applied AI',
-      // The company first, the tools second. An earlier draft led with legacy
-      // rebuilds, which is one product's job described as if it were the whole
-      // company; the one before that led with interfaces, which was worse.
+      // Static. A claim you rotate is a claim you do not hold — and the
+      // rotating word was the most-copied startup device in circulation.
       headline: 'AI, put to work on the problem you actually have.',
-      lead: 'Today that means',
-      words: ['a migration.', 'a contract.', 'a process.', 'a storefront.', 'a service.'],
-      sub: 'We integrate AI into real operations — the migration nobody wants to start, the process that runs on people copying between systems, the catalogue no assistant can read. We built our own tools to make that possible, and we have done it inside banks and government, across the markets they are regulated in.',
+      sub: 'The migration nobody wants to start. The contract that comes back changed every round. The process that runs on people copying between systems. We build the tools, and we have done it inside banks and government.',
       cta: 'Start an assessment',
       cta2: 'See the tools',
+    },
+
+    // The signature: what the work actually produces. A machine reads the
+    // estate or the draft and proposes a finding; a person confirms what it
+    // meant; the confirmation is recorded. That sentence is the whole pitch,
+    // and until now it was a 14px line in a muted paragraph.
+    //
+    // Every fragment below is INVENTED. Real ledgers stay inside the client's
+    // boundary, which is the point the caption makes — a company that will not
+    // show you another client's code is the company a bank hires.
+    ledger: {
+      caption: 'Illustration. Real findings stay inside your boundary; ours receives audit metadata only.',
+      cols: ['Ref', 'Read from', 'What it means', 'State'],
+      rows: [
+        { ref: '0412', src: 'PROC 3200-CALC-PENALTY', meaning: 'Late-payment penalty is waived for accounts flagged H — undocumented since 2009', state: 'confirmed', label: 'Confirmed' },
+        { ref: '0871', src: 'TRIGGER trg_acct_close', meaning: 'Closing an account rewrites six months of history', state: 'confirmed', label: 'Confirmed' },
+        { ref: '1104', src: 'cl. 14.3 · round 22', meaning: 'Liability cap returned, reworded, not flagged in the summary', state: 'confirmed', label: 'Confirmed' },
+        { ref: '1150', src: 'cl. 9.1 · round 22', meaning: '—', state: 'awaiting', label: 'Awaiting' },
+      ],
     },
 
     // What we are actually hired for, said as the problem rather than as the

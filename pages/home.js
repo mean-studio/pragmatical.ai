@@ -8,7 +8,6 @@
 import { bind as featuresBind } from '@swc-js/composites/marketing/features.js';
 import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
-import { productGridDSL, PRODUCT_GRID_CSS } from '../components/product-grid.js';
 import { band, eyebrow, sectionHead, outbound, SECTION_CSS } from '../components/section.js';
 
 const H = CONTENT.home;
@@ -59,27 +58,10 @@ const page = {
           ]],
         ]]
       ))],
+      ['s-cn', '@rg=band-action', [
+        ['s-b', '@v=ol', '~cl:nav:/products', [['span', `=${H.products.cta}`], ['s-ic', '@n=arrow-right']]],
+      ]],
     ], { alt: true }),
-
-    // The inventory as a LIST rather than a third grid of cards: name, status,
-    // one line, two ways in. A list reads as a catalogue you can scan, which is
-    // what six products are, and it breaks the rhythm of the bands around it.
-    band('products', [
-      sectionHead(H.products.title, H.products.sub),
-      ['s-cn', '@rg=inv', CONTENT.products.items.map((p) => (
-        ['s-cn', '@rg=inv-row', [
-          ['s-cn', '@rg=inv-name', [
-            ['h3', `=${p.name}`],
-            ['s-cn', '@rg=pill', `@state=${p.status}`, [['s-l', `=${CONTENT.products.statusLabels[p.status]}`]]],
-          ]],
-          ['s-l', '@rg=inv-body', `=${p.body}`],
-          ['s-cn', '@rg=inv-links', [
-            ['s-b', '@v=tx', '@rg=pain-in', `~cl:nav:${p.href}`, [['span', '=Read more'], ['s-ic', '@n=arrow-right']]],
-            ...(p.site ? [outbound(p.site.replace('https://', ''), p.site)] : []),
-          ]],
-        ]]
-      ))],
-    ]),
 
     // Two engagements that are not a product: implementation, and setting the
     // organisation up to use AI internally.
@@ -160,19 +142,6 @@ page-home s-blk-bento [rg=bento-status] { font-family: var(--font-mono); font-si
 page-home s-blk-bento [rg=bento-title] { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; color: var(--c-text); }
 page-home s-blk-bento [rg=bento-desc] { font-size: 0.9375rem; line-height: 1.62; color: var(--c-text-muted); }
 page-home s-blk-bento [rg=bento-tags] { padding-top: 8px; }
-
-/* ── the inventory list ───────────────────────────────────────────────── */
-page-home s-cn[rg=inv] { display: block; border-top: 1px solid var(--c-border); }
-page-home s-cn[rg=inv-row] { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr) auto; align-items: center; gap: 28px; padding: 22px 4px; border-bottom: 1px solid var(--c-border); transition: background 160ms ease; }
-page-home s-cn[rg=inv-row]:hover { background: rgb(148 163 253 / .05); }
-page-home s-cn[rg=inv-name] { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-page-home s-cn[rg=inv-name] h3 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
-page-home label[is=s-l][rg=inv-body] { font-size: 0.9375rem; line-height: 1.55; color: var(--c-text-muted); }
-page-home s-cn[rg=inv-links] { display: flex; align-items: center; gap: 18px; justify-content: flex-end; }
-@media (max-width: 900px) {
-  page-home s-cn[rg=inv-row] { grid-template-columns: 1fr; gap: 10px; padding: 20px 4px; }
-  page-home s-cn[rg=inv-links] { justify-content: flex-start; }
-}
 
 /* ── the two engagements: wide panels, not cards ──────────────────────── */
 page-home s-cn[rg=svc-grid] { display: grid; grid-template-columns: 1fr; gap: 18px; }

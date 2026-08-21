@@ -143,7 +143,7 @@ export const CONTENT = {
     products: {
       title: 'The tools we built to do it.',
       sub: 'Six tools, each one the answer to a wall we hit doing this work. You can hire us to point them at your problem, or use them yourself.',
-      cta: 'All products',
+      cta: 'All six, with status and links',
     },
 
 

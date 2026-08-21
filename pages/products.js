@@ -2,7 +2,7 @@
 import { bind as heroBind } from '@swc-js/composites/marketing/hero.js';
 import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
-import { productGridDSL, PRODUCT_GRID_CSS } from '../components/product-grid.js';
+import { productListDSL, PRODUCT_LIST_CSS } from '../components/product-list.js';
 import { band, eyebrow, SECTION_CSS } from '../components/section.js';
 
 const P = CONTENT.products;
@@ -14,7 +14,7 @@ const page = {
       eyebrow(P.hero.eyebrow),
       heroBind({ headline: P.hero.headline, sub: P.hero.sub }),
     ]),
-    band('grid', [productGridDSL(P.items, P.statusLabels)], { alt: true }),
+    band('grid', [productListDSL(P.items, P.statusLabels)], { alt: true }),
     ctaBind({
       headline: CONTENT.home.close.headline,
       sub: CONTENT.home.close.sub,
@@ -24,7 +24,7 @@ const page = {
   css: `
 page-products { display: block; }
 ${SECTION_CSS}
-${PRODUCT_GRID_CSS}
+${PRODUCT_LIST_CSS}
 page-products s-sc[band=hero] { padding-bottom: 24px; }
 page-products s-sc[band=hero] s-hro { padding-top: 8px; }
 `,

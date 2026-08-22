@@ -1,0 +1,28 @@
+// Deploy config. `main` is the PRE-BUNDLED worker produced by
+// tools/build-dist.mjs and committed to this repository; no_bundle uploads it
+// verbatim, so the deploy resolves no imports and needs no framework checkout.
+//
+// Build before you commit:  npm run build
+{
+  "name": "pragmatical-ai",
+  "main": "dist-worker/index.js",
+  "no_bundle": true,
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    // The worker answers every extensionless path by server-rendering it, so
+    // the assets binding must not intercept a miss with its own 404 page.
+    "not_found_handling": "none",
+    "run_worker_first": true
+  },
+  // ── Contact intake (D1) — COMMENTED until the database exists; the worker
+  // answers /swc/contact with an honest 503 meanwhile rather than accepting a
+  // message into nowhere. To enable:
+  //   npx wrangler d1 create pragmatical-contact     → paste database_id below
+  // then uncomment and deploy. The table is created on first submission.
+  // "d1_databases": [
+  //   { "binding": "DB", "database_name": "pragmatical-contact", "database_id": "FILL_ME" }
+  // ],
+  "observability": { "enabled": true }
+}

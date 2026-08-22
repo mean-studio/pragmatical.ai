@@ -1,11 +1,23 @@
 {
-  "name": "pragmatical-ai",
-  "version": "1.0.0",
-  "description": "Pragmatical AI Beyond the Hype",
+  "name": "pragmatical.ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Pragmatical AI company site — built with our own framework.",
+  "type": "module",
   "scripts": {
-    "serve": "npx serve public"
+    "dev": "PORT=4400 node --watch --env-file-if-exists=.env serve-prod.js",
+    "start": "PORT=4400 node --env-file-if-exists=.env serve-prod.js",
+    "build": "node tools/build-dist.mjs",
+    "deploy": "node tools/build-dist.mjs && npx wrangler deploy",
+    "lint": "node ../swc-js/tools/swc-lint.mjs pages components data"
   },
   "devDependencies": {
-    "wrangler": "^4.42.1"
+    "wrangler": "^4"
+  },
+  "optionalDependencies": {
+    "@swc-js/components": "file:../swc-js/components",
+    "@swc-js/composites": "file:../swc-js/composites",
+    "@swc-js/core": "file:../swc-js/core",
+    "@swc-js/server": "file:../swc-js/server"
   }
 }

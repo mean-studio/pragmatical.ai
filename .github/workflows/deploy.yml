@@ -1,22 +1,52 @@
-name: Deploy to Cloudflare Pages
+# Deploy to Cloudflare Workers.
+#
+# There is deliberately NO build step here. The bundles in dist/ and the
+# self-contained worker in dist-worker/ are built locally by
+# `npm run build` and committed, because the framework arrives through
+# `file:../swc-js/*` — four packages from four subdirectories of a private repo
+# in a different GitHub org, which npm cannot install from a git spec and CI
+# cannot check out without a cross-org token.
+#
+# So this job installs wrangler and uploads what is already in the repository.
+# If the site looks stale after a deploy, the artefacts were not rebuilt before
+# the commit — see the guard below, which fails the run rather than shipping
+# silently out-of-date output.
+
+name: Deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      deployments: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy ./public --project-name=pragmaticalai --branch=master --commit-dirty=true
+      - name: Refuse to deploy missing artefacts
+        run: |
+          for f in dist/bundle.js dist/bundle.css dist-worker/index.js worker/build-manifest.js; do
+            if [ ! -s "$f" ]; then
+              echo "::error::$f is missing or empty — run 'npm run build' and commit dist/ and dist-worker/ before pushing."
+              exit 1
+            fi
+          done
+          echo "artefacts present: $(du -sh dist dist-worker | tr '\n' ' ')"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Deploy
+        run: npx --yes wrangler@4 deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

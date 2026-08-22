@@ -1,0 +1,22 @@
+// Build-time config ONLY — used by tools/build-dist.mjs to inline
+// worker/index.js and every import, including the sibling swc-js checkout,
+// into the self-contained dist-worker/index.js that gets COMMITTED.
+//
+// The deploy config (wrangler.jsonc) points at that artefact with no_bundle,
+// so CI needs nothing outside this repository: no framework, no cross-org
+// token, no npm install of a package npm cannot install.
+//
+// Keep `name` and `compatibility_date` in step with wrangler.jsonc — this file
+// only ever produces a bundle, but a drifting compat date would bundle against
+// different runtime semantics than the one that deploys.
+{
+  "name": "pragmatical-ai",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "not_found_handling": "none",
+    "run_worker_first": true
+  }
+}

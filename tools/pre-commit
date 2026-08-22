@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Pre-commit hook: rebuild the deploy artefacts, and stage them with the commit.
+#
+#   git config core.hooksPath tools     (one-off, per clone)
+#
+# WHY
+# dist/ and dist-worker/ are committed, because the framework comes from a
+# sibling checkout that CI cannot obtain. That means a commit touching app
+# source but not the artefacts ships stale output — the deploy would succeed
+# and the site would not change. This closes that gap: source changes trigger a
+# rebuild, and the fresh artefacts join the same commit.
+#
+# It never commits on your behalf beyond the artefacts it just produced, and it
+# aborts rather than committing a broken or partial build.
+set -uo pipefail
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root" || exit 1
+
+# Only source changes matter. A commit that touches docs, or the artefacts
+# alone, does not need a rebuild.
+watched='^(app-config\.js|main\.js|index\.html|site\.css|serve-prod\.js|pages/|components/|data/|server/|worker/|shots/|tools/build-dist\.mjs|package\.json)'
+staged="$(git diff --cached --name-only --diff-filter=ACMR)"
+printf '%s\n' "$staged" | grep -Eq "$watched" || exit 0
+
+# The build needs the sibling framework. Refuse clearly rather than emitting a
+# resolution stack trace at commit time.
+if [ ! -e node_modules/@swc-js/server ]; then
+  echo "pre-commit: @swc-js/server is not linked — cannot rebuild the deploy artefacts." >&2
+  echo "  expected a sibling checkout at ../swc-js, then: npm install" >&2
+  echo "  commit anyway with --no-verify if you know dist/ is already current." >&2
+  exit 1
+fi
+
+echo "pre-commit: source changed — rebuilding dist/ and dist-worker/…"
+if ! npm run --silent build; then
+  echo "pre-commit: build failed — nothing committed." >&2
+  exit 1
+fi
+
+for f in dist/bundle.js dist/bundle.css dist-worker/index.js worker/build-manifest.js; do
+  if [ ! -s "$f" ]; then
+    echo "pre-commit: $f missing or empty after the build — nothing committed." >&2
+    exit 1
+  fi
+done
+
+git add dist dist-worker worker/build-manifest.js
+echo "pre-commit: artefacts rebuilt and staged."

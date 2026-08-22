@@ -1,7 +1,15 @@
 node_modules/
-dist/
-dist-worker/
-worker/build-manifest.js
+
+# The source map is the one build product NOT committed: 1.5 MB regenerated on
+# every build is pure churn in a repo whose artefacts are versioned, and the
+# sources it maps to are in this repository anyway.
+dist/bundle.js.map
+
+# dist/, dist-worker/ and worker/build-manifest.js are COMMITTED on purpose.
+# They are built locally by `npm run build` because the framework comes from a
+# sibling checkout that CI cannot obtain, and the deploy uploads them verbatim.
+# Ignoring them would mean deploying nothing. See tools/build-dist.mjs.
+
 .wrangler/
 .env
 contact.jsonl

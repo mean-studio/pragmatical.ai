@@ -15,9 +15,8 @@
 export const CONTENT = {
   brand: {
     name: 'Pragmatical AI',
-    motto: 'End-to-end AI implementation.',
-    legal: '© 2026 Pragmatical AI Ltd. London.',
-    response: 'Response time: two working days',
+    motto: 'AI-first tools for real-world work.',
+    legal: '© 2026 Pragmatical AI Ltd.',
   },
 
   nav: {
@@ -32,11 +31,11 @@ export const CONTENT = {
   // ── / ────────────────────────────────────────────────────────────────────
   home: {
     meta: {
-      title: 'Pragmatical AI — end-to-end AI implementation',
-      description: 'We implement AI end to end, because we built the layers ourselves: the interface a model writes into, the workflow agents run in, and the modernisation platform that reads the system you already have.',
+      title: 'Pragmatical AI — AI-first tools for real-world work',
+      description: 'We build AI-first tools: AI Studio for creating applications, Smart Web Components for their foundation, and practical tools for complex work.',
     },
     hero: {
-      eyebrow: 'London · applied AI',
+      eyebrow: 'Applied AI',
       // Static. A claim you rotate is a claim you do not hold — and the
       // rotating word was the most-copied startup device in circulation.
       headline: 'AI, put to work on the problem you actually have.',
@@ -175,8 +174,8 @@ export const CONTENT = {
     },
 
     close: {
-      headline: 'The first step is always an assessment of what you already have.',
-      sub: 'A short conversation, then a scoped assessment of one estate, one process or one store.',
+      headline: 'Find the right tool. Build the next thing.',
+      sub: 'Explore the products, or talk to us about putting them to work with your team.',
       cta: 'Talk to us',
     },
   },
@@ -221,7 +220,7 @@ export const CONTENT = {
         { q: 'Delivery', a: 'Full implementation against a confirmed model: build, parallel run, cutover, handover. You own the rulebook and everything generated from it.' },
       ],
     },
-    close: { headline: 'Tell us about what you already have.', cta: 'Talk to us' },
+    close: { headline: 'Let’s build something useful.', cta: 'Talk to us' },
   },
 
   // ── /legacy-to-model ─────────────────────────────────────────────────────
@@ -380,26 +379,28 @@ export const CONTENT = {
   products: {
     meta: {
       title: 'Products — Pragmatical AI',
-      description: 'Six tools: Code Doctor, Contract Vetting, agent-stack, shop2gpt, SWC and GDS Playground — built to put AI to work on real operations.',
+      description: 'Explore AI Studio, Smart Web Components and our tools for modernisation, agent workflows, contracts, commerce and government services.',
     },
     hero: {
       eyebrow: 'Products',
-      headline: 'Six tools. One job.',
-      sub: 'Each one started as a wall we hit doing the work: a system nobody could describe, a contract that changed every round, a process running on copy-and-paste. You can hire us to use them on your problem, or use them yourself.',
+      headline: 'Tools to build with. Intelligence to work with.',
+      sub: 'Start with AI Studio and Smart Web Components, then explore tools built for specific kinds of work. Availability is shown for every product.',
     },
     statusLabels: { live: 'Live', partners: 'Design partners', preview: 'Internal preview', building: 'In build' },
     // href is the page on this site; site is the product's own site, opened in
     // a new tab so a reader comparing tools does not lose their place here.
     items: [
+      { id: 'ai-studio', name: 'AI Studio', status: 'preview', href: '/products/ai-studio', site: '',
+        body: 'From a brief to flows, wireframes, screens and data. A guided app-building experience on Smart Web Components.' },
       { id: 'code-doctor', name: 'Code Doctor', status: 'partners', href: '/products/code-doctor', site: 'https://codedoctor.ai',
         body: 'Migrate off the system you cannot describe. Estate discovery, extraction from source and database, intent confirmed by your engineers, and a rulebook you own.' },
       { id: 'contract-vetting', name: 'Contract Vetting', status: 'building', href: '/products/contract-vetting', site: 'https://contractvetting.com',
         body: 'Review a contract against case law, official guidance and your own commercial rules — then track every round, including the clauses that quietly come back.' },
       { id: 'agent-stack', name: 'agent-stack', status: 'preview', href: '/products/agent-stack', site: '',
-        body: 'Streamline a process and keep a human in it. Define the events, let agents do the work between them, and hold delivery behind a gate a person opens.' },
+        body: 'Build harnesses for AI data flows: connect sources, carry context between steps and keep a human on the gate. The infrastructure behind Contract Vetting.' },
       { id: 'shop2gpt', name: 'shop2gpt', status: 'live', href: '/products/shop2gpt', site: 'https://shop2gpt.com',
         body: 'Expose your shop to agentic shopping. Your catalogue as MCP, so ChatGPT, Claude and the assistants after them can browse it and buy from it.' },
-      { id: 'swc', name: 'SWC', status: 'live', href: '/products/swc', site: 'https://smartwebcomponents.com',
+      { id: 'swc', name: 'Cherga UI (currently SWC)', status: 'live', href: '/products/swc', site: 'https://smartwebcomponents.com',
         body: 'The foundation for AI-powered apps: server-rendered, no build step, no dependencies, localised per market and distributed globally on the edge.' },
       { id: 'gds-playground', name: 'GDS Playground', status: 'preview', href: '/products/gds-playground', site: 'https://gdsplayground.com',
         body: 'Lovable and Cursor, specialised for the GDS cohort. Describe a government service, build it with the real design system, keep every version in git.' },
@@ -412,6 +413,22 @@ export const CONTENT = {
   // one I can point at a file for — see the claims note at the top of this
   // file. Status labels are the truth on the day.
   productPages: {
+    'ai-studio': {
+      eyebrow: 'Product · app creation',
+      headline: 'Your idea, with a path to an application.',
+      sub: 'AI Studio — called SWC Studio in the project — brings the building process into one guided workspace: describe the app, review its flow, refine its wireframes, then work through screens and data.',
+      why: { title: 'Make the thinking visible.', body: 'An application is more than a generated screen. Its journey, structure and data need to make sense together. Studio gives each of those decisions a place to be reviewed.' },
+      does: { title: 'From context to something concrete.', items: [
+        { icon: 'file-check', title: 'Start with context', body: 'Begin with a description and supporting material such as screenshots, a repository or API documentation.' },
+        { icon: 'workflow', title: 'Review the flow', body: 'Inspect the screens and the connections between them before refining the interface.' },
+        { icon: 'layout-dashboard', title: 'Shape the wireframes', body: 'Work with shells, layouts and named components rather than an unstructured canvas.' },
+        { icon: 'database', title: 'Connect screens and data', body: 'Review the entities, services and state that the interface depends on.' },
+      ] },
+      who: 'People and teams turning an application idea into a structured, reviewable software project.',
+      status: 'preview',
+      access: 'An internal preview, built on SWC and agent-stack. Contact us to discuss access and the current workflow. Public self-service access is not yet advertised.',
+      cta: 'Ask about Studio access', site: null,
+    },
     'code-doctor': {
       eyebrow: 'Product · legacy modernisation',
       headline: 'Migrate off the system nobody can describe.',
@@ -510,8 +527,8 @@ export const CONTENT = {
     },
     'agent-stack': {
       eyebrow: 'Product · the workflow layer',
-      headline: 'Streamline the process. Keep a human in it.',
-      sub: 'Define the events in a process; agents do the work between them; a person stays in the loop wherever judgement belongs. Connectors, durable runs, and delivery into your systems behind a gate somebody opens.',
+      headline: 'The harness around the intelligence.',
+      sub: 'Connect sources, carry context through agent steps, keep the outputs and pause where judgement belongs. Contract Vetting gives this a concrete purpose: a review flow that connects documents, knowledge, negotiation history and human sign-off.',
       why: {
         title: 'Why it exists.',
         body: 'The gap between an agent that can explain a migration and an agent that can perform one is all plumbing — auth, state, retries, and the question of who is accountable when it writes. We built the plumbing rather than demoing around it.',
@@ -559,12 +576,12 @@ export const CONTENT = {
   about: {
     meta: {
       title: 'About — Pragmatical AI',
-      description: 'A London applied-AI company. We built the tools we kept wishing existed, in the order the work demanded them.',
+      description: 'A UK-based applied-AI company. We built the tools we kept wishing existed, in the order the work demanded them.',
     },
     hero: {
       eyebrow: 'About',
       headline: 'We built the tools we kept wishing existed.',
-      sub: 'Pragmatical AI is a London applied-AI company. Every product we ship started as a wall we hit doing the work, in the order we hit them.',
+      sub: 'Pragmatical AI is a UK-based applied-AI company. Every product we ship started as a wall we hit doing the work, in the order we hit them.',
     },
     story: {
       title: 'Four walls, four products.',
@@ -599,49 +616,15 @@ export const CONTENT = {
       ],
     },
 
-    close: { headline: 'Tell us about what you already have.', cta: 'Talk to us' },
+    close: { headline: 'Let’s build something useful.', cta: 'Talk to us' },
   },
 
   // ── /contact ─────────────────────────────────────────────────────────────
   contact: {
     meta: {
-      title: 'Contact — Pragmatical AI',
-      description: 'Tell us about what you already have. A short form, and a reply within two working days.',
+      title: 'Ask Pragmatical AI — Cherga, automation and modernisation',
+      description: 'Talk with our AI assistant about the Cherga framework, AI Studio, automation and system modernisation.',
     },
-    hero: {
-      eyebrow: 'Contact',
-      headline: 'Tell us about what you already have.',
-      sub: 'The more concrete the better: the system that nobody wants to touch, the process nobody can describe, the store that needs to be readable by an assistant.',
-    },
-    form: {
-      title: 'Start here',
-      submit: 'Send',
-      name: 'Name',
-      email: 'Work email',
-      organisation: 'Organisation',
-      role: 'Role',
-      interest: 'What is this about?',
-      jurisdiction: 'Country or jurisdiction',
-      context: 'Brief context',
-      contextPlaceholder: 'What you have, what it is doing to you, and what you would like to be true instead.',
-      sent: 'Thank you — that has reached us. We reply within two working days.',
-      error: 'That did not send. Email us directly and we will pick it up.',
-      // The form's fields are built client-side (the framework deliberately
-      // does not server-render a form's authored fields), so the page needs a
-      // way to reach us that works with no JavaScript at all.
-      // OWNER: confirm this mailbox exists and is monitored before launch.
-      fallbackLead: 'Prefer email, or scripts disabled?',
-      email: 'hello@pragmatical.ai',
-    },
-    interests: [
-      { value: 'legacy', text: 'A legacy estate' },
-      { value: 'implementation', text: 'AI implementation' },
-      { value: 'commerce', text: 'Commerce / shop2gpt' },
-      { value: 'automation', text: 'Process automation' },
-      { value: 'product', text: 'One of the products' },
-      { value: 'press', text: 'Press' },
-      { value: 'other', text: 'Something else' },
-    ],
   },
 
   notFound: {

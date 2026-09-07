@@ -14,7 +14,7 @@ import { renderToString } from '@swc-js/server/ssr/render.js';
 import { buildDocument } from '@swc-js/server/html-document.js';
 import { appConfig } from '../app-config.js';
 import { docMetaFor } from '../data/meta.js';
-import { handleContact } from './contact.js';
+import { handleChat } from './chat.js';
 import { VERSION, HAS_ICONS_JS, HAS_LEGACY_JS, META, INLINE_CSS, CSS_TEXT, CSS_LEGACY_TEXT } from './build-manifest.js';
 
 // css carries a REF when linking and the actual BYTES when inlining: with
@@ -48,10 +48,9 @@ export default {
     const url = new URL(request.url);
     const p = url.pathname;
 
-    // The API first: /swc/contact carries no dot, so any later branch would
-    // send it into the SSR path and the form would "succeed" against an HTML
-    // document.
-    if (p === '/swc/contact') return handleContact(request, env);
+    // API routes bypass the HTML renderer.
+    if (p === '/swc/chat') return handleChat(request, env);
+    if (p === '/swc/contact') return Response.json({ error: 'This form has been replaced by the assistant.' }, { status: 410 });
 
     // Static files (bundles, imagery, favicon): anything with a file extension
     // goes straight to the assets binding.

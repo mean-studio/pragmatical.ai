@@ -6,24 +6,15 @@
 // Everything imported here must be import-safe in Node AND in workerd: defs and
 // data only, no DOM at module scope, no node builtins. This file is on the SSR
 // path, which runs at the edge.
-import { defs as shellDefs } from '@swc-js/composites/shells/shell-marketing.js';
+import { chromeDefs } from './data/chrome.js';
+import { homeState } from './data/home.js';
+import { chatState, chatServices } from './data/chat.js';
 import { defs as heroDefs } from '@swc-js/composites/marketing/hero.js';
 import { defs as featureDefs } from '@swc-js/composites/marketing/features.js';
 import { defs as statsDefs } from '@swc-js/composites/marketing/stats-band.js';
 import { defs as faqDefs } from '@swc-js/composites/marketing/faq.js';
 import { defs as ctaDefs } from '@swc-js/composites/marketing/cta.js';
-import { defs as contactDefs } from '@swc-js/composites/marketing/contact.js';
-// The fx tier: atmosphere and motion as composites, rather than page-level
-// effects glued on with lifecycle JS.
-import { defs as auroraDefs } from '@swc-js/composites/fx/aurora.js';
-import { defs as rotateDefs } from '@swc-js/composites/fx/text-rotate.js';
-import { defs as glowDefs } from '@swc-js/composites/fx/glow.js';
-import { defs as beamDefs } from '@swc-js/composites/fx/beams.js';
-// The blocks tier: a bento grid whose cells carry different weights, which is
-// what stops six problems reading as six identical cards.
-import { defs as bentoDefs } from '@swc-js/composites/blocks/bento.js';
-
-import { contentState } from './data/content.js';
+import { CONTENT, contentState } from './data/content.js';
 import { chrome } from './data/chrome.js';
 import { docMetaFor } from './data/meta.js';
 import { homeDefs } from './pages/home.js';
@@ -34,7 +25,7 @@ import { automationDefs } from './pages/automation.js';
 import { internalAiDefs } from './pages/internal-ai.js';
 import { productsDefs } from './pages/products.js';
 import { productDefs } from './pages/product.js';
-import { aboutDefs } from './pages/about.js';
+import { corporateDefs } from './pages/corporate.js';
 import { contactPageDefs } from './pages/contact.js';
 import { notFoundDefs } from './pages/not-found.js';
 
@@ -42,10 +33,9 @@ export const appConfig = {
   appId: 'pragmatical',
 
   defineComponents: [
-    ...shellDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs, ...contactDefs,
-    ...auroraDefs, ...rotateDefs, ...glowDefs, ...beamDefs, ...bentoDefs,
+    ...chromeDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs,
     ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs, ...internalAiDefs,
-    ...productsDefs, ...productDefs, ...aboutDefs, ...contactPageDefs, ...notFoundDefs,
+    ...productsDefs, ...productDefs, ...corporateDefs, ...contactPageDefs, ...notFoundDefs,
   ],
 
   // Copy is seeded as flat t.* keys; the contact form's own keys start empty so
@@ -53,9 +43,8 @@ export const appConfig = {
   // fills in later.
   state: {
     ...contentState,
-    ctSubmit: null,
-    ctSent: false,
-    ctError: '',
+    ...homeState,
+    ...chatState,
   },
 
   // The header is layout (renders before the outlet), the footer is an overlay
@@ -68,6 +57,7 @@ export const appConfig = {
   // in data/content.js is listed here for that reason; a missing name is not an
   // error, it is a silently absent icon.
   icons: [
+    'sun', 'moon', 'menu',
     'layout-dashboard', 'workflow', 'scan-search', 'landmark',
     'database', 'user-check', 'brain', 'shopping-bag', 'settings-2',
     'shield', 'globe-lock', 'key', 'git-compare', 'boxes', 'check-check',
@@ -78,9 +68,12 @@ export const appConfig = {
   ],
 
   inlineCss: true,
+  services: chatServices,
 
   routes: [
     { path: '/', component: 'page-home' },
+    { path: '/work', component: 'page-work' },
+    { path: '/approach', component: 'page-approach' },
 
     // Work with us
     { path: '/implementation', component: 'page-implementation' },
@@ -92,7 +85,7 @@ export const appConfig = {
     // Products. The index and one detail route — five products, one component,
     // because they differ in content rather than in shape.
     { path: '/products', component: 'page-products' },
-    { path: '/products/:pid', component: 'page-product' },
+    ...Object.keys(CONTENT.productPages).map((id) => ({ path: `/products/${id}`, component: `page-product-${id}` })),
 
     { path: '/about', component: 'page-about' },
     { path: '/contact', component: 'page-contact' },

@@ -1,0 +1,1 @@
+Inter and Space Grotesk are self-hosted under the SIL Open Font License. Font files were obtained from Google Fonts on 7 September 2026. The accompanying family-specific OFL files retain the copyright notices and licence terms. File names contain content hashes for immutable caching. No request to Google Fonts is required at runtime.

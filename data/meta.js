@@ -5,9 +5,12 @@
 // comment on each saying it matches the other, which is a promise rather than a
 // mechanism.
 import { CONTENT } from './content.js';
+import { navigationState } from './navigation.js';
 
 const PAGE_META = {
-  '/': CONTENT.home.meta,
+  '/': { title: 'Pragmatical AI — Foundations and tools for AI-first software', description: 'The company behind Cherga and Contract Vetting. Building AI-first interfaces, connected services and agent workflows.' },
+  '/work': { title: 'Our work — Pragmatical AI', description: 'Explore Cherga, our integrated AI-first platform direction, and Contract Vetting, our flagship domain product.' },
+  '/approach': { title: 'Our approach — Pragmatical AI', description: 'Structured interfaces, system understanding and connected execution. How we approach AI-first software.' },
   '/implementation': CONTENT.implementation.meta,
   '/legacy-to-model': CONTENT.legacyToModel.meta,
   '/agentic-commerce': CONTENT.commerce.meta,
@@ -36,6 +39,9 @@ export function docMetaFor(url = '/', params = {}) {
     : PAGE_META[path] || FALLBACK;
 
   return {
+    ...navigationState(path),
+    assistantPrimary: path === '/' || path === '/contact',
+    docRootAttrs: { lang: 'en' },
     docTitle: meta.title,
     docDescription: meta.description,
     // The shell highlights the current nav item from this, so the first paint

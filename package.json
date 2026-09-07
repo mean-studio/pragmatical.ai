@@ -2,14 +2,17 @@
   "name": "pragmatical.ai",
   "version": "0.1.0",
   "private": true,
-  "description": "The Pragmatical AI company site — built with our own framework.",
+  "description": "The Pragmatical AI company site \u2014 built with our own framework.",
   "type": "module",
   "scripts": {
     "dev": "PORT=4400 node --watch --env-file-if-exists=.env serve-prod.js",
     "start": "PORT=4400 node --env-file-if-exists=.env serve-prod.js",
     "build": "node tools/build-dist.mjs",
     "deploy": "node tools/build-dist.mjs && npx wrangler deploy",
-    "lint": "node ../swc-js/tools/swc-lint.mjs pages components data"
+    "lint": "node ../swc-js/tools/swc-lint.mjs pages components data",
+    "check:ui": "node tools/check-ui.mjs",
+    "check:chat-api": "node tools/check-chat-api.mjs",
+    "check:assistant": "node tools/check-assistant-ui.mjs"
   },
   "devDependencies": {
     "wrangler": "^4"

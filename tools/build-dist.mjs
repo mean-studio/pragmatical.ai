@@ -38,7 +38,7 @@ const workerDist = join(site, 'dist-worker');
 // index.html's local .css links are folded into bundle.css by the framework
 // build, and its font and icon links are carried into the worker's document
 // through the generated manifest.
-const STATIC_ASSETS = ['shots'];
+const STATIC_ASSETS = ['shots', 'fonts'];
 
 // Fail early and legibly rather than with a module-resolution stack trace.
 try {

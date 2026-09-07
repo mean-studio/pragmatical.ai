@@ -7,15 +7,19 @@ import { init } from '@swc-js/server';
 import { ApiRouter } from '@swc-js/server/api-router.js';
 import { appConfig } from './app-config.js';
 import { docMetaFor } from './data/meta.js';
-import { registerContact } from './server/contact.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-// D1 has no Node stand-in, so local submissions land in a file. One endpoint
-// path, two storage backends — the alternative is a form that cannot be tested
-// without deploying it.
+// The local SSR preview forwards chat to Wrangler on port 4401, using the
+// same Worker handler and remote AI binding as production.
 const api = new ApiRouter();
-registerContact(api, join(here, 'contact.jsonl'));
+api.post('/swc/chat', async (ctx) => {
+  try {
+    return await fetch('http://127.0.0.1:4401/swc/chat', {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(await ctx.body()),
+    });
+  } catch { return Response.json({ error: 'The local AI preview is not running.' }, { status: 503 }); }
+});
 
 const { listen } = await init(join(here, 'main.js'), 'index.html', {
   mode: 'prod',

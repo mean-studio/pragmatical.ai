@@ -8,12 +8,12 @@
 // path, which runs at the edge.
 import { chromeDefs } from './data/chrome.js';
 import { homeState } from './data/home.js';
+import { chatState, chatServices } from './data/chat.js';
 import { defs as heroDefs } from '@swc-js/composites/marketing/hero.js';
 import { defs as featureDefs } from '@swc-js/composites/marketing/features.js';
 import { defs as statsDefs } from '@swc-js/composites/marketing/stats-band.js';
 import { defs as faqDefs } from '@swc-js/composites/marketing/faq.js';
 import { defs as ctaDefs } from '@swc-js/composites/marketing/cta.js';
-import { defs as contactDefs } from '@swc-js/composites/marketing/contact.js';
 import { CONTENT, contentState } from './data/content.js';
 import { chrome } from './data/chrome.js';
 import { docMetaFor } from './data/meta.js';
@@ -33,7 +33,7 @@ export const appConfig = {
   appId: 'pragmatical',
 
   defineComponents: [
-    ...chromeDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs, ...contactDefs,
+    ...chromeDefs, ...heroDefs, ...featureDefs, ...statsDefs, ...faqDefs, ...ctaDefs,
     ...homeDefs, ...implementationDefs, ...legacyDefs, ...commerceDefs, ...automationDefs, ...internalAiDefs,
     ...productsDefs, ...productDefs, ...corporateDefs, ...contactPageDefs, ...notFoundDefs,
   ],
@@ -44,9 +44,7 @@ export const appConfig = {
   state: {
     ...contentState,
     ...homeState,
-    ctSubmit: null,
-    ctSent: false,
-    ctError: '',
+    ...chatState,
   },
 
   // The header is layout (renders before the outlet), the footer is an overlay
@@ -70,6 +68,7 @@ export const appConfig = {
   ],
 
   inlineCss: true,
+  services: chatServices,
 
   routes: [
     { path: '/', component: 'page-home' },

@@ -2,6 +2,7 @@
 //
 // Product navigation and the appearance control share the framework shell.
 import { bind as shellBind, def as shellDef } from '@swc-js/composites/shells/shell-marketing.js';
+import { assistantDefs } from '../components/site-assistant.js';
 import { siteNavigation } from '../components/site-navigation.js';
 import { CONTENT } from './content.js';
 
@@ -25,7 +26,7 @@ const appearance = {
 
 // Extend the shipped marketing shell declaratively, retaining its navigation,
 // projection, skip link and footer. Theme controls are another SWC component.
-export const chromeDefs = [appearance, siteNavigation, {
+export const chromeDefs = [...assistantDefs, appearance, siteNavigation, {
   ...shellDef,
   children: [shellDef.children[0],
     ['s-hd', '@l=row', [
@@ -37,6 +38,7 @@ export const chromeDefs = [appearance, siteNavigation, {
       ['site-navigation', ':dataField=expanded', ':dataSource=menuOpen'],
     ]],
     shellDef.children[2],
+    ['site-assistant'],
   ],
 }];
 

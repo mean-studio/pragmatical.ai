@@ -282,3 +282,45 @@ architecture-map [rg=architecture-connector] {--layout-gap:10px;justify-content:
 site-navigation nav a[aria-current=page] {color:var(--c-primary);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px;}
 site-navigation nav a[rg=nav-contact][aria-current=page] {background:var(--c-primary);color:var(--c-primary-content);}
 site-appearance button[is=s-b]:hover,site-navigation button[rg=menu-toggle]:hover {background:var(--site-wash);}
+
+page-contact {display:block;}
+page-contact [rg=chat-page] {padding:64px 28px 80px;}
+page-contact [rg=home-wrap] {width:min(100%,var(--site-max));margin-inline:auto;--layout-gap:26px;}
+page-contact [rg=eyebrow] {font-size:.6875rem;color:var(--c-primary);text-transform:uppercase;letter-spacing:.1em;}
+page-contact h1 {font-size:clamp(2.7rem,5vw,4.5rem);line-height:1.05;letter-spacing:-.05em;font-weight:500;white-space:pre-line;}
+page-contact [rg=open-assistant] {align-self:flex-start;}
+[rg=chat-note] {font-size:.75rem;line-height:1.6;color:var(--c-text-secondary);}
+site-assistant {display:contents;}
+site-assistant [rg=assistant-launcher] {position:fixed;right:24px;bottom:24px;z-index:61;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 20px;border-radius:28px;box-shadow:0 6px 24px #17203326;}
+site-assistant [rg=assistant-launcher] s-ic {margin:0;width:22px;height:22px;}
+site-assistant [rg=assistant-panel] {position:fixed;right:24px;bottom:90px;z-index:60;width:min(440px,calc(100vw - 32px));height:min(660px,calc(100dvh - 112px));grid-template-rows:auto minmax(0,1fr) auto;--layout-gap:14px;padding:20px;border:1px solid var(--c-border);border-radius:12px;background:var(--c-bg);box-shadow:0 16px 60px #17203333;overflow:hidden;}
+site-assistant [rg=assistant-panel][hidden] {display:none!important;}
+site-assistant [rg=chat-heading] {--layout-gap:10px;align-items:center;flex-shrink:0;padding-bottom:14px;border-bottom:1px solid var(--c-border);}
+site-assistant [rg=chat-heading] strong {font-size:.9375rem;color:var(--c-text);}
+site-assistant [rg=chat-heading] p {font-size:.6875rem;color:var(--c-text-secondary);margin-top:3px;}
+site-assistant [rg=chat-heading] button {width:44px;height:44px;min-height:44px;padding:10px;border:0;background:transparent;color:var(--c-text);}
+site-assistant [rg=chat-heading] button s-ic {margin:0;width:20px;height:20px;}
+site-assistant [rg=chat-reset] {margin-inline-start:auto;}
+site-assistant s-cnv {flex:1;min-height:0;height:auto;--space-4:12px;--space-3:12px;--space-2:8px;--c-surface-hover:var(--site-soft);}
+site-assistant s-cnv [rg=cnv-scroll] {overscroll-behavior:contain;}
+site-assistant s-cnv s-cnv-i,site-assistant s-cnv [rg=cnv-live] {max-width:95%;}
+site-assistant s-cnv [rg=cnv-text],site-assistant s-cnv [rg=cnv-live-text] {color:var(--c-text);line-height:1.6;overflow-wrap:anywhere;}
+site-assistant s-cnv [rg=cnv-bubble] {padding:12px;}
+site-assistant s-cnv [rg=composer] {order:2;flex-shrink:0;}
+site-assistant s-cnv [rg=suggestions] {order:3;--layout-gap:8px;max-height:145px;overflow-y:auto;flex-shrink:0;}
+site-assistant s-cnv s-ch {min-height:44px;padding:10px 12px;white-space:normal;color:var(--c-text);background:var(--site-soft);border:1px solid var(--c-border);border-radius:4px;line-height:1.4;}
+site-assistant s-cnv form[is=s-f] {padding:6px;background:var(--c-surface);border-radius:6px;}
+site-assistant s-cnv form[is=s-f] > button[is=s-b],site-assistant s-cnv button[rg=cnv-stop] {width:44px;height:44px;min-height:44px;padding:10px;margin:0;}
+site-assistant s-cnv form[is=s-f] s-taif textarea[is=s-ta] {font-family:var(--font-family);font-size:1rem;color:var(--c-text);min-height:44px;}
+site-assistant s-cnv form[is=s-f]:focus-within {outline:2px solid var(--focus-color);outline-offset:2px;}
+site-assistant [rg=chat-error] {padding:10px;background:var(--site-soft);color:var(--c-text);border-left:3px solid var(--site-signal);font-size:.8125rem;line-height:1.6;flex-shrink:0;}
+site-assistant [rg=chat-note] {font-size:.6875rem;flex-shrink:0;}
+@media(max-width:760px){
+ page-contact [rg=chat-page] {padding:32px 20px 42px;}
+ page-contact [rg=home-wrap] {--layout-gap:20px;}
+ site-assistant [rg=assistant-launcher] {right:16px;bottom:16px;min-height:48px;padding:12px 16px;}
+ site-assistant [rg=assistant-panel] {right:16px;bottom:78px;height:min(660px,calc(100dvh - 94px));padding:14px;--layout-gap:12px;}
+ site-assistant [rg=chat-heading] {--layout-gap:6px;}
+ site-assistant [rg=chat-heading] img {width:24px;height:24px;}
+ site-assistant [rg=chat-heading] strong {font-size:.8125rem;}
+}

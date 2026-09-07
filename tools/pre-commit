@@ -19,7 +19,7 @@ cd "$root" || exit 1
 
 # Only source changes matter. A commit that touches docs, or the artefacts
 # alone, does not need a rebuild.
-watched='^(app-config\.js|main\.js|index\.html|site\.css|serve-prod\.js|pages/|components/|data/|server/|worker/|shots/|tools/build-dist\.mjs|package\.json)'
+watched='^(app-config\.js|main\.js|index\.html|site\.css|serve-prod\.js|pages/|components/|data/|server/|worker/|shots/|fonts/|tools/build-dist\.mjs|package\.json)'
 staged="$(git diff --cached --name-only --diff-filter=ACMR)"
 printf '%s\n' "$staged" | grep -Eq "$watched" || exit 0
 

@@ -622,45 +622,9 @@ export const CONTENT = {
   // ── /contact ─────────────────────────────────────────────────────────────
   contact: {
     meta: {
-      title: 'Contact — Pragmatical AI',
-      description: 'Let’s build something useful. A short form, and a reply within two working days.',
+      title: 'Ask Pragmatical AI — Cherga, automation and modernisation',
+      description: 'Talk with our AI assistant about the Cherga framework, AI Studio, automation and system modernisation.',
     },
-    hero: {
-      eyebrow: 'Contact',
-      headline: 'Let’s build something useful.',
-      sub: 'Interested in Cherga, Contract Vetting or working with us? Tell us what you would like to create, improve or explore.',
-    },
-    form: {
-      title: 'Start here',
-      submit: 'Send',
-      name: 'Name',
-      emailLabel: 'Work email',
-      organisation: 'Organisation',
-      role: 'Role',
-      interest: 'What is this about?',
-      jurisdiction: 'Country or jurisdiction',
-      context: 'Brief context',
-      contextPlaceholder: 'What would you like to build, improve or learn about?',
-      sent: 'Thank you — that has reached us. We reply within two working days.',
-      error: 'That did not send. Email us directly and we will pick it up.',
-      // The form's fields are built client-side (the framework deliberately
-      // does not server-render a form's authored fields), so the page needs a
-      // way to reach us that works with no JavaScript at all.
-      // OWNER: confirm this mailbox exists and is monitored before launch.
-      fallbackLead: 'Prefer email, or scripts disabled?',
-      email: 'hello@pragmatical.ai',
-    },
-    interests: [
-      { value: 'cherga', text: 'Cherga / UI framework' },
-      { value: 'contract-vetting', text: 'Contract Vetting' },
-      { value: 'legacy', text: 'System modernisation' },
-      { value: 'implementation', text: 'AI implementation' },
-      { value: 'partnership', text: 'A partnership' },
-      { value: 'automation', text: 'Process automation' },
-      { value: 'product', text: 'One of the products' },
-      { value: 'press', text: 'Press' },
-      { value: 'other', text: 'Something else' },
-    ],
   },
 
   notFound: {

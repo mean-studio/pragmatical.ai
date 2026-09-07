@@ -10,7 +10,9 @@
     "build": "node tools/build-dist.mjs",
     "deploy": "node tools/build-dist.mjs && npx wrangler deploy",
     "lint": "node ../swc-js/tools/swc-lint.mjs pages components data",
-    "check:ui": "node tools/check-ui.mjs"
+    "check:ui": "node tools/check-ui.mjs",
+    "check:chat-api": "node tools/check-chat-api.mjs",
+    "check:assistant": "node tools/check-assistant-ui.mjs"
   },
   "devDependencies": {
     "wrangler": "^4"

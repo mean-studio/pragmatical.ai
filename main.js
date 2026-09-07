@@ -17,3 +17,21 @@ store.setValues(A11Y_DEFAULT_STRINGS);
 store.subscribe('router.pid', (value) => store.setValue('pid', value || ''));
 
 CreateApp(appConfig);
+
+// Platform integration only: the control itself is declarative SWC, and the
+// selected preference lives in the store. Persist just this preference, never
+// contact fields or the application's content/state.
+let savedAppearance = 'light';
+try { savedAppearance = localStorage.getItem('pragmatical.appearance') || 'light'; } catch { /* Storage can be unavailable. */ }
+// Resolve the previous three-way preference once; the UI now has two modes.
+if (savedAppearance === 'system') savedAppearance = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+store.setValue('appearance', savedAppearance === 'dark' ? 'dark' : 'light');
+store.subscribe('appearance', (value) => {
+  const dark = value === 'dark';
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  store.setValues({
+    appearanceIcon: dark ? 'sun' : 'moon',
+    't.a11y.themeAction': store.getValue(dark ? 't.a11y.switchToLight' : 't.a11y.switchToDark'),
+  });
+  try { localStorage.setItem('pragmatical.appearance', value); } catch { /* The control still works without persistence. */ }
+});

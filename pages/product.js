@@ -23,7 +23,7 @@ function productSections(id, p) {
       ]],
       ['s-l', '@rg=prod-sub', `=${p.sub}`],
       ['s-cn', '@rg=band-action', [
-        ['s-b', '@c=pr', '~cl:nav:/contact', [['span', '=Talk to us about it'], ['s-ic', '@n=arrow-right']]],
+        ['s-b', '@c=pr', '~cl:nav:/contact', [['span', `=${p.cta || 'Talk to us about it'}`], ['s-ic', '@n=arrow-right']]],
         ...(p.site ? [['s-ln', `@href=${p.site.href}`, '@target=_blank', '@rel=noopener noreferrer', '@rg=prod-site', [
           ['span', `=${p.site.label}`], ['s-ic', '@n=arrow-up-right'],
         ]]] : []),
@@ -79,4 +79,11 @@ page-product label[is=s-l][rg=shot-cap] { display: block; margin-top: 14px; font
 `,
 };
 
-export const productDefs = [page];
+// Give each retained product URL a concrete component. This avoids depending on
+// a router parameter during hydration and on conditional re-mount subscriptions.
+export const productDefs = Object.entries(CONTENT.productPages).map(([id, product]) => {
+  const section = productSections(id, product);
+  section.splice(1, 1); // The route itself selects the product; no conditional token.
+  const tag = `page-product-${id}`;
+  return { tag, children: [section], css: page.css.replaceAll('page-product', tag) };
+});

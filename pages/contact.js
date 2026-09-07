@@ -34,7 +34,7 @@ const page = {
           submitLabel: P.form.submit,
           fields: [
             { name: 'name', label: P.form.name, required: true },
-            { name: 'email', label: P.form.email, type: 'email', required: true, format: 'email' },
+            { name: 'email', label: P.form.emailLabel, type: 'email', required: true, format: 'email' },
             { name: 'organisation', label: P.form.organisation },
             { name: 'role', label: P.form.role },
             { name: 'interest', label: P.form.interest, type: 'select', options: CONTENT.contact.interests },

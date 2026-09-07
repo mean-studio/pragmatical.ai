@@ -40,6 +40,7 @@ export function docMetaFor(url = '/', params = {}) {
 
   return {
     ...navigationState(path),
+    assistantPrimary: path === '/' || path === '/contact',
     docRootAttrs: { lang: 'en' },
     docTitle: meta.title,
     docDescription: meta.description,

@@ -1,10 +1,10 @@
 export const chatState = {
-  assistantHidden: true, assistantExpanded: 'false', assistantLauncherLabel: 'Open AI assistant',
+  assistantPrimary: true, assistantHidden: true, assistantExpanded: 'false', assistantLauncherLabel: 'Open AI assistant',
   't.a11y.chatHistory': 'Chat history',
   't.a11y.chatMinimise': 'Minimise AI assistant', 't.a11y.chatReset': 'New conversation',
-  chatRows: [{ role: 'assistant', actor: 'Pragmatical AI', content: 'Tell me what you want to build or improve. I can explain how Cherga, AI Studio, automation and system modernisation fit your project.' }],
+  chatRows: [{ role: 'assistant', actor: 'Pragmatical AI', content: 'What would you like to build, automate or modernise?' }],
   chatSubmit: null, chatRequest: null, chatPartial: '', chatStatus: '', chatError: '', chatBusy: false,
-  chatSuggestions: ['What does Cherga include?', 'How would you modernise an existing system?', 'How do apps connect to agent workflows?'],
+  chatSuggestions: ['Build an app', 'Automate work', 'Modernise a system'],
   't.a11y.send': 'Send message', 't.a11y.stop': 'Stop response', 't.a11y.jumpLatest': 'Jump to latest message',
   't.a11y.chatConversation': 'Conversation with the Pragmatical AI assistant',
 };

@@ -3,18 +3,15 @@ import { architectureMap } from './architecture-map.js';
 const feature = { tag: 'home-feature', children: [['s-cn', '@l=vertical', '@rg=feature', [['h3', '^title'], ['p', '^body']]]] };
 const intro = { tag: 'home-intro', children: [['s-sc', '@rg=intro', [
   ['s-cn', '@rg=home-wrap', '@l=vertical', [
-    ['s-cn', '@l=fg', '@rg=hero-grid', [
-      ['s-cn', '@rg=hero-copy', [
-        ['s-l', '@rg=eyebrow', '=AI-first framework. One connected platform.'],
-        ['h1', [['span', '=Build the app.'], ['span', '=We built'], ['span', '=the foundation.']]],
-        ['p', '@rg=lead', '=An AI-first framework with routing, state, streaming services and enterprise components built in.'],
-        ['p', '@rg=hero-detail', '=Lightweight Worker SSR for search-visible applications. Studio, automation and modernisation for the work beyond the interface.'],
-        ['s-cn', '@l=row', '@rg=actions', [
-          ['s-b', '@c=pr', '~cl:nav:/work', [['span', '=Explore the platform'], ['s-ic', '@n=arrow-up-right']]],
-          ['s-ln', '@href=/approach', '=How we build'],
-        ]],
-      ]],
-      ['s-cn', '@rg=hero-visual', [['platform-map']]],
+    ['s-cn', '@rg=conversation-intro', '@l=vertical', [
+      ['s-l', '@rg=eyebrow', '=AI-first framework. One connected platform.'],
+      ['h1', '=Build the app.\nWe built the foundation.'],
+      ['p', '@rg=lead-small', '=Tell us what you want to create, automate or modernise. Explore how Cherga’s framework, Studio and shared runtime fit your next application.'],
+    ]],
+    ['primary-assistant'],
+    ['s-cn', '@l=row', '@rg=conversation-explore', [
+      ['s-b', '@v=tx', '~cl:nav:/work', [['span', '=Explore the platform'], ['s-ic', '@n=arrow-up-right']]],
+      ['s-ln', '@href=/approach', '=See the architecture'],
     ]],
     ['s-cn', '@l=fg', '@rg=capability-strip', [
       ['s-cn', [['span', '=01'], ['h3', '=Create'], ['p', '=Studio + direct framework use']]],

@@ -4,7 +4,7 @@
 // worker has no filesystem at request time, so inlining needs the bytes baked
 // in. With the switch off this stays empty and the worker links the asset,
 // which is what keeps flipping app-config.js sufficient on its own.
-export const VERSION = '4b0760c3de';
+export const VERSION = '45ed3d84af';
 export const HAS_ICONS_JS = false;
 export const HAS_LEGACY_JS = true;
 export const INLINE_CSS = true;

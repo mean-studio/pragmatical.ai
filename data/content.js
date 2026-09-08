@@ -568,7 +568,6 @@ export const CONTENT = {
       status: 'preview',
       access: 'In use internally on real journeys, with pilots by arrangement.',
       site: { label: 'gdsplayground.com', href: 'https://gdsplayground.com' },
-      shot: { src: '/shots/gds-playground.jpg', alt: 'GDS Playground: sovereign AI for government modernisation.', caption: 'gdsplayground.com — built for the service standard, deployable inside your boundary.' },
     },
   },
 

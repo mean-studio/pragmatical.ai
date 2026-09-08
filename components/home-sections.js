@@ -54,9 +54,9 @@ const studio = { tag: 'home-studio', children: [['s-sc', '@rg=studio', [
       ]],
     ]],
     ['s-cn', '@rg=product-capture', [
-      ['s-cn', '@l=row', '@rg=capture-heading', [['strong', '=A workspace shaped for its context'], ['span', '=GDS Playground / Studio example']]],
-      ['img', '@src=/shots/gds-playground.jpg', '@alt=GDS Playground, a white-labelled AI Studio experience for public-service design', '@loading=lazy', '@width=2160', '@height=1350'],
-      ['s-cn', '@l=row', '@rg=capture-caption', [['p', '=A white-labelled Studio experience for public-service design.'], ['s-ln', '@href=/products/gds-playground', '=Explore the example']]],
+      ['s-cn', '@l=row', '@rg=capture-heading', [['strong', '=A workspace shaped for its context'], ['span', '=Studio / page builder']]],
+      ['img', '@src=/shots/studio-builder.jpg', '@alt=The Studio page builder: a component palette, the canvas, a layer tree, and the properties of the selected block', '@loading=lazy', '@width=2160', '@height=1350'],
+      ['s-cn', '@l=row', '@rg=capture-caption', [['p', '=Palette, canvas, layer tree and the properties of whatever is selected.'], ['s-ln', '@href=/products/ai-studio', '=Explore the Studio direction']]],
     ]],
   ]],
 ]]] };

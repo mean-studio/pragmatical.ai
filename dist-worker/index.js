@@ -2062,6 +2062,77 @@ function parseAssignment(value) {
 }
 __name(parseAssignment, "parseAssignment");
 
+// ../swc-js/core/core/bindings/show-if.js
+function parseShowIfToken(token) {
+  if (typeof token !== "string") return null;
+  const trimmed = token.trim();
+  if (!trimmed.startsWith("?")) return null;
+  let raw = trimmed.slice(1).trim();
+  if (!raw) return { source: "literal", key: null, negate: false, literal: false, equals: null, raw: trimmed };
+  let negate = false;
+  if (raw.startsWith("!")) {
+    negate = true;
+    raw = raw.slice(1).trim();
+  }
+  if (raw === "true" || raw === "false") {
+    return { source: "literal", key: null, negate, literal: raw === "true", equals: null, raw: trimmed };
+  }
+  let equals = null;
+  const eq = raw.indexOf("=");
+  if (eq > 0) {
+    equals = raw.slice(eq + 1);
+    raw = raw.slice(0, eq);
+  }
+  const colon = raw.indexOf(":");
+  if (colon > 0) {
+    const source = raw.slice(0, colon);
+    const key = raw.slice(colon + 1);
+    if (source === "data" || source === "store" || source === "prop") {
+      return { source, key, negate, literal: null, equals, raw: trimmed };
+    }
+    return { source: "store", key: raw, negate, literal: null, equals, raw: trimmed };
+  }
+  return { source: "store", key: raw, negate, literal: null, equals, raw: trimmed };
+}
+__name(parseShowIfToken, "parseShowIfToken");
+function matchesShowIf(rawValue, rule) {
+  if (!rule) return true;
+  const matched = rule.equals != null ? String(rawValue) === rule.equals : Boolean(rawValue);
+  return rule.negate ? !matched : matched;
+}
+__name(matchesShowIf, "matchesShowIf");
+function resolveShowIfStore(rule, context = {}) {
+  if (!rule) return null;
+  if (rule.source === "data") return context.internalStore;
+  if (rule.source === "store") return context.store;
+  return null;
+}
+__name(resolveShowIfStore, "resolveShowIfStore");
+function evaluateShowIfAll(rules, context = {}) {
+  if (!Array.isArray(rules)) return evaluateShowIf(rules, context);
+  return rules.every((rule) => evaluateShowIf(rule, context));
+}
+__name(evaluateShowIfAll, "evaluateShowIfAll");
+function showIfMarkerKey(rules) {
+  const list = Array.isArray(rules) ? rules : [rules];
+  return list.filter(Boolean).map((rule) => rule.equals != null ? rule.raw || rule.key || "" : `${rule.negate ? "!" : ""}${rule.key || ""}`).join("&");
+}
+__name(showIfMarkerKey, "showIfMarkerKey");
+function evaluateShowIf(rule, context = {}) {
+  if (!rule) return true;
+  if (rule.source === "literal") {
+    const value = Boolean(rule.literal);
+    return rule.negate ? !value : value;
+  }
+  if (rule.source === "prop") {
+    return matchesShowIf(context.owner?.[rule.key], rule);
+  }
+  const source = resolveShowIfStore(rule, context);
+  const raw = source && typeof source.getValue === "function" ? source.getValue(rule.key) : void 0;
+  return matchesShowIf(raw, rule);
+}
+__name(evaluateShowIf, "evaluateShowIf");
+
 // ../swc-js/core/core/dsl/aliases.js
 var BINDING_ALIASES = {
   dk: "dataKey",
@@ -2106,19 +2177,36 @@ function createElementModel() {
     // present only then, so a consumer can tell data the instance was handed
     // from data it inherits from its context. `props` is the propValues.
     explicitData: void 0,
-    // Every SOURCE binding in authored order — a bare `$key` (the owner's
+    // Every SOURCE binding in AUTHORED order — a bare `$key` (the owner's
     // internal store on the client), a `:dataSource` (the global store) or a
-    // `:dataKey` (the internal store) — each with its origin and key. An
-    // attribute binding (`$title=key`) is not a source. `sourceOrigin` is the
-    // origin of the LAST one, which is what the server selects; which of them
-    // the client's renderer actually reads is the fix plan's C1.
+    // `:dataKey` (the internal store) — each with its origin and key, and
+    // `interpolated: true` on a row-interpolated key (`:ds=rows.^id`), which
+    // binds in the row phase, after the plain ones, and is inert outside a
+    // row; `inert: true` on a falsy key the runtime skips, `rejected: true`
+    // on a non-string key the Store refuses (see addSource). An attribute
+    // binding (`$title=key`) is not a source. An object-form def lists them
+    // in the order the renderers REPLAY it: its string props, dataKey,
+    // dataSource, then its raw `$key` bindings.
+    //
+    // `sourceOrigin` is the origin of the last-authored one. That is an
+    // authoring fact, not a promise about selection: the server reads the
+    // last-authored of `$key` / `:dataSource` but prefers `:dataSource` to
+    // `:dataKey` in any order, the fresh client binds `:dataKey` after every
+    // deferred store source so it wins in any order, and an adopted tree
+    // re-stamps from `$key`. Making the renderers agree is the fix plan's C1;
+    // tests/dsl-parity.spec.mjs pins each as it is.
     sources: [],
     sourceOrigin: null,
     // `#parentProp[:childProp]` and `*src[:dst]` are real tokens the runtime
     // honours (parent-prop and data pass-through); they are represented, not
     // dropped, so a consumer of the model can see them.
     passThrough: [],
+    // The FIRST `?` condition's text, as it always was, and every condition
+    // parsed, in authored order: a `?` string token, a `?` object-token key,
+    // and an object-form def's `showIf`. Two or more are a conjunction (D3),
+    // each subscribing on its own source.
     showIf: null,
+    conditions: [],
     ref: null
   };
 }
@@ -2143,6 +2231,26 @@ function objectTokenOps(obj) {
 }
 __name(objectTokenOps, "objectTokenOps");
 var expandObjectToken = /* @__PURE__ */ __name((obj) => objectTokenOps(obj).filter((op) => op.kind === "token").map((op) => op.token), "expandObjectToken");
+function addSource(model, origin, rawKey) {
+  let key = rawKey;
+  if (typeof key === "string") {
+    key = key.trim();
+    if (origin === "owner") {
+      const pipe = key.indexOf("|");
+      if (pipe >= 0) key = key.slice(0, pipe).trim();
+      if (key === "") return;
+    }
+  } else if (typeof key !== "number" && typeof key !== "boolean") {
+    return;
+  }
+  const source = { origin, key };
+  if (!key) source.inert = true;
+  else if (typeof key !== "string") source.rejected = true;
+  else if (origin === "global" && key.includes("^")) source.interpolated = true;
+  model.sources.push(source);
+  model.sourceOrigin = origin;
+}
+__name(addSource, "addSource");
 function applyToken(model, token, diagnostics) {
   if (typeof token !== "string") {
     warn(diagnostics, "invalid-token", `token of type ${typeof token} is not a string, array, or object \u2014 ignored`, model.tag);
@@ -2153,7 +2261,9 @@ function applyToken(model, token, diagnostics) {
   const prefix = trimmed[0];
   const suffix = trimmed.slice(1);
   if (prefix === "?") {
-    model.showIf = suffix.trim();
+    if (model.showIf === null) model.showIf = suffix.trim();
+    const rule = parseShowIfToken(trimmed);
+    if (rule) model.conditions.push(rule);
     return;
   }
   if (prefix === "=") {
@@ -2196,12 +2306,7 @@ function applyToken(model, token, diagnostics) {
       return;
     }
     model.bindings.push({ type: "store", key: raw, raw: trimmed });
-    const pipe = raw.indexOf("|");
-    const key = pipe >= 0 ? raw.slice(0, pipe) : raw;
-    if (key) {
-      model.sources.push({ origin: "owner", key });
-      model.sourceOrigin = "owner";
-    }
+    addSource(model, "owner", raw);
     return;
   }
   if (prefix === "@" || prefix === ":" || prefix === "%" || prefix === "&") {
@@ -2214,14 +2319,12 @@ function applyToken(model, token, diagnostics) {
       const name = normalizeBindingName(parsed.name);
       if (name === "dataKey") {
         model.dataKey = parseLiteral(parsed.raw);
-        model.sources.push({ origin: "internal", key: model.dataKey });
-        model.sourceOrigin = "internal";
+        addSource(model, "internal", model.dataKey);
         return;
       }
       if (name === "dataSource") {
         model.dataSource = parseLiteral(parsed.raw);
-        model.sources.push({ origin: "global", key: model.dataSource });
-        model.sourceOrigin = "global";
+        addSource(model, "global", model.dataSource);
         return;
       }
       if (name === "dataField") {
@@ -2318,11 +2421,39 @@ function normalizeElementDef(def11, diagnostics) {
     model2.itemRendererField = itemRendererField ?? (props && typeof props.itemRendererField === "string" ? props.itemRendererField : null);
     model2.dataFromField = dataFromField ?? null;
     if (data !== null && typeof data === "object") model2.explicitData = data;
-    if (dataSource != null) model2.sources.push({ origin: "global", key: dataSource });
-    if (dataKey != null) model2.sources.push({ origin: "internal", key: dataKey });
-    model2.sourceOrigin = model2.sources.length ? model2.sources[model2.sources.length - 1].origin : null;
+    Object.entries(model2.props).forEach(([name, value]) => {
+      objectTokenOps({ [`:${name}`]: value }).forEach((op) => {
+        if (op.kind !== "token") return;
+        const scratch = createElementModel();
+        applyToken(scratch, op.token, []);
+        scratch.sources.forEach((source) => {
+          model2.sources.push(source);
+          model2.sourceOrigin = source.origin;
+        });
+      });
+    });
+    const replayField = /* @__PURE__ */ __name((name, value) => {
+      if (!value) return;
+      const scratch = createElementModel();
+      applyToken(scratch, `:${name}=${value}`, []);
+      scratch.sources.forEach((source) => {
+        model2.sources.push(source);
+        model2.sourceOrigin = source.origin;
+      });
+    }, "replayField");
+    replayField("dataKey", dataKey);
+    replayField("dataSource", dataSource);
+    model2.bindings.forEach((b) => {
+      if (!b || typeof b !== "object" || b.type !== "store" || typeof b.raw !== "string") return;
+      const raw = b.raw.trim();
+      if (raw.startsWith("$") && !raw.includes("=")) addSource(model2, "owner", raw.slice(1));
+    });
     if (Array.isArray(passThrough)) model2.passThrough = [...passThrough];
     model2.showIf = showIf ?? null;
+    if (typeof showIf === "string" && showIf.trim()) {
+      const rule = parseShowIfToken(showIf.trim().startsWith("?") ? showIf.trim() : `?${showIf.trim()}`);
+      if (rule) model2.conditions.push(rule);
+    }
     model2.ref = ref ?? null;
     return model2;
   }
@@ -2389,13 +2520,37 @@ function setTextContent(el2, value) {
   if (el2.textContent !== next) el2.textContent = next;
 }
 __name(setTextContent, "setTextContent");
-function cleanupShowIfState(el2) {
+function cleanupShowIfState(el2, keep) {
   if (!el2 || !el2._showIfState) return;
   const state = el2._showIfState;
-  state.subs.forEach((sub) => sub?.unsubscribe?.());
-  state.subs.clear();
-  state.bindings.clear();
-  el2._showIfState = null;
+  const survives = /* @__PURE__ */ __name((entry) => Boolean(keep && entry && (entry.static || entry.el && keep.has(entry.el))), "survives");
+  let keptBinding = false;
+  [...state.bindings.keys()].forEach((id) => {
+    const remaining = (state.bindings.get(id) || []).filter(survives);
+    if (remaining.length) {
+      state.bindings.set(id, remaining);
+      keptBinding = true;
+      return;
+    }
+    state.bindings.delete(id);
+    state.subs.get(id)?.unsubscribe?.();
+    state.subs.delete(id);
+  });
+  const keptProps = (state.propDeps || []).filter((record) => {
+    if (survives(record.entry)) return true;
+    const list = record.owner?._propDeps?.get(record.propKey);
+    const at = list ? list.indexOf(record.dep) : -1;
+    if (at >= 0) list.splice(at, 1);
+    if (record.entry) record.entry._propsRecorded = false;
+    return false;
+  });
+  state.propDeps = keptProps;
+  if (!keptBinding && !keptProps.length) {
+    state.subs.forEach((sub) => sub?.unsubscribe?.());
+    state.subs.clear();
+    state.bindings.clear();
+    el2._showIfState = null;
+  }
 }
 __name(cleanupShowIfState, "cleanupShowIfState");
 var TRUNCATE_MIN_GAIN = 4;
@@ -2425,9 +2580,21 @@ function removeOutsideClick(el2) {
   el2._outsideClick = null;
 }
 __name(removeOutsideClick, "removeOutsideClick");
-function cleanupShowIfTree(root) {
+function refreshShowIfStatic(state) {
+  if (!state) return;
+  const touch = /* @__PURE__ */ __name((entry) => {
+    if (entry && entry.el && typeof entry.el.hasAttribute === "function") {
+      entry.static = entry.el.hasAttribute("static");
+    }
+  }, "touch");
+  state.bindings.forEach((entries) => entries.forEach(touch));
+  (state.propDeps || []).forEach((record) => touch(record.entry));
+}
+__name(refreshShowIfStatic, "refreshShowIfStatic");
+function cleanupShowIfTree(root, keep) {
   if (!root) return;
-  if (root._showIfState) cleanupShowIfState(root);
+  if (keep && keep.has(root)) return;
+  if (root._showIfState) cleanupShowIfState(root, keep);
   if (root._templateAttrSubs) {
     root._templateAttrSubs.forEach((sub) => {
       if (sub.unsubscribe) sub.unsubscribe();
@@ -2436,7 +2603,10 @@ function cleanupShowIfTree(root) {
   }
   const lightChildren = Array.from(root.children || []);
   const shadowChildren = root.shadowRoot ? Array.from(root.shadowRoot.children || []) : [];
-  lightChildren.concat(shadowChildren).forEach((child) => cleanupShowIfTree(child));
+  lightChildren.concat(shadowChildren).forEach((child) => {
+    if (keep && keep.has(child)) return;
+    cleanupShowIfTree(child);
+  });
 }
 __name(cleanupShowIfTree, "cleanupShowIfTree");
 function getByPath(obj, path) {
@@ -2600,67 +2770,6 @@ function deriveFocusable(focusable, hasNativeTag, emitsClick, role) {
   return focusable === true || focusable !== false && !hasNativeTag && emitsClick && role != null && INTERACTIVE_ROLES.has(role);
 }
 __name(deriveFocusable, "deriveFocusable");
-
-// ../swc-js/core/core/bindings/show-if.js
-function parseShowIfToken(token) {
-  if (typeof token !== "string") return null;
-  const trimmed = token.trim();
-  if (!trimmed.startsWith("?")) return null;
-  let raw = trimmed.slice(1).trim();
-  if (!raw) return { source: "literal", key: null, negate: false, literal: false, equals: null, raw: trimmed };
-  let negate = false;
-  if (raw.startsWith("!")) {
-    negate = true;
-    raw = raw.slice(1).trim();
-  }
-  if (raw === "true" || raw === "false") {
-    return { source: "literal", key: null, negate, literal: raw === "true", equals: null, raw: trimmed };
-  }
-  let equals = null;
-  const eq = raw.indexOf("=");
-  if (eq > 0) {
-    equals = raw.slice(eq + 1);
-    raw = raw.slice(0, eq);
-  }
-  const colon = raw.indexOf(":");
-  if (colon > 0) {
-    const source = raw.slice(0, colon);
-    const key = raw.slice(colon + 1);
-    if (source === "data" || source === "store" || source === "prop") {
-      return { source, key, negate, literal: null, equals, raw: trimmed };
-    }
-    return { source: "store", key: raw, negate, literal: null, equals, raw: trimmed };
-  }
-  return { source: "store", key: raw, negate, literal: null, equals, raw: trimmed };
-}
-__name(parseShowIfToken, "parseShowIfToken");
-function matchesShowIf(rawValue, rule) {
-  if (!rule) return true;
-  const matched = rule.equals != null ? String(rawValue) === rule.equals : Boolean(rawValue);
-  return rule.negate ? !matched : matched;
-}
-__name(matchesShowIf, "matchesShowIf");
-function resolveShowIfStore(rule, context = {}) {
-  if (!rule) return null;
-  if (rule.source === "data") return context.internalStore;
-  if (rule.source === "store") return context.store;
-  return null;
-}
-__name(resolveShowIfStore, "resolveShowIfStore");
-function evaluateShowIf(rule, context = {}) {
-  if (!rule) return true;
-  if (rule.source === "literal") {
-    const value = Boolean(rule.literal);
-    return rule.negate ? !value : value;
-  }
-  if (rule.source === "prop") {
-    return matchesShowIf(context.owner?.[rule.key], rule);
-  }
-  const source = resolveShowIfStore(rule, context);
-  const raw = source && typeof source.getValue === "function" ? source.getValue(rule.key) : void 0;
-  return matchesShowIf(raw, rule);
-}
-__name(evaluateShowIf, "evaluateShowIf");
 
 // ../swc-js/core/core/bindings/guards.js
 init_native_tags();
@@ -3034,18 +3143,25 @@ function evaluateShowIf2(rule, store2, data, parentProps, projection) {
   return matchesShowIf(val, rule);
 }
 __name(evaluateShowIf2, "evaluateShowIf");
-function extractShowIfRule(def11) {
-  if (!Array.isArray(def11)) return null;
+function extractShowIfRules(def11) {
+  if (!Array.isArray(def11)) return [];
+  const rules = [];
   for (let i = 1; i < def11.length; i++) {
     const token = def11[i];
     if (typeof token === "string") {
       const rule = parseShowIfToken(token);
-      if (rule) return rule;
+      if (rule) rules.push(rule);
+    } else if (token && typeof token === "object" && !Array.isArray(token)) {
+      objectTokenOps(token).forEach((op) => {
+        if (op.kind !== "token") return;
+        const rule = parseShowIfToken(op.token);
+        if (rule) rules.push(rule);
+      });
     }
   }
-  return null;
+  return rules;
 }
-__name(extractShowIfRule, "extractShowIfRule");
+__name(extractShowIfRules, "extractShowIfRules");
 var GUARD_OMIT = /* @__PURE__ */ Symbol("guard:omit");
 function applyGuardTokens(tokens, store2, data, htmlTag, declaredDef) {
   const references = spliceGuardReferences(tokens);
@@ -3088,7 +3204,7 @@ function processTokens(tokens, store2, data, registry, parentProps = {}, ctx = n
   const hydrationMarkers = [];
   let textContent = null;
   let childDefs = null;
-  let showIfRule = null;
+  const showIfRules = [];
   let dataKey = null;
   let dataSource = null;
   let dataField = null;
@@ -3120,7 +3236,7 @@ function processTokens(tokens, store2, data, registry, parentProps = {}, ctx = n
       if (sub.itemRenderer != null) itemRenderer = sub.itemRenderer;
       if (sub.itemRendererField != null) itemRendererField = sub.itemRendererField;
       if (sub.dataFromField != null) dataFromField = sub.dataFromField;
-      if (sub.showIfRule) showIfRule = sub.showIfRule;
+      if (sub.showIfRules?.length) showIfRules.push(...sub.showIfRules);
       if (sub.storeValue !== void 0) storeValue = sub.storeValue;
       if (sub.lastSource) lastSource = sub.lastSource;
       Object.assign(attrs, sub.attrs);
@@ -3140,7 +3256,8 @@ function processTokens(tokens, store2, data, registry, parentProps = {}, ctx = n
     const suffix = trimmed.slice(1);
     switch (prefix) {
       case "?": {
-        showIfRule = parseShowIfToken(trimmed);
+        const parsed = parseShowIfToken(trimmed);
+        if (parsed) showIfRules.push(parsed);
         if (!suffix.trim()) {
           warn2(ctx, "empty-show-if", `show-if token "${trimmed}" names no key or literal \u2014 the element never renders`, path);
         }
@@ -3411,7 +3528,7 @@ function processTokens(tokens, store2, data, registry, parentProps = {}, ctx = n
     hydrationMarkers,
     textContent,
     childDefs,
-    showIfRule,
+    showIfRules,
     dataSource,
     dataKey,
     dataField,
@@ -3475,7 +3592,8 @@ function dslToHtml(def11, store2, registry, data, parentProps = {}, ctx = null, 
     if (normalized.dataKey) tokens2.push(`:dataKey=${normalized.dataKey}`);
     if (normalized.dataSource) tokens2.push(`:dataSource=${normalized.dataSource}`);
     if (normalized.dataField) tokens2.push(`:dataField=${normalized.dataField}`);
-    if (normalized.showIf) tokens2.push(`?${normalized.showIf}`);
+    if (normalized.conditions?.length) normalized.conditions.forEach((rule) => tokens2.push(rule.raw));
+    else if (normalized.showIf) tokens2.push(`?${normalized.showIf}`);
     if (normalized.text !== null && normalized.text !== void 0) tokens2.push(`=${normalized.text}`);
     (normalized.bindings || []).forEach((binding) => {
       if (binding.raw) tokens2.push(binding.raw);
@@ -3509,10 +3627,10 @@ function dslToHtml(def11, store2, registry, data, parentProps = {}, ctx = null, 
   const diagStart = ctx?.diagnostics ? ctx.diagnostics.list.length : 0;
   const result = processTokens(tokens, store2, data, registry, parentProps, ctx, selfPath, projection, tag);
   if (guardOutcome && guardOutcome.state === "redact") result.redacted = true;
-  const showIfRule = result.showIfRule || extractShowIfRule(def11);
-  if (showIfRule) {
-    const visible = evaluateShowIf2(showIfRule, store2, data, parentProps, projection);
-    const key = showIfRule.equals != null ? showIfRule.raw || showIfRule.key || "" : `${showIfRule.negate ? "!" : ""}${showIfRule.key || ""}`;
+  const showIfRules = result.showIfRules?.length ? result.showIfRules : extractShowIfRules(def11);
+  if (showIfRules.length) {
+    const visible = showIfRules.every((rule) => evaluateShowIf2(rule, store2, data, parentProps, projection));
+    const key = showIfMarkerKey(showIfRules);
     if (!visible) {
       if (ctx?.diagnostics) {
         for (let i = ctx.diagnostics.list.length - 1; i >= diagStart; i--) {
@@ -4111,17 +4229,29 @@ function applyListMixin(proto, { itemRenderer, itemRendererField }) {
     const startIndex = appendMode ? this._appendStartIndex : 0;
     const container = this._listContainer || this;
     if (!appendMode) {
-      cleanupShowIfTree(container);
+      refreshShowIfStatic(container._showIfState);
+      const retained = Array.from(container.children || []).filter((child) => child.hasAttribute("static"));
+      const anchors = /* @__PURE__ */ new Set();
+      const collect = /* @__PURE__ */ __name((entry) => {
+        if (entry?.static && entry.anchor) anchors.add(entry.anchor);
+      }, "collect");
+      const gateState = container._showIfState;
+      if (gateState) {
+        gateState.bindings.forEach((entries) => entries.forEach(collect));
+        (gateState.propDeps || []).forEach((record) => collect(record.entry));
+      }
+      const keptNodes = Array.from(container.childNodes).filter((node3) => node3.nodeType === 1 && node3.hasAttribute?.("static") || anchors.has(node3));
+      cleanupShowIfTree(container, new Set(retained));
       if (Array.isArray(this._subs)) {
         this._subs.filter((e) => e.item).forEach((e) => e.sub.unsubscribe?.());
         this._subs = this._subs.filter((e) => !e.item);
       }
       if (typeof this._resetChildIndexMaps === "function") this._resetChildIndexMaps();
-      const staticChildren = Array.from(container.children || []).filter(
-        (child) => child.hasAttribute("static")
-      );
-      if (staticChildren.length) {
-        container.replaceChildren(...staticChildren);
+      if (keptNodes.length) {
+        const kept = new Set(keptNodes);
+        Array.from(container.childNodes).forEach((node3) => {
+          if (!kept.has(node3)) node3.remove();
+        });
       } else {
         container.replaceChildren();
       }
@@ -5365,11 +5495,65 @@ function parseShowIfToken2(token) {
   if (typeof resolved === "string" && resolved.includes("$$") && getRenderingComponent()?.id) {
     resolved = resolved.replace(/\$\$(?!\$)/g, `${getRenderingComponent().id}.`);
   }
-  const rule = parseShowIfToken(resolved);
-  if (!rule) return null;
+  return parseShowIfToken(resolved);
+}
+__name(parseShowIfToken2, "parseShowIfToken");
+function extractShowIfRules2(def11) {
+  if (!Array.isArray(def11)) {
+    const raw = def11 && typeof def11 === "object" ? def11.showIf : null;
+    if (typeof raw !== "string" || !raw.trim()) return null;
+    const rule = parseShowIfToken2(raw.trim().startsWith("?") ? raw.trim() : `?${raw.trim()}`);
+    return rule ? buildShowIfRules([rule]) : null;
+  }
+  const rules = [];
+  for (let i = 1; i < def11.length; i += 1) {
+    const token = def11[i];
+    if (typeof token === "string") {
+      const rule = parseShowIfToken2(token);
+      if (rule) rules.push(rule);
+    } else if (token && typeof token === "object" && !Array.isArray(token)) {
+      objectTokenOps(token).forEach((op) => {
+        if (op.kind !== "token") return;
+        const rule = parseShowIfToken2(op.token);
+        if (rule) rules.push(rule);
+      });
+    }
+  }
+  if (!rules.length) return null;
+  return buildShowIfRules(rules);
+}
+__name(extractShowIfRules2, "extractShowIfRules");
+function declaresStatic(def11) {
+  let value;
+  const consider = /* @__PURE__ */ __name((raw) => {
+    const token = typeof raw === "string" ? raw.trim() : "";
+    if (token[0] !== "@") return;
+    const parsed = parseAssignment(token.slice(1));
+    if (!parsed || parsed.name !== "static") return;
+    value = parsed.raw.startsWith("$") ? false : parsed.raw === "" ? true : parseLiteral(parsed.raw);
+  }, "consider");
+  if (!Array.isArray(def11)) {
+    const attrs = def11 && typeof def11 === "object" ? def11.attrs : null;
+    if (attrs && Object.prototype.hasOwnProperty.call(attrs, "static")) consider(`@static=${attrs.static}`);
+  } else {
+    def11.slice(1).forEach((token) => {
+      if (typeof token === "string") {
+        consider(token);
+        return;
+      }
+      if (!token || typeof token !== "object" || Array.isArray(token)) return;
+      objectTokenOps(token).forEach((op) => {
+        if (op.kind === "token") consider(op.token);
+      });
+    });
+  }
+  return value !== void 0 && value !== null && value !== false;
+}
+__name(declaresStatic, "declaresStatic");
+function buildShowIfRules(rules) {
   const fn = /* @__PURE__ */ __name((ctx = {}, storeRef) => {
     const owner = ctx.owner || getRenderingComponent();
-    return evaluateShowIf(rule, {
+    return evaluateShowIfAll(rules, {
       owner,
       internalStore: owner?._internalData,
       // Ambient store for this render scope: global at the top level, the owner's
@@ -5377,36 +5561,38 @@ function parseShowIfToken2(token) {
       store: storeRef
     });
   }, "fn");
-  return { fn, key: rule.key, source: rule.source, rule };
-}
-__name(parseShowIfToken2, "parseShowIfToken");
-function extractShowIfRule2(def11) {
-  if (!Array.isArray(def11)) return null;
-  for (let i = 1; i < def11.length; i += 1) {
-    const token = def11[i];
-    if (typeof token === "string") {
-      const rule = parseShowIfToken2(token);
-      if (rule) return rule;
+  const storeFor = /* @__PURE__ */ __name((context) => {
+    for (const rule of rules) {
+      const resolved = resolveShowIfStore(rule, context);
+      if (resolved) return resolved;
     }
-  }
-  return null;
+    return null;
+  }, "storeFor");
+  const depsFor = /* @__PURE__ */ __name((context) => rules.filter((rule) => rule.key && (rule.source === "store" || rule.source === "data")).map((rule) => ({ source: rule.source, key: rule.key, store: resolveShowIfStore(rule, context) })).filter((dep) => dep.store && typeof dep.store.subscribe === "function"), "depsFor");
+  const propKeys = rules.filter((rule) => rule.source === "prop" && rule.key).map((rule) => rule.key);
+  return { fn, rules, storeFor, depsFor, propKeys, key: rules[0].key, source: rules[0].source, rule: rules[0] };
 }
-__name(extractShowIfRule2, "extractShowIfRule");
+__name(buildShowIfRules, "buildShowIfRules");
 function ensureShowIfState(parent) {
   if (!parent._showIfState) {
     parent._showIfState = {
       bindings: /* @__PURE__ */ new Map(),
-      subs: /* @__PURE__ */ new Map()
+      subs: /* @__PURE__ */ new Map(),
+      // The `?prop:` registrations this parent's gates put on their owner,
+      // so cleanupShowIfState can take them off again (component-utils.js).
+      propDeps: []
     };
   }
+  if (!parent._showIfState.propDeps) parent._showIfState.propDeps = [];
   return parent._showIfState;
 }
 __name(ensureShowIfState, "ensureShowIfState");
 function updateShowIfEntry(entry, storeRef) {
   let visible = true;
+  const evalStore = entry.evalStore || storeRef;
   const sourceStore = entry.storeRef || storeRef;
   try {
-    visible = Boolean(entry.showIfFn({ ...entry.ctx, owner: entry.owner }, sourceStore));
+    visible = Boolean(entry.showIfFn({ ...entry.ctx, owner: entry.owner }, evalStore));
   } catch (error) {
     console.warn("[swc] show-if evaluation threw; hiding element:", error);
     visible = false;
@@ -5419,6 +5605,7 @@ function updateShowIfEntry(entry, storeRef) {
       setRenderingComponent(prevOwner);
       if (!result || !result.el) return;
       entry.el = result.el;
+      if (typeof entry.el.hasAttribute === "function") entry.static = entry.el.hasAttribute("static");
       const ref = entry.anchor?.parentNode === entry.parent ? entry.anchor : null;
       if (!result.adopted) entry.parent?.insertBefore(entry.el, ref);
       if (typeof entry.parent.registerSelectableChild === "function") {
@@ -5434,31 +5621,51 @@ function updateShowIfEntry(entry, storeRef) {
     if (typeof entry.parent.unregisterSelectableChild === "function") {
       entry.parent.unregisterSelectableChild(entry.el);
     }
+    if (typeof entry.el.hasAttribute === "function") entry.static = entry.el.hasAttribute("static");
+    cleanupShowIfTree(entry.el);
     entry.el.remove();
     entry.el = null;
   }
 }
 __name(updateShowIfEntry, "updateShowIfEntry");
 function registerShowIfEntry(parent, storeRef, entry) {
-  if (!entry.storeKey) return;
-  const sourceStore = entry.storeRef || storeRef;
-  if (!sourceStore || typeof sourceStore.subscribe !== "function") return;
-  const state = ensureShowIfState(parent);
-  const list = state.bindings.get(entry.storeKey) || [];
-  if (list.includes(entry)) return;
-  list.push(entry);
-  state.bindings.set(entry.storeKey, list);
-  if (!state.subs.has(entry.storeKey)) {
-    const sub = trackedSubscribe(sourceStore, entry.storeKey, () => {
-      const entries = state.bindings.get(entry.storeKey) || [];
-      entries.forEach((item) => updateShowIfEntry(item, sourceStore));
+  const deps = entry.deps || [];
+  const propKeys = entry.propKeys || [];
+  const ambient = entry.storeRef || storeRef;
+  if (deps.length || propKeys.length) {
+    const state = ensureShowIfState(parent);
+    deps.forEach(({ source, key, store: store2 }) => {
+      const sourceStore = store2 || ambient;
+      if (!sourceStore || typeof sourceStore.subscribe !== "function") return;
+      const id = `${source}:${key}`;
+      const list = state.bindings.get(id) || [];
+      if (!list.includes(entry)) {
+        list.push(entry);
+        state.bindings.set(id, list);
+      }
+      if (!state.subs.has(id)) {
+        const sub = trackedSubscribe(sourceStore, key, () => {
+          const entries = state.bindings.get(id) || [];
+          entries.forEach((item) => updateShowIfEntry(item, item.storeRef || storeRef));
+        });
+        state.subs.set(id, sub);
+      }
     });
-    state.subs.set(entry.storeKey, sub);
   }
   const owner = entry.owner || getRenderingComponent();
+  if (owner && propKeys.length && !entry._propsRecorded) {
+    entry._propsRecorded = true;
+    const state = ensureShowIfState(parent);
+    propKeys.forEach((propKey) => {
+      const dep = { type: "showIf", entry, update: /* @__PURE__ */ __name(() => updateShowIfEntry(entry, ambient), "update") };
+      registerPropDep(owner, propKey, dep);
+      state.propDeps.push({ owner, propKey, dep, entry });
+    });
+  }
+  if (!deps.length && !propKeys.length) return;
   if (owner && owner._subs && !entry._recorded) {
     entry._recorded = true;
-    (owner._showIfRebinds || (owner._showIfRebinds = [])).push({ parent, storeRef: sourceStore, entry });
+    (owner._showIfRebinds || (owner._showIfRebinds = [])).push({ parent, storeRef: ambient, entry });
   }
 }
 __name(registerShowIfEntry, "registerShowIfEntry");
@@ -5466,14 +5673,11 @@ function appendChildDefs(parent, defs7, ctx, storeRef) {
   const list = Array.isArray(defs7) ? defs7 : [defs7];
   list.forEach((def11) => {
     if (def11 === null || def11 === void 0) return;
-    const showIfRule = extractShowIfRule2(def11);
-    if (showIfRule) {
+    const showIfRules = extractShowIfRules2(def11);
+    if (showIfRules) {
       const owner = getRenderingComponent();
-      const showIfStore = resolveShowIfStore(showIfRule.rule, {
-        owner,
-        internalStore: owner?._internalData,
-        store: storeRef
-      });
+      const context = { owner, internalStore: owner?._internalData, store: storeRef };
+      const showIfStore = showIfRules.storeFor(context);
       const slotEnd = adoptShowIfSlot(parent);
       const anchor = slotEnd || document.createComment("swc-showif");
       if (!slotEnd) placeChild(parent, anchor);
@@ -5483,10 +5687,13 @@ function appendChildDefs(parent, defs7, ctx, storeRef) {
         anchor,
         parent,
         el: null,
-        showIfFn: showIfRule.fn,
-        storeKey: showIfRule.key,
+        showIfFn: showIfRules.fn,
+        deps: showIfRules.depsFor(context),
+        propKeys: showIfRules.propKeys,
         storeRef: showIfStore,
+        evalStore: storeRef,
         owner,
+        static: declaresStatic(def11),
         asItemTemplate: false
       };
       updateShowIfEntry(entry, showIfStore || storeRef);
@@ -5647,9 +5854,7 @@ function firePropDeps(component, propName, value) {
   deps.filter((dep) => dep.type === "prop").forEach((dep) => {
     dep.child[dep.childProp] = value;
   });
-  deps.filter((dep) => dep.type === "showIf").forEach((dep) => {
-    dep.child.showIf = matchesShowIf(value, dep.rule);
-  });
+  deps.filter((dep) => dep.type === "showIf").forEach((dep) => dep.update());
 }
 __name(firePropDeps, "firePropDeps");
 var labelForSeq = 0;
@@ -5995,7 +6200,8 @@ function createElementFromDSL(def11, ctx, storeRef, asItemTemplate, adoptParent)
     if (normalized.dataSource) tokens2.push(`:dataSource=${normalized.dataSource}`);
     if (normalized.dataField) tokens2.push(`:dataField=${normalized.dataField}`);
     if (normalized.ref) tokens2.push(`:ref=${normalized.ref}`);
-    if (normalized.showIf) tokens2.push(`?${normalized.showIf}`);
+    if (normalized.conditions?.length) normalized.conditions.forEach((rule) => tokens2.push(rule.raw));
+    else if (normalized.showIf) tokens2.push(`?${normalized.showIf}`);
     (normalized.events || []).forEach((event) => {
       if (event.raw) tokens2.push(event.raw);
       else tokens2.push(`~${event.event}:${event.action}:${event.target}${event.value !== void 0 ? `:${event.value}` : ""}`);
@@ -6907,68 +7113,26 @@ function CreateComponent(options = {}) {
       setRenderingComponent(owner);
       const list = Array.isArray(defs7) ? defs7 : [defs7];
       list.forEach((def11) => {
-        const showIfRule = extractShowIfRule2(def11);
-        if (showIfRule) {
-          const isPropShowIf = showIfRule.source === "prop";
-          if (showIfRule.key && isPropShowIf) {
-            const slotEnd2 = adoptShowIfSlot(target);
-            const anchor2 = slotEnd2 || document.createComment("swc-showif");
-            if (!slotEnd2) placeChild(target, anchor2);
-            const entry2 = { def: def11, ctx, anchor: anchor2, parent: target, el: null, showIfFn: showIfRule.fn, storeKey: null, owner, asItemTemplate: Boolean(ctx.item) };
-            const visible = matchesShowIf(owner[showIfRule.key], showIfRule.rule);
-            if (visible) {
-              const result2 = createElementFromDSL(def11, ctx, owner.store, Boolean(ctx.item), target);
-              if (result2) {
-                entry2.el = result2.el;
-                const ref = anchor2.parentNode === target ? anchor2 : null;
-                if (!result2.adopted) target.insertBefore(result2.el, ref);
-              }
-            }
-            if (slotEnd2) closeShowIfSlot(target, slotEnd2);
-            registerPropDep(owner, showIfRule.key, {
-              type: "showIf",
-              rule: showIfRule.rule,
-              entry: entry2,
-              def: def11,
-              ctx,
-              target,
-              child: { set showIf(v) {
-                if (v && !entry2.el) {
-                  const prevOwner = getRenderingComponent();
-                  setRenderingComponent(owner);
-                  const r = createElementFromDSL(def11, ctx, owner.store, Boolean(ctx.item));
-                  setRenderingComponent(prevOwner);
-                  const ref = anchor2.parentNode === target ? anchor2 : null;
-                  if (r) {
-                    entry2.el = r.el;
-                    target.insertBefore(r.el, ref);
-                  }
-                } else if (!v && entry2.el) {
-                  entry2.el.remove();
-                  entry2.el = null;
-                }
-              } }
-            });
-            return;
-          }
+        const showIfRules = extractShowIfRules2(def11);
+        if (showIfRules) {
+          const context = { owner, internalStore: owner._internalData, store: owner.store };
+          const showIfStore = showIfRules.storeFor(context);
           const slotEnd = adoptShowIfSlot(target);
           const anchor = slotEnd || document.createComment("swc-showif");
           if (!slotEnd) placeChild(target, anchor);
-          const showIfStore = resolveShowIfStore(showIfRule.rule, {
-            owner,
-            internalStore: owner._internalData,
-            store: owner.store
-          });
           const entry = {
             def: def11,
             ctx,
             anchor,
             parent: target,
             el: null,
-            showIfFn: showIfRule.fn,
-            storeKey: showIfRule.key,
+            showIfFn: showIfRules.fn,
+            deps: showIfRules.depsFor(context),
+            propKeys: showIfRules.propKeys,
             storeRef: showIfStore,
+            evalStore: owner.store,
             owner,
+            static: declaresStatic(def11),
             asItemTemplate: Boolean(ctx.item)
           };
           const storeForChildren = showIfStore || owner.store;
@@ -7117,8 +7281,10 @@ function CreateComponent(options = {}) {
 }
 __name(CreateComponent, "CreateComponent");
 function renderDSL(def11, storeRef, parent) {
-  const showIfRule = extractShowIfRule2(def11);
-  if (showIfRule && parent) {
+  const showIfRules = extractShowIfRules2(def11);
+  if (showIfRules && parent) {
+    const owner = getRenderingComponent();
+    const context = { owner, internalStore: owner?._internalData, store: storeRef };
     const anchor = document.createComment("swc-showif");
     parent.appendChild(anchor);
     const entry = {
@@ -7127,16 +7293,20 @@ function renderDSL(def11, storeRef, parent) {
       anchor,
       parent,
       el: null,
-      showIfFn: showIfRule.fn,
-      storeKey: showIfRule.key,
+      showIfFn: showIfRules.fn,
+      deps: showIfRules.depsFor(context),
+      propKeys: showIfRules.propKeys,
+      evalStore: storeRef,
+      owner,
+      static: declaresStatic(def11),
       asItemTemplate: false
     };
     updateShowIfEntry(entry, storeRef);
     registerShowIfEntry(parent, storeRef, entry);
     return entry.el;
   }
-  if (showIfRule) {
-    const visible = showIfRule.fn({}, storeRef);
+  if (showIfRules) {
+    const visible = showIfRules.fn({}, storeRef);
     if (!visible) return null;
   }
   const result = createElementFromDSL(def11, {}, storeRef, false);
@@ -25903,8 +26073,7 @@ var CONTENT = {
       who: "Departments and suppliers working to the service standard who need a prototype that survives contact with an assessment.",
       status: "preview",
       access: "In use internally on real journeys, with pilots by arrangement.",
-      site: { label: "gdsplayground.com", href: "https://gdsplayground.com" },
-      shot: { src: "/shots/gds-playground.jpg", alt: "GDS Playground: sovereign AI for government modernisation.", caption: "gdsplayground.com \u2014 built for the service standard, deployable inside your boundary." }
+      site: { label: "gdsplayground.com", href: "https://gdsplayground.com" }
     }
   },
   // ── /about ───────────────────────────────────────────────────────────────
@@ -26539,9 +26708,9 @@ var studio = { tag: "home-studio", children: [["s-sc", "@rg=studio", [
       ]]
     ]],
     ["s-cn", "@rg=product-capture", [
-      ["s-cn", "@l=row", "@rg=capture-heading", [["strong", "=A workspace shaped for its context"], ["span", "=GDS Playground / Studio example"]]],
-      ["img", "@src=/shots/gds-playground.jpg", "@alt=GDS Playground, a white-labelled AI Studio experience for public-service design", "@loading=lazy", "@width=2160", "@height=1350"],
-      ["s-cn", "@l=row", "@rg=capture-caption", [["p", "=A white-labelled Studio experience for public-service design."], ["s-ln", "@href=/products/gds-playground", "=Explore the example"]]]
+      ["s-cn", "@l=row", "@rg=capture-heading", [["strong", "=A workspace shaped for its context"], ["span", "=Studio / page builder"]]],
+      ["img", "@src=/shots/studio-builder.jpg", "@alt=The Studio page builder: a component palette, the canvas, a layer tree, and the properties of the selected block", "@loading=lazy", "@width=2160", "@height=1350"],
+      ["s-cn", "@l=row", "@rg=capture-caption", [["p", "=Palette, canvas, layer tree and the properties of whatever is selected."], ["s-ln", "@href=/products/ai-studio", "=Explore the Studio direction"]]]
     ]]
   ]]
 ]]] };
@@ -27272,7 +27441,7 @@ async function handleChat(request, env) {
 __name(handleChat, "handleChat");
 
 // worker/build-manifest.js
-var VERSION = "4b0760c3de";
+var VERSION = "45ed3d84af";
 var HAS_ICONS_JS = false;
 var HAS_LEGACY_JS = true;
 var INLINE_CSS = true;

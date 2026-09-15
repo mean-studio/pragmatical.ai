@@ -15,3 +15,6 @@ dist/bundle.js.map
 contact.jsonl
 probe*.mjs
 .DS_Store
+
+# Local Cherga migration verification and intermediate CLI worker output.
+.cherga-p5/

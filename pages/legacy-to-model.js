@@ -1,11 +1,11 @@
 // /legacy-to-model — the flagship offer, and the page a procurement reviewer
 // will read hardest. Its boundaries section is the credibility, not the
 // small print, so it is a full band rather than a footnote.
-import { bind as heroBind } from '@swc-js/composites/marketing/hero.js';
-import { bind as featuresBind } from '@swc-js/composites/marketing/features.js';
-import { bind as statsBind } from '@swc-js/composites/marketing/stats-band.js';
-import { bind as faqBind } from '@swc-js/composites/marketing/faq.js';
-import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
+import { bind as heroBind } from '@cherga/composites/marketing/hero.js';
+import { bind as featuresBind } from '@cherga/composites/marketing/features.js';
+import { bind as statsBind } from '@cherga/composites/marketing/stats-band.js';
+import { bind as faqBind } from '@cherga/composites/marketing/faq.js';
+import { bind as ctaBind } from '@cherga/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
 import { band, eyebrow, sectionHead, SECTION_CSS } from '../components/section.js';
 

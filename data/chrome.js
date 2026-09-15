@@ -1,7 +1,7 @@
 // Site chrome: header, navigation, footer. One bind, used as the app layout.
 //
 // Product navigation and the appearance control share the framework shell.
-import { bind as shellBind, def as shellDef } from '@swc-js/composites/shells/shell-marketing.js';
+import { bind as shellBind, def as shellDef } from '@cherga/composites/shells/shell-marketing.js';
 import { assistantDefs } from '../components/site-assistant.js';
 import { siteNavigation } from '../components/site-navigation.js';
 import { CONTENT } from './content.js';

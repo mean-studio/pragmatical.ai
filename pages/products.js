@@ -1,6 +1,6 @@
 // /products — the index. Five cards, one status each.
-import { bind as heroBind } from '@swc-js/composites/marketing/hero.js';
-import { bind as ctaBind } from '@swc-js/composites/marketing/cta.js';
+import { bind as heroBind } from '@cherga/composites/marketing/hero.js';
+import { bind as ctaBind } from '@cherga/composites/marketing/cta.js';
 import { CONTENT } from '../data/content.js';
 import { productListDSL, PRODUCT_LIST_CSS } from '../components/product-list.js';
 import { band, eyebrow, SECTION_CSS } from '../components/section.js';

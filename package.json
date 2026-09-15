@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "PORT=4400 node --watch --env-file-if-exists=.env serve-prod.js",
     "start": "PORT=4400 node --env-file-if-exists=.env serve-prod.js",
-    "build": "node tools/build-dist.mjs",
-    "deploy": "node tools/build-dist.mjs && npx wrangler deploy",
-    "lint": "node ../swc-js/tools/swc-lint.mjs pages components data",
+    "build": "cherga build",
+    "deploy": "cherga build && npx wrangler deploy",
+    "lint": "cherga lint pages components data",
     "check:ui": "node tools/check-ui.mjs",
     "check:chat-api": "node tools/check-chat-api.mjs",
     "check:assistant": "node tools/check-assistant-ui.mjs"
@@ -18,9 +18,10 @@
     "wrangler": "^4"
   },
   "optionalDependencies": {
-    "@swc-js/components": "file:../swc-js/components",
-    "@swc-js/composites": "file:../swc-js/composites",
-    "@swc-js/core": "file:../swc-js/core",
-    "@swc-js/server": "file:../swc-js/server"
+    "@cherga/components": "file:../swc-js/components",
+    "@cherga/composites": "file:../swc-js/composites",
+    "@cherga/core": "file:../swc-js/core",
+    "@cherga/server": "file:../swc-js/server",
+    "@cherga/server-node": "file:../swc-js/server-node"
   }
 }

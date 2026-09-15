@@ -9,11 +9,11 @@
 import { chromeDefs } from './data/chrome.js';
 import { homeState } from './data/home.js';
 import { chatState, chatServices } from './data/chat.js';
-import { defs as heroDefs } from '@swc-js/composites/marketing/hero.js';
-import { defs as featureDefs } from '@swc-js/composites/marketing/features.js';
-import { defs as statsDefs } from '@swc-js/composites/marketing/stats-band.js';
-import { defs as faqDefs } from '@swc-js/composites/marketing/faq.js';
-import { defs as ctaDefs } from '@swc-js/composites/marketing/cta.js';
+import { defs as heroDefs } from '@cherga/composites/marketing/hero.js';
+import { defs as featureDefs } from '@cherga/composites/marketing/features.js';
+import { defs as statsDefs } from '@cherga/composites/marketing/stats-band.js';
+import { defs as faqDefs } from '@cherga/composites/marketing/faq.js';
+import { defs as ctaDefs } from '@cherga/composites/marketing/cta.js';
 import { CONTENT, contentState } from './data/content.js';
 import { chrome } from './data/chrome.js';
 import { docMetaFor } from './data/meta.js';

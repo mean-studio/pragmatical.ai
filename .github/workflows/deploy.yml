@@ -3,7 +3,7 @@
 # There is deliberately NO build step here. The bundles in dist/ and the
 # self-contained worker in dist-worker/ are built locally by
 # `npm run build` and committed, because the framework arrives through
-# `file:../swc-js/*` — four packages from four subdirectories of a private repo
+# `file:../swc-js/*` — five packages from five subdirectories of a private repo
 # in a different GitHub org, which npm cannot install from a git spec and CI
 # cannot check out without a cross-org token.
 #

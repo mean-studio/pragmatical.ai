@@ -1,4 +1,4 @@
-import { bind as conversation, defs as conversationDefs } from '@swc-js/composites/communication/conversation.js';
+import { bind as conversation, defs as conversationDefs } from '@cherga/composites/communication/conversation.js';
 import { connectChat, chatState } from '../data/chat.js';
 
 // Add a keyboard entry point to the shipped conversation's scroll region.

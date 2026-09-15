@@ -10,8 +10,8 @@
 // unchanged. tools/build-dist.mjs inlines this file and every import — the
 // framework included — into dist-worker/index.js before the commit.
 
-import { renderToString } from '@swc-js/server/ssr/render.js';
-import { buildDocument } from '@swc-js/server/html-document.js';
+import { renderToString } from '@cherga/server/ssr/render.js';
+import { buildDocument } from '@cherga/server/html-document.js';
 import { appConfig } from '../app-config.js';
 import { docMetaFor } from '../data/meta.js';
 import { handleChat } from './chat.js';
